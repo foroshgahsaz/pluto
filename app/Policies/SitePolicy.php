@@ -9,23 +9,23 @@ class SitePolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->can('sites.view') || $user->isSuperAdmin();
+        return $user->can('sites.view') || $user->isGlobalOperator();
     }
 
     public function view(User $user, Site $site): bool
     {
-        return ($user->can('sites.view') || $user->isSuperAdmin())
+        return ($user->can('sites.view') || $user->isGlobalOperator())
             && $user->belongsToSite($site->id);
     }
 
     public function create(User $user): bool
     {
-        return $user->isSuperAdmin() || $user->can('sites.create');
+        return $user->isGlobalOperator() || $user->can('sites.create');
     }
 
     public function update(User $user, Site $site): bool
     {
-        if ($user->isSuperAdmin()) {
+        if ($user->isGlobalOperator()) {
             return true;
         }
 
@@ -34,6 +34,7 @@ class SitePolicy
 
     public function delete(User $user, Site $site): bool
     {
-        return $user->isSuperAdmin() || ($user->can('sites.delete') && $user->belongsToSite($site->id));
+        return $user->isGlobalOperator()
+            || ($user->can('sites.delete') && $user->belongsToSite($site->id));
     }
 }

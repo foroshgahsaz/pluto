@@ -9,7 +9,7 @@ class ThemePolicy
 {
     public function viewAny(User $user): bool
     {
-        if ($user->isSuperAdmin()) {
+        if ($user->isGlobalOperator()) {
             return true;
         }
 
@@ -29,16 +29,16 @@ class ThemePolicy
 
     public function create(User $user): bool
     {
-        return $user->isSuperAdmin();
+        return $user->isGlobalOperator();
     }
 
     public function update(User $user, Theme $theme): bool
     {
-        return $user->isSuperAdmin();
+        return $user->isGlobalOperator();
     }
 
     public function delete(User $user, Theme $theme): bool
     {
-        return $user->isSuperAdmin();
+        return $user->isGlobalOperator();
     }
 }

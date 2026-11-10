@@ -42,7 +42,7 @@ class EditUser extends EditRecord
 
     protected function afterSave(): void
     {
-        if (! (auth()->user()?->can('users.assign_roles') || auth()->user()?->isSuperAdmin())) {
+        if (! (auth()->user()?->can('users.assign_roles') || auth()->user()?->isGlobalOperator())) {
             return;
         }
 

@@ -19,11 +19,11 @@ class BroadcastSiteNotification
      */
     public function handle(User $actor, int $siteId, string $title, string $body): int
     {
-        if (! $actor->isSuperAdmin() && ! $actor->hasSitePermission('notifications.manage', $siteId)) {
+        if (! $actor->isGlobalOperator() && ! $actor->hasSitePermission('notifications.manage', $siteId)) {
             throw new AuthorizationException('مجوز مدیریت اعلان‌ها را ندارید.');
         }
 
-        if (! $actor->isSuperAdmin() && ! $actor->belongsToSite($siteId)) {
+        if (! $actor->isGlobalOperator() && ! $actor->belongsToSite($siteId)) {
             throw new AuthorizationException('به این سایت دسترسی ندارید.');
         }
 

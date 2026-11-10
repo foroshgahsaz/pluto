@@ -69,7 +69,7 @@ class ArticleResource extends Resource
         /** @var User|null $user */
         $user = auth()->user();
 
-        if ($user && ! $user->isSuperAdmin()) {
+        if ($user && ! $user->isGlobalOperator()) {
             $query->whereIn('site_id', $user->authorizedSiteIds());
         }
 

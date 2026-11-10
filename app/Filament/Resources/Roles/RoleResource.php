@@ -109,7 +109,7 @@ class RoleResource extends Resource
         /** @var User|null $user */
         $user = auth()->user();
 
-        return $user?->isSuperAdmin() || $user?->can('roles.view') || false;
+        return $user?->isGlobalOperator() || $user?->can('roles.view') || false;
     }
 
     public static function canCreate(): bool
@@ -122,7 +122,7 @@ class RoleResource extends Resource
         /** @var User|null $user */
         $user = auth()->user();
 
-        return $user?->isSuperAdmin() || $user?->can('roles.update') || false;
+        return $user?->isGlobalOperator() || $user?->can('roles.update') || false;
     }
 
     public static function canDelete($record): bool

@@ -85,7 +85,12 @@ class SiteNotificationService
             $ip ? " از IP {$ip}" : '',
         );
 
-        foreach (User::query()->where('is_super_admin', true)->where('is_active', true)->get() as $admin) {
+        foreach (User::query()
+            ->where('is_active', true)
+            ->where(function ($q): void {
+                $q->where('is_super_admin', true)->orWhere('is_platform_admin', true);
+            })
+            ->get() as $admin) {
             $this->send($admin, Notification::make()
                 ->title('هشدار امنیتی: ورودهای ناموفق')
                 ->body($body)

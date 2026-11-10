@@ -9,7 +9,7 @@ class AuthorPolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->can('articles.view') || $user->isSuperAdmin();
+        return $user->can('articles.view') || $user->isGlobalOperator();
     }
 
     public function view(User $user, Author $author): bool
@@ -19,18 +19,18 @@ class AuthorPolicy
 
     public function create(User $user): bool
     {
-        return $user->can('articles.create') || $user->isSuperAdmin();
+        return $user->can('articles.create') || $user->isGlobalOperator();
     }
 
     public function update(User $user, Author $author): bool
     {
-        return ($user->can('articles.update') || $user->isSuperAdmin())
+        return ($user->can('articles.update') || $user->isGlobalOperator())
             && $user->belongsToSite($author->site_id);
     }
 
     public function delete(User $user, Author $author): bool
     {
-        return ($user->can('articles.delete') || $user->isSuperAdmin())
+        return ($user->can('articles.delete') || $user->isGlobalOperator())
             && $user->belongsToSite($author->site_id);
     }
 }

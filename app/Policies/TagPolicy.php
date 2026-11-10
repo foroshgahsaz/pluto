@@ -9,7 +9,7 @@ class TagPolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->can('categories.view') || $user->can('articles.view') || $user->isSuperAdmin();
+        return $user->can('categories.view') || $user->can('articles.view') || $user->isGlobalOperator();
     }
 
     public function view(User $user, Tag $tag): bool
@@ -19,18 +19,18 @@ class TagPolicy
 
     public function create(User $user): bool
     {
-        return $user->can('articles.create') || $user->isSuperAdmin();
+        return $user->can('articles.create') || $user->isGlobalOperator();
     }
 
     public function update(User $user, Tag $tag): bool
     {
-        return ($user->can('articles.update') || $user->isSuperAdmin())
+        return ($user->can('articles.update') || $user->isGlobalOperator())
             && $user->belongsToSite($tag->site_id);
     }
 
     public function delete(User $user, Tag $tag): bool
     {
-        return ($user->can('articles.delete') || $user->isSuperAdmin())
+        return ($user->can('articles.delete') || $user->isGlobalOperator())
             && $user->belongsToSite($tag->site_id);
     }
 }

@@ -189,7 +189,7 @@ class TransitionArticleStatus
                 throw InvalidArticleTransitionException::make($locked->status, $to);
             }
 
-            if (! $actor->belongsToSite($locked->site_id) && ! $actor->isSuperAdmin()) {
+            if (! $actor->belongsToSite($locked->site_id) && ! $actor->isGlobalOperator()) {
                 throw new AuthorizationException('دسترسی به این سایت مجاز نیست.');
             }
 

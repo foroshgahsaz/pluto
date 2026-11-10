@@ -58,7 +58,7 @@ class SiteResource extends Resource
         /** @var User|null $user */
         $user = auth()->user();
 
-        if ($user && ! $user->isSuperAdmin()) {
+        if ($user && ! $user->isGlobalOperator()) {
             $query->whereIn('id', $user->authorizedSiteIds());
         }
 

@@ -18,11 +18,11 @@ class AssignSiteRole
             throw new AuthorizationException('نقش سوپر ادمین از این مسیر قابل انتساب نیست.');
         }
 
-        if (! app(UserPolicy::class)->assignRoles($actor) && ! $actor->isSuperAdmin()) {
+        if (! app(UserPolicy::class)->assignRoles($actor) && ! $actor->isGlobalOperator()) {
             throw new AuthorizationException('مجوز انتساب نقش ندارید.');
         }
 
-        if (! $actor->isSuperAdmin() && ! $actor->belongsToSite($siteId)) {
+        if (! $actor->isGlobalOperator() && ! $actor->belongsToSite($siteId)) {
             throw new AuthorizationException('به این سایت دسترسی ندارید.');
         }
 

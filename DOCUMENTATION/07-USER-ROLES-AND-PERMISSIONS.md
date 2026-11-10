@@ -1,16 +1,21 @@
 # 07 — User Roles and Permissions
 
-## Initial roles
+## Privilege ladder
 
-| Role key | Name | Typical scope |
-|----------|------|---------------|
-| `super_admin` | System Super Administrator | All sites; manage sites/users/roles/backups |
-| `regional_admin` | Regional Administrator | Assigned sites; manage site users/content/settings |
-| `editor_in_chief` | Editor-in-Chief | Assigned sites; approve/publish/manage editorial |
-| `journalist` | Journalist | Assigned sites; create/edit own drafts; submit for review |
-| `copy_editor` | Copy Editor | Assigned sites; edit content; limited publish rights (configurable) |
+| Level | Key | Name | Scope |
+|-------|-----|------|-------|
+| 1 | `users.is_super_admin` | توسعه‌دهنده (سوپر ادمین فنی) | Full system incl. backups / restore / promote flags |
+| 2 | `users.is_platform_admin` | مدیر کل سامانه | All sites + users/roles/content; **not** developer tools (backups) |
+| 3 | `regional_admin` | مدیر سایت | Assigned site(s); unrestricted site management |
+| 4 | `editor_in_chief` | سردبیر | Assigned site(s); approve / publish / schedule |
+| 5 | `copy_editor` | ویراستار | Assigned site(s); edit + approve |
+| 6 | `journalist` | خبرنگار | Assigned site(s); draft + submit for review |
 
-Role templates are editable via Filament `RoleResource` (Stage 13). Permission changes on a template (`team_id` null) propagate to site-scoped role copies with the same name. Per-site role assignment is done on User create/edit (`site_roles` repeater → `SyncUserSiteRoles`).
+Flags `is_super_admin` / `is_platform_admin` are account-level (not Spatie team roles).  
+Spatie templates (`regional_admin`, …) are assigned **per site** via User CRUD (`site_roles` → `SyncUserSiteRoles`).
+
+## Immediate publish
+Yes — from an **approved** (or scheduled) article, users with `articles.publish` can run **انتشار فوری** (`TransitionArticleStatus::publishNow` / Filament action `publishNow`).
 
 ## Authorization dimensions
 
@@ -22,9 +27,11 @@ Every sensitive check answers **both**:
 ```text
 allow = user.is_active
     AND NOT user.is_blocked
-    AND (user.is_super_admin OR user.belongsToSite(record.site_id))
-    AND user.can(permission)
+    AND (user.is_super_admin OR user.is_platform_admin OR user.belongsToSite(record.site_id))
+    AND (user.is_super_admin OR (user.is_platform_admin AND ability NOT IN developer_only) OR user.can(permission))
 ```
+
+Developer-only abilities today: `backups.manage`.
 
 ## Permission catalog (initial)
 
@@ -55,22 +62,15 @@ Format: `{resource}.{action}`
 ### Reports / notifications / backups / audit
 `reports.view`, `notifications.manage`, `backups.manage`, `activity_logs.view`
 
-Exact seeding list will be finalized in STAGE 2 and mirrored here.
-
 ## Dangerous privilege rules
 
-1. Regional Admin **cannot** assign `super_admin`.
-2. Users cannot grant permissions they do not possess (except Super Admin).
-3. Users cannot attach themselves to sites outside their authority.
-4. Deactivated/blocked users fail `canAccessPanel()` and API/admin middleware.
-5. Permission checks happen in Policies, not only Filament `->visible()`.
+1. Only the developer (`is_super_admin`) can set `is_super_admin` / `is_platform_admin` flags.
+2. Platform admin cannot edit/delete developer accounts.
+3. Regional Admin **cannot** assign developer/platform flags.
+4. Users cannot attach themselves to sites outside their authority (except global operators).
+5. Deactivated/blocked users fail `canAccessPanel()`.
+6. Permission checks happen in Policies / Gate, not only Filament `->visible()`.
 
-## Spatie teams proposal
+## Spatie teams
 
-Enable teams; map `team_id` → `site_id`.
-
-**Why:** Same person can be Journalist on Tehran and Copy Editor on Fars.
-
-**Alternative (simpler MVP):** Global roles + `site_user` membership only (role identical on all assigned sites).
-
-Owner must choose in [28-APPROVAL-REQUEST.md](28-APPROVAL-REQUEST.md).
+Enabled; `team_id` maps to `site_id` so the same person can be Journalist on Tehran and Copy Editor on Fars.
