@@ -25,6 +25,7 @@ class Site extends Model
         'locale',
         'timezone',
         'is_active',
+        'theme_id',
         'settings_json',
     ];
 
@@ -35,6 +36,31 @@ class Site extends Model
             'is_active' => 'boolean',
             'settings_json' => 'array',
         ];
+    }
+
+    public function theme(): BelongsTo
+    {
+        return $this->belongsTo(Theme::class);
+    }
+
+    public function settings(): HasMany
+    {
+        return $this->hasMany(SiteSetting::class);
+    }
+
+    public function menus(): HasMany
+    {
+        return $this->hasMany(Menu::class);
+    }
+
+    public function homepageSections(): HasMany
+    {
+        return $this->hasMany(HomepageSection::class)->orderBy('sort_order');
+    }
+
+    public function pages(): HasMany
+    {
+        return $this->hasMany(Page::class);
     }
 
     public function parent(): BelongsTo

@@ -1,5 +1,14 @@
 # 24 — Changelog
 
+## 2026-11-10 — STAGE 6 themes / settings / menus / pages
+
+### Added
+- Tables: themes, site_settings, menus, menu_items, homepage_sections, pages; `sites.theme_id`
+- `SiteSettingsManager` for grouped key/value JSON settings
+- Filament FA resources under «ظاهر سایت» with menu-item + homepage reorder
+- Policies + factories; seeder defaults (default theme, branding/colors/seo, primary/secondary menus, latest/featured sections)
+- `SiteSettingsThemesTest` (isolation, ordering, seeder)
+
 ## 2026-11-10 — STAGE 5 form builder
 
 ### Added

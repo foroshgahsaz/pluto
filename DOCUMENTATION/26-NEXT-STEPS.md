@@ -23,8 +23,8 @@ Folders, uploads, private download, attachment relations, file security tests
 ## STAGE 5 — Form builder
 Schema, admin builder UX, submissions, export, isolation tests
 
-## STAGE 6 — Settings / themes / menus / homepage sections
-Backend storage + Filament management + reorder UX
+## STAGE 6 — Settings / themes / menus / homepage sections ✅
+Backend storage + Filament management + reorder UX (this PR)
 
 ## STAGE 7 — Dashboard + notifications
 Widgets, filters, notification events

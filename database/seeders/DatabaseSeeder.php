@@ -2,9 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Enums\HomepageSectionType;
 use App\Enums\SiteType;
+use App\Models\HomepageSection;
+use App\Models\Menu;
 use App\Models\Site;
+use App\Models\Theme;
 use App\Models\User;
+use App\Services\Settings\SiteSettingsManager;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -14,6 +19,18 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(RolesAndPermissionsSeeder::class);
 
+        $theme = Theme::query()->firstOrCreate(
+            ['key' => 'default'],
+            [
+                'name' => 'قالب پیش‌فرض',
+                'is_active' => true,
+                'config_schema_json' => [
+                    'colors' => ['primary', 'secondary', 'accent'],
+                    'branding' => ['logo', 'title', 'tagline'],
+                ],
+            ],
+        );
+
         $central = Site::query()->firstOrCreate(
             ['slug' => config('pluto.seed.central_site_slug')],
             [
@@ -21,6 +38,56 @@ class DatabaseSeeder extends Seeder
                 'name' => config('pluto.seed.central_site_name'),
                 'locale' => 'fa',
                 'timezone' => 'Asia/Tehran',
+                'is_active' => true,
+                'theme_id' => $theme->id,
+            ],
+        );
+
+        if (! $central->theme_id) {
+            $central->forceFill(['theme_id' => $theme->id])->save();
+        }
+
+        $settings = app(SiteSettingsManager::class);
+        $settings->syncGroup($central, 'branding', [
+            'title' => ['value' => $central->name],
+            'tagline' => ['value' => 'سامانه خبری پلوتون'],
+        ]);
+        $settings->syncGroup($central, 'colors', [
+            'primary' => ['value' => '#0f766e'],
+            'secondary' => ['value' => '#134e4a'],
+            'accent' => ['value' => '#f59e0b'],
+        ]);
+        $settings->syncGroup($central, 'seo', [
+            'meta_title' => ['value' => $central->name],
+            'meta_description' => ['value' => 'خبرگزاری چندسایته'],
+        ]);
+
+        Menu::query()->firstOrCreate(
+            ['site_id' => $central->id, 'location' => 'primary'],
+            ['name' => 'منوی اصلی'],
+        );
+        Menu::query()->firstOrCreate(
+            ['site_id' => $central->id, 'location' => 'secondary'],
+            ['name' => 'منوی فرعی'],
+        );
+
+        HomepageSection::query()->firstOrCreate(
+            ['site_id' => $central->id, 'key' => 'latest'],
+            [
+                'title' => 'آخرین اخبار',
+                'type' => HomepageSectionType::Latest,
+                'config_json' => ['limit' => 10],
+                'sort_order' => 1,
+                'is_active' => true,
+            ],
+        );
+        HomepageSection::query()->firstOrCreate(
+            ['site_id' => $central->id, 'key' => 'featured'],
+            [
+                'title' => 'اخبار ویژه',
+                'type' => HomepageSectionType::Featured,
+                'config_json' => ['limit' => 5],
+                'sort_order' => 2,
                 'is_active' => true,
             ],
         );

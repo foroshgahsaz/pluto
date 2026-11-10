@@ -3,8 +3,8 @@
 **Project:** Pluto (سامانه خبری پلوتون)  
 **Type:** Enterprise Multi-Site News Management System  
 **Stack (proposed):** Laravel 13 · Filament 5 · Livewire 4 · MySQL · Pest  
-**Current stage:** STAGE 1 — Analysis & Architectural Design  
-**Status:** Awaiting owner approval before implementation
+**Current stage:** STAGE 6 — Themes / Settings / Menus / Pages  
+**Status:** Implemented and tested on this branch; merge after Stage 5
 
 ---
 
@@ -75,5 +75,6 @@ Used in `25-PROJECT-STATUS.md`:
 
 ## Current gate
 
-**STAGE 1 approved. STAGE 2 core infrastructure implemented and tested on this branch.**  
-See [25-PROJECT-STATUS.md](25-PROJECT-STATUS.md) and [29-OWNER-DECISIONS-LOG.md](29-OWNER-DECISIONS-LOG.md).
+**STAGE 6 themes/settings/menus/pages implemented and tested on this branch.**  
+Next: STAGE 7 dashboard + notifications after owner merge of the PR stack.  
+See [25-PROJECT-STATUS.md](25-PROJECT-STATUS.md) and [26-NEXT-STEPS.md](26-NEXT-STEPS.md).

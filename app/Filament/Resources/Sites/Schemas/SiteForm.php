@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Sites\Schemas;
 
 use App\Enums\SiteType;
 use App\Models\Site;
+use App\Models\Theme;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -46,6 +47,11 @@ class SiteForm
                 Toggle::make('is_active')
                     ->label('فعال')
                     ->default(true),
+                Select::make('theme_id')
+                    ->label('قالب / تم')
+                    ->options(fn () => Theme::query()->where('is_active', true)->orderBy('name')->pluck('name', 'id'))
+                    ->searchable()
+                    ->nullable(),
             ]);
     }
 }
