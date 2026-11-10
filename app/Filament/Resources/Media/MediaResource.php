@@ -23,7 +23,7 @@ class MediaResource extends Resource
 {
     protected static ?string $model = Media::class;
 
-    protected static ?string $navigationLabel = 'رسانه';
+    protected static ?string $navigationLabel = 'مدیریت رسانه';
 
     protected static ?string $modelLabel = 'فایل';
 

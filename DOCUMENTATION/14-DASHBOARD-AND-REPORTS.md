@@ -1,6 +1,13 @@
 # 14 — Dashboard and Reports
 
-**Status:** Implemented — Stage 7 + Stage 13
+**Status:** Implemented — Stage 7 + Stage 13 + Stage 14
+
+## Command dashboard (Stage 14)
+`App\Filament\Pages\Dashboard` mirrors the media command-center mockup:
+- welcome, news queue (today/tomorrow + modal), KPI cards, visits chart,
+  provincial site status, performance donut, activity feed, latest news, quick actions
+- Metrics: `articles.view_count`, `site_daily_metrics`, `RecordPageView` on public home/article
+- Styles: `public/css/pluto-dashboard.css` + Vazirmatn
 
 ## Widgets (Filament)
 - `ArticleStatsOverview` — total / published / draft / in_review / scheduled counts

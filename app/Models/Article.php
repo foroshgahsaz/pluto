@@ -39,7 +39,9 @@ class Article extends Model
         'meta_title',
         'meta_description',
         'rejection_reason',
+        'editor_note',
         'revision_count',
+        'view_count',
     ];
 
     protected function casts(): array
@@ -51,6 +53,7 @@ class Article extends Model
             'scheduled_for' => 'datetime',
             'published_at' => 'datetime',
             'revision_count' => 'integer',
+            'view_count' => 'integer',
         ];
     }
 

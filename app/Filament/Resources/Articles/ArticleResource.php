@@ -24,7 +24,7 @@ class ArticleResource extends Resource
 {
     protected static ?string $model = Article::class;
 
-    protected static ?string $navigationLabel = 'اخبار';
+    protected static ?string $navigationLabel = 'مدیریت اخبار';
 
     protected static ?string $modelLabel = 'خبر';
 

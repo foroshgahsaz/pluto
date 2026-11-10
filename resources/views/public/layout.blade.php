@@ -8,10 +8,7 @@
         <meta name="description" content="{{ $branding['meta_description'] }}">
     @endif
     <link rel="alternate" type="application/rss+xml" title="{{ ($branding['title'] ?? $site->name).' RSS' }}" href="{{ route('public.rss', $site) }}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&family=Lalezar&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
     <style>
         :root {
             --ink: #071714;
@@ -25,7 +22,7 @@
         * { box-sizing: border-box; }
         body {
             margin: 0;
-            font-family: "Vazirmatn", sans-serif;
+            font-family: "Abar Mid FaNum", Tahoma, sans-serif;
             color: var(--ink);
             background:
                 radial-gradient(1200px 500px at 100% -10%, color-mix(in srgb, var(--accent) 28%, transparent), transparent 60%),
@@ -47,7 +44,7 @@
             gap: 1rem; padding: .9rem 0;
         }
         .brand {
-            font-family: "Lalezar", "Vazirmatn", sans-serif;
+            font-family: "Abar Mid FaNum", Tahoma, sans-serif;
             font-size: clamp(1.4rem, 2vw, 1.85rem);
             letter-spacing: .02em;
         }
@@ -96,7 +93,7 @@
         }
         .hero h1 {
             margin: 0 0 .8rem;
-            font-family: "Lalezar", "Vazirmatn", sans-serif;
+            font-family: "Abar Mid FaNum", Tahoma, sans-serif;
             font-size: clamp(2.6rem, 7vw, 4.8rem);
             line-height: 1.05; max-width: 12ch;
             animation: rise .8s ease both;
@@ -124,7 +121,7 @@
             border-bottom: 1px solid var(--line); padding-bottom: .7rem;
         }
         .section-head h2 {
-            margin: 0; font-family: "Lalezar", "Vazirmatn", sans-serif;
+            margin: 0; font-family: "Abar Mid FaNum", Tahoma, sans-serif;
             font-size: clamp(1.5rem, 3vw, 2rem);
         }
         .story-list { display: grid; gap: 1rem; }
@@ -139,7 +136,7 @@
         .meta { color: var(--muted); font-size: .82rem; white-space: nowrap; }
         .page-title {
             margin: 0 0 1rem;
-            font-family: "Lalezar", "Vazirmatn", sans-serif;
+            font-family: "Abar Mid FaNum", Tahoma, sans-serif;
             font-size: clamp(2rem, 5vw, 3rem);
         }
         .prose { line-height: 1.9; font-size: 1.05rem; }

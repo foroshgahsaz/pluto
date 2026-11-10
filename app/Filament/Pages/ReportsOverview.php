@@ -27,7 +27,7 @@ class ReportsOverview extends Page
 
     protected string $view = 'filament.pages.reports-overview';
 
-    protected static ?string $navigationLabel = 'گزارش‌ها';
+    protected static ?string $navigationLabel = 'گزارش‌ها و آمار';
 
     protected static ?string $title = 'گزارش‌ها و آمار';
 

@@ -22,7 +22,7 @@ class SiteResource extends Resource
 {
     protected static ?string $model = Site::class;
 
-    protected static ?string $navigationLabel = 'سایت‌ها';
+    protected static ?string $navigationLabel = 'مدیریت سایت‌ها';
 
     protected static ?string $modelLabel = 'سایت';
 
