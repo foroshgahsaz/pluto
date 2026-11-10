@@ -1,5 +1,13 @@
 # 24 — Changelog
 
+## 2026-11-10 — STAGE 10 public forms
+
+### Added
+- Public form routes `/{site}/forms/{slug}` (GET/POST, throttled)
+- Blade + Alpine conditional visibility / multi-step UX
+- Submissions via existing `SubmitFormService` (private uploads)
+- `PublicFormsTest`
+
 ## 2026-11-10 — STAGE 9 public frontend
 
 ### Added
