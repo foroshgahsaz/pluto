@@ -30,6 +30,30 @@ class DatabaseSeeder extends Seeder
                 ],
             ],
         );
+        Theme::query()->firstOrCreate(
+            ['key' => 'ink-daily'],
+            [
+                'name' => 'روزنامه مرکب',
+                'is_active' => true,
+                'config_schema_json' => [
+                    'colors' => ['primary', 'secondary', 'accent'],
+                    'branding' => ['logo', 'title', 'tagline'],
+                    'layout' => ['dense_list', 'hero_kicker'],
+                ],
+            ],
+        );
+        Theme::query()->firstOrCreate(
+            ['key' => 'field-report'],
+            [
+                'name' => 'گزارش میدانی',
+                'is_active' => true,
+                'config_schema_json' => [
+                    'colors' => ['primary', 'secondary', 'accent'],
+                    'branding' => ['logo', 'title', 'tagline'],
+                    'layout' => ['photo_led', 'section_rails'],
+                ],
+            ],
+        );
 
         $central = Site::query()->firstOrCreate(
             ['slug' => config('pluto.seed.central_site_slug')],

@@ -37,6 +37,14 @@ class AssignSiteRole
         $site = Site::query()->find($siteId);
         if ($site) {
             app(SiteNotificationService::class)->notifyRoleAssigned($target->fresh(), $site, $roleName);
+            activity('access')
+                ->causedBy($actor)
+                ->performedOn($target)
+                ->withProperties([
+                    'site_id' => $siteId,
+                    'role' => $roleName,
+                ])
+                ->log('user.role_assigned');
         }
     }
 
@@ -47,5 +55,10 @@ class AssignSiteRole
         }
 
         $target->forceFill(['is_super_admin' => true])->save();
+
+        activity('access')
+            ->causedBy($actor)
+            ->performedOn($target)
+            ->log('user.promoted_super_admin');
     }
 }

@@ -36,7 +36,8 @@ Evidence primarily from Stage 2–8 automated tests (`php artisan test` — 63 p
 - [x] HTTPS enforced via `FORCE_HTTPS` / production default + `ForceHttps` middleware
 - [x] Secure cookies documented (`SESSION_SECURE_COOKIE`)
 - [x] Backups on private disk; optional archive password; Super Admin download only
-- [ ] Restore procedure tested on non-prod — **ops drill required** (`pluto:restore-guide`)
+- [x] Restore CLI available (`pluto:restore-guide`, `pluto:restore --dry-run/--force`)
+- [ ] Restore procedure executed on non-prod host — **ops drill still required**
 - [x] `composer audit` clean (2026-11-10: no advisories)
 
 ## Mandatory isolation tests (must pass)

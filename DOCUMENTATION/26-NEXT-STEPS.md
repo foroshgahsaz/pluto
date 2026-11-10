@@ -39,12 +39,15 @@ Subdirectory public sites (`/{slug}`) with homepage/news/category/page/search
 Public form render/submit with visibility + uploads
 
 ## STAGE 11 — SEO & syndication ✅
-RSS feeds, sitemaps, robots.txt (this PR)
+RSS feeds, sitemaps, robots.txt
 
-## After Stage 11 (owner / ops)
-- Merge PR stack sequentially and run staging restore drill
-- Wire real SMS OTP provider + remote backup disk
-- Optional: richer theme packs, domain-per-site, approved public API
+## STAGE 12 — Master-prompt gap closure ✅
+Guides, audit UI, restore CLI, SMS/AV drivers, password reset, themes (this PR)
+
+## After Stage 12 (owner / ops only)
+- Merge PR stack `#1…#13`
+- Staging restore drill with real archive
+- Production SMS keys + remote backup disk + ClamAV host binary
 
 ---
 
