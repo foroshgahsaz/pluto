@@ -10,7 +10,7 @@ use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\FontProviders\BunnyFontProvider;
+use Filament\FontProviders\LocalFontProvider;
 use Filament\Support\Colors\Color;
 use Filament\Support\Facades\FilamentView;
 use Filament\View\PanelsRenderHook;
@@ -35,7 +35,7 @@ class AdminPanelProvider extends PanelProvider
             ->login(Login::class)
             ->passwordReset()
             ->favicon(null)
-            ->font('Vazirmatn', 'https://fonts.bunny.net/css?family=vazirmatn:300,400,500,600,700,800', BunnyFontProvider::class)
+            ->font('Abar Mid FaNum', '/css/fonts.css', LocalFontProvider::class)
             ->colors([
                 'primary' => Color::hex('#168de0'),
                 'info' => Color::hex('#22b8c7'),
@@ -70,7 +70,10 @@ class AdminPanelProvider extends PanelProvider
     {
         FilamentView::registerRenderHook(
             PanelsRenderHook::HEAD_END,
-            fn (): string => Blade::render('<link rel="stylesheet" href="{{ asset(\'css/pluto-dashboard.css\') }}">'),
+            fn (): string => Blade::render(<<<'HTML'
+                <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
+                <link rel="stylesheet" href="{{ asset('css/pluto-dashboard.css') }}">
+            HTML),
         );
     }
 }

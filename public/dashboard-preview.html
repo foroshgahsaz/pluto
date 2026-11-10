@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>پیش‌نمایش داشبورد پلوتون — Stage 14</title>
+<style>
+
+:root{--pluto-navy:#12345e;--pluto-blue:#168de0;--pluto-cyan:#22b8c7;--pluto-ice:#eaf5fc;--pluto-gold:#e5bd70;--pluto-ink:#17365d;--pluto-muted:#7890ad;--pluto-line:#d8e9f7;--pluto-white:rgba(255,255,255,.84);--pluto-shadow:0 12px 35px rgba(57,112,160,.10)}
+*{box-sizing:border-box}body{margin:0;font-family:'Abar Mid FaNum',Tahoma,sans-serif;color:var(--pluto-ink);background:radial-gradient(ellipse at 15% 15%,#d8f3fb 0,transparent 35%),radial-gradient(ellipse at 80% 85%,#cceeff 0,transparent 34%),linear-gradient(135deg,#eaf5fc,#f6fbff 55%,#e4f4fc);min-height:100vh}
+.app{display:grid;grid-template-columns:252px 1fr;min-height:100vh}
+.sidebar{background:linear-gradient(180deg,#12345e,#174b78 72%,#1a5680);color:white;padding:22px 16px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow:auto;box-shadow:8px 0 30px #2b69931a}
+.brand{display:flex;align-items:center;gap:12px;padding:5px 9px 25px;border-bottom:1px solid #ffffff20}
+.brand-mark{width:45px;height:45px;border-radius:15px;background:linear-gradient(145deg,#ffdf9b,#d9a947);display:grid;place-items:center;color:#17365d;font-size:25px;font-weight:800}
+.brand strong{font-size:15px;line-height:1.8}.brand small{display:block;color:#b9d6ec;font-size:10px}
+.nav-title{font-size:10px;color:#91b8d6;padding:22px 12px 8px}
+.nav{display:grid;gap:5px}.nav a,.nav button{border:0;color:#d9eafa;background:transparent;text-align:right;padding:12px 13px;border-radius:12px;display:flex;align-items:center;gap:12px;cursor:pointer;font-size:12px;text-decoration:none;font:inherit}
+.nav a:hover,.nav a.active,.nav button:hover,.nav button.active{background:linear-gradient(90deg,#ffffff22,#ffffff0d);color:#fff}
+.nav a.active{box-shadow:inset -3px 0 #edc778}
+.side-bottom{margin-top:auto;border-top:1px solid #ffffff20;padding-top:15px}
+.profile{display:flex;align-items:center;gap:10px;padding:10px}
+.avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#e9c98b,#fff);display:grid;place-items:center;color:#17365d;font-weight:800}
+.profile small{display:block;color:#b9d6ec;font-size:10px}
+main{padding:22px 28px 36px;min-width:0}
+.pluto-dash{margin:0;padding:0}
+.note-banner{background:#173d65;color:#fff;padding:10px 16px;font-size:12px;text-align:center}
+@media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{height:auto;position:relative}}
+
+@font-face{font-family:'Abar Mid FaNum';src:url('/fonts/AbarMidFaNum-Regular.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+
+.fi-body, .fi-panel-admin {
+  --pluto-navy:#12345e; --pluto-blue:#168de0; --pluto-cyan:#22b8c7; --pluto-ice:#eaf5fc;
+  --pluto-gold:#e5bd70; --pluto-ink:#17365d; --pluto-muted:#7890ad; --pluto-line:#d8e9f7;
+  --pluto-white:rgba(255,255,255,.84); --pluto-shadow:0 12px 35px rgba(57,112,160,.10);
+}
+
+.fi-panel-admin .fi-sidebar {
+  background: linear-gradient(180deg,#12345e,#174b78 72%,#1a5680) !important;
+}
+.fi-panel-admin .fi-sidebar-header,
+.fi-panel-admin .fi-sidebar-nav,
+.fi-panel-admin .fi-sidebar-item-button {
+  color: #d9eafa;
+}
+.fi-panel-admin .fi-sidebar-item-button:hover,
+.fi-panel-admin .fi-sidebar-item-button.fi-active {
+  background: linear-gradient(90deg,#ffffff22,#ffffff0d) !important;
+  color: #fff !important;
+}
+.fi-panel-admin .fi-main, .fi-panel-admin .fi-page {
+  font-family: 'Abar Mid FaNum', Tahoma, sans-serif;
+}
+
+.pluto-dash {
+  font-family: 'Abar Mid FaNum', Tahoma, sans-serif;
+  color: var(--pluto-ink);
+  margin: -1rem;
+  padding: 0.5rem 0.25rem 1.5rem;
+}
+.pluto-dash * { box-sizing: border-box; }
+.pluto-dash .welcome {
+  border:1px solid #c4e5f8; border-radius:20px;
+  background:linear-gradient(100deg,#d7f1fcdd,#ffffffa8 62%,#e7f6ff);
+  padding:22px 25px; display:flex; align-items:center; justify-content:space-between;
+  overflow:hidden; position:relative; box-shadow:var(--pluto-shadow); margin-bottom:17px;
+}
+.pluto-dash .welcome:after{content:"✧";position:absolute;left:25%;top:-45px;font-size:180px;color:#67c6e41b}
+.pluto-dash .welcome h1{font-size:22px;margin:0 0 5px;font-weight:800}
+.pluto-dash .welcome p{margin:0;color:var(--pluto-muted);font-size:12px}
+.pluto-dash .welcome-date{font-size:11px;color:#5d88ac;background:#ffffffa6;padding:9px 13px;border-radius:12px;z-index:1}
+
+.pluto-dash .queue-panel{margin:0 0 16px;background:rgba(255,255,255,.86);border:1px solid #d5e7f7;border-radius:20px;padding:17px;box-shadow:var(--pluto-shadow)}
+.pluto-dash .queue-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px;gap:10px}
+.pluto-dash .queue-head h3{margin:0;font-size:14px}.pluto-dash .queue-head p{margin:4px 0 0;font-size:10px;color:var(--pluto-muted)}
+.pluto-dash .queue-actions{display:flex;gap:7px;align-items:center}
+.pluto-dash .queue-filter{border:1px solid var(--pluto-line);background:#fff;color:var(--pluto-muted);border-radius:20px;padding:7px 11px;font-size:10px;cursor:pointer}
+.pluto-dash .queue-days{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.pluto-dash .queue-day-title{display:flex;align-items:center;justify-content:space-between;padding:10px 13px;border:1px solid #f0d18d;border-radius:15px;background:linear-gradient(110deg,#fff6dc,#fbfcfd);margin-bottom:9px}
+.pluto-dash .queue-day-title strong{font-size:12px}.pluto-dash .queue-day-title small{display:block;color:#c18d34;font-size:9px;margin-top:3px}
+.pluto-dash .queue-count{font-size:10px;color:#b88732;background:#fff;border:1px solid #f0d18d;border-radius:20px;padding:4px 9px}
+.pluto-dash .queue-items{display:grid;gap:8px}
+.pluto-dash .queue-item{display:grid;grid-template-columns:28px 44px minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;text-align:right;border:1px solid #d8e7f5;background:#ffffffd9;border-radius:16px;padding:11px 12px;color:var(--pluto-ink);cursor:pointer;transition:.2s}
+.pluto-dash .queue-item:hover{border-color:#8fc9ef;transform:translateY(-2px);box-shadow:0 8px 20px #4889b51a;background:#fff}
+.pluto-dash .queue-num{font-size:10px;color:#8ca1b8;text-align:center;border-left:1px solid #e2edf6;padding-left:8px}
+.pluto-dash .queue-icon{width:42px;height:42px;border-radius:13px;background:#e7f0ff;border:1px solid #a9c8ff;color:#17365d;display:grid;place-items:center;font-size:19px}
+.pluto-dash .queue-copy{min-width:0}.pluto-dash .queue-copy strong{display:block;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px}
+.pluto-dash .queue-copy small{display:block;font-size:9px;color:#849ab4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pluto-dash .queue-meta{display:flex;gap:5px;align-items:center;flex-wrap:wrap;margin-top:7px}
+.pluto-dash .qtag{font-size:9px;border-radius:20px;padding:3px 8px;border:1px solid #c9e7f0;background:#e8f8fb;color:#1593a7;white-space:nowrap}
+.pluto-dash .qtag.time{background:#fff5e3;border-color:#f4d08a;color:#c58d2b}
+.pluto-dash .qtag.ready{background:#e8f7f2;border-color:#91d9c6;color:#169879}
+.pluto-dash .qtag.review{background:#fff5e3;border-color:#e8c887;color:#b9872f}
+.pluto-dash .qtag.urgent{background:#fff0f1;border-color:#f1aab2;color:#d64b5b}
+.pluto-dash .qtag.scheduled{background:#edf3ff;border-color:#b5caff;color:#4278d5}
+.pluto-dash .queue-chevron{color:#9bb0c5;font-size:16px}
+
+.pluto-dash .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:16px}
+.pluto-dash .stat{background:var(--pluto-white);border:1px solid var(--pluto-line);border-radius:18px;padding:16px 17px;box-shadow:var(--pluto-shadow);position:relative;overflow:hidden;min-height:115px}
+.pluto-dash .stat:after{content:"";position:absolute;width:110px;height:110px;border-radius:50%;background:var(--wash);left:-35px;bottom:-65px}
+.pluto-dash .stat-top{display:flex;justify-content:space-between;align-items:center}
+.pluto-dash .stat-label{font-size:11px;color:#708aa8}
+.pluto-dash .stat-icon{width:39px;height:39px;border-radius:13px;display:grid;place-items:center;background:var(--wash);color:var(--accent);font-size:20px}
+.pluto-dash .stat strong{display:block;font-size:24px;margin:8px 0 0;color:var(--pluto-ink)}
+.pluto-dash .stat small{font-size:10px;color:#10a77d}.pluto-dash .stat small em{font-style:normal;color:var(--pluto-muted);margin-right:4px}
+
+.pluto-dash .grid-main{display:grid;grid-template-columns:1.35fr 1fr .9fr;gap:14px;margin-bottom:15px}
+.pluto-dash .panel{background:var(--pluto-white);border:1px solid var(--pluto-line);border-radius:19px;padding:17px;box-shadow:var(--pluto-shadow);min-width:0}
+.pluto-dash .panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.pluto-dash .panel-head h3{font-size:13px;margin:0}
+.pluto-dash .panel-head a,.pluto-dash .link{font-size:10px;color:var(--pluto-blue);text-decoration:none}
+.pluto-dash .select-small{border:1px solid var(--pluto-line);background:#fff;border-radius:9px;padding:6px 9px;color:var(--pluto-muted);font-size:10px}
+.pluto-dash .chart-wrap{height:190px;position:relative}
+.pluto-dash .chart-wrap svg{width:100%;height:100%;overflow:visible}
+.pluto-dash .gridline{stroke:#e2edf7;stroke-width:1}
+.pluto-dash .chart-label{fill:#91a6bd;font-size:10px;font-family:'Abar Mid FaNum',Tahoma,sans-serif}
+.pluto-dash .chart-line{fill:none;stroke:#17a9c9;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.pluto-dash .chart-area{fill:url(#plutoArea)}
+.pluto-dash .chart-dot{fill:#fff;stroke:#13a8c7;stroke-width:3}
+
+.pluto-dash .map-placeholder{height:190px;display:grid;place-items:center;position:relative;background:radial-gradient(ellipse,#d8f2fc,#f7fbff 68%);border-radius:13px;overflow:hidden}
+.pluto-dash .map-shape{font-size:105px;color:#68bce3;filter:drop-shadow(0 8px 8px #4c9ec533)}
+.pluto-dash .map-note{position:absolute;bottom:10px;right:12px;font-size:10px;color:#6b89a8}
+.pluto-dash .legend{display:flex;gap:13px;justify-content:center;font-size:10px;color:#7890ad;margin-top:6px;flex-wrap:wrap}
+.pluto-dash .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-left:4px}
+
+.pluto-dash .performance{display:flex;align-items:center;justify-content:center;gap:15px;min-height:190px}
+.pluto-dash .donut{width:142px;height:142px;border-radius:50%;display:grid;place-items:center;position:relative}
+.pluto-dash .donut:before{content:"";position:absolute;inset:13px;border-radius:50%;background:#f8fcff}
+.pluto-dash .donut strong{z-index:1;font-size:26px}
+.pluto-dash .legend-list{font-size:10px;line-height:2.6;color:#7189a4}
+.pluto-dash .legend-list i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-left:5px}
+
+.pluto-dash .bottom-grid{display:grid;grid-template-columns:1fr 1.2fr .9fr;gap:14px}
+.pluto-dash .activity{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #eaf1f7;font-size:10px}
+.pluto-dash .activity:last-child{border:0}
+.pluto-dash .activity .bubble{width:29px;height:29px;border-radius:10px;background:#e5f5ff;color:#168de0;display:grid;place-items:center;font-size:14px;flex-shrink:0}
+.pluto-dash .activity time{margin-right:auto;color:#91a6bd;white-space:nowrap}
+.pluto-dash .news-card{display:grid;grid-template-columns:112px 1fr;gap:13px;align-items:center;padding:9px;border:1px solid #e2eef7;border-radius:14px;margin-bottom:9px;background:#ffffff90;text-decoration:none;color:inherit}
+.pluto-dash .news-thumb{height:83px;border-radius:10px;background:linear-gradient(135deg,#8ac9e9,#d5effb 50%,#e9c77f);display:grid;place-items:center;font-size:27px;color:#fff}
+.pluto-dash .news-card h4{margin:0 0 5px;font-size:11px}
+.pluto-dash .news-card p{margin:0;color:var(--pluto-muted);font-size:9px;line-height:1.9}
+.pluto-dash .quick-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.pluto-dash .quick{border:1px solid var(--pluto-line);border-radius:13px;background:#ffffffa8;padding:13px 8px;text-align:center;color:var(--pluto-ink);transition:.2s;text-decoration:none;display:block}
+.pluto-dash .quick:hover{transform:translateY(-3px);border-color:#8bcaf0;box-shadow:0 8px 20px #4b9bca18}
+.pluto-dash .quick b{display:block;font-size:21px;color:var(--pluto-blue);margin-bottom:5px}
+.pluto-dash .quick span{font-size:10px}
+
+.pluto-dash .modal-backdrop{position:fixed;inset:0;background:rgba(12,35,61,.42);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:18px;z-index:1000}
+.pluto-dash .news-modal{width:min(620px,100%);max-height:90vh;overflow:auto;background:linear-gradient(145deg,#fff,#f4faff);border:1px solid #cfe4f5;border-radius:22px;box-shadow:0 25px 80px #102e4b40;padding:22px}
+.pluto-dash .modal-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+.pluto-dash .modal-top span{font-size:10px;color:#7891aa}
+.pluto-dash .modal-close{width:34px;height:34px;border:1px solid var(--pluto-line);border-radius:11px;background:white;color:var(--pluto-ink);cursor:pointer;font-size:18px}
+.pluto-dash .news-modal h2{font-size:18px;line-height:1.9;margin:0 0 8px}
+.pluto-dash .modal-summary{font-size:12px;line-height:2.1;color:#7189a4;margin:0 0 16px}
+.pluto-dash .modal-tags{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:17px}
+.pluto-dash .modal-info{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:16px}
+.pluto-dash .info-cell{background:#fff;border:1px solid #e0edf7;border-radius:12px;padding:10px 12px}
+.pluto-dash .info-cell small{display:block;color:#8ca1b8;font-size:9px;margin-bottom:4px}
+.pluto-dash .info-cell b{font-size:11px}
+.pluto-dash .modal-section{border-top:1px solid #e2edf6;padding-top:13px;margin-top:13px}
+.pluto-dash .modal-section h4{font-size:11px;margin:0 0 7px}
+.pluto-dash .modal-section p{font-size:11px;color:#7189a4;line-height:2;margin:0}
+.pluto-dash .modal-footer{display:flex;justify-content:flex-start;gap:8px;margin-top:18px}
+.pluto-dash .modal-btn{border:1px solid #cfe2f2;background:#fff;color:var(--pluto-ink);border-radius:11px;padding:9px 15px;font-size:11px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.pluto-dash .modal-btn.primary{background:linear-gradient(110deg,#f5d37d,#eab34e);border-color:#edc56f;color:#624718}
+
+.pluto-dash .empty{font-size:11px;color:#91a6bd;padding:18px;text-align:center;border:1px dashed #d5e7f7;border-radius:12px}
+
+@media(max-width:1100px){
+  .pluto-dash .grid-main{grid-template-columns:1fr 1fr}
+  .pluto-dash .grid-main .performance-panel{grid-column:span 2}
+  .pluto-dash .bottom-grid{grid-template-columns:1fr 1fr}
+  .pluto-dash .bottom-grid .quick-panel{grid-column:span 2}
+  .pluto-dash .stats{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:900px){.pluto-dash .queue-days{grid-template-columns:1fr}}
+@media(max-width:760px){
+  .pluto-dash .welcome h1{font-size:17px}.pluto-dash .welcome-date{display:none}
+  .pluto-dash .stats{gap:8px}.pluto-dash .stat{padding:12px;min-height:100px}.pluto-dash .stat strong{font-size:19px}
+  .pluto-dash .grid-main,.pluto-dash .bottom-grid{grid-template-columns:1fr}
+  .pluto-dash .grid-main .performance-panel,.pluto-dash .bottom-grid .quick-panel{grid-column:auto}
+}
+
+</style>
+</head>
+<body>
+<div class="note-banner">پیش‌نمایش HTML از داشبورد واقعی Stage 14 (با دادهٔ نمونه) — همان ساختار و استایل پیاده‌سازی‌شده در Filament</div>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="brand-mark">✦</div><div><strong>سامانه مدیریت<br>رسانه‌های خبری</strong><small>مرکز فرماندهی رسانه‌ای</small></div></div>
+  <div class="nav-title">مدیریت اصلی</div>
+  <nav class="nav">
+    <a class="active" href="#"><span>⌂</span>داشبورد</a>
+    <a href="#"><span>◎</span>مدیریت سایت‌ها</a>
+    <a href="#"><span>▤</span>مدیریت اخبار</a>
+    <a href="#"><span>♙</span>مدیریت کاربران</a>
+    <a href="#"><span>▧</span>مدیریت رسانه</a>
+    <a href="#"><span>▥</span>گزارش‌ها و آمار</a>
+    <a href="#"><span>⚙</span>تنظیمات سامانه</a>
+    <a href="#"><span>♧</span>پیام‌ها و اعلان‌ها</a>
+    <a href="#"><span>▱</span>صفحات و فرم‌ها</a>
+    <a href="#"><span>⬡</span>امنیت و دسترسی</a>
+    <a href="#"><span>☏</span>پشتیبانی</a>
+  </nav>
+  <div class="side-bottom"><div class="profile"><div class="avatar">ح</div><div><b style="font-size:11px">حسین رضایی</b><small>مدیر ارشد سیستم</small></div></div></div>
+</aside>
+<main>
+<div class="pluto-dash" dir="rtl">
+  <section class="welcome">
+    <div>
+      <h1>سلام، حسین رضایی</h1>
+      <p>به سامانه مدیریت رسانه‌های خبری خوش آمدید</p>
+    </div>
+    <div class="welcome-date">سه‌شنبه ۱۹ آبان ۱۴۰۴　◷ ۱۴:۱۶　✦</div>
+  </section>
+
+  <section class="queue-panel">
+    <div class="queue-head">
+      <div><h3>صف خبر</h3><p>برنامه انتشار و پیگیری خبرهای امروز و فردا</p></div>
+      <div class="queue-actions"><button class="queue-filter">همه خبرها</button><span class="qtag ready">● به‌روز</span></div>
+    </div>
+    <div class="queue-days">
+      <div class="queue-day">
+        <div class="queue-day-title"><div><strong>امروز · سه‌شنبه</strong><small>۱۹ آبان ۱۴۰۴</small></div><span class="queue-count">۳ خبر</span></div>
+        <div class="queue-items">
+          <button class="queue-item" onclick="openModal(0)"><span class="queue-num">۰۱</span><span class="queue-icon">↗</span><span class="queue-copy"><strong>رشد تولید محتوا در رسانه‌های استانی</strong><small>گزارش عملکرد استان‌ها در ماه جاری</small><span class="queue-meta"><span class="qtag time">۱۰:۳۰ تا ۱۱:۰۰</span><span class="qtag">اقتصاد</span><span class="qtag ready">● آماده انتشار</span></span></span><span class="queue-chevron">‹</span></button>
+          <button class="queue-item" onclick="openModal(1)"><span class="queue-num">۰۲</span><span class="queue-icon">●</span><span class="queue-copy"><strong>آغاز برنامه توسعه زیرساخت رسانه‌ای</strong><small>برنامه‌های پیش‌رو برای شبکه منطقه‌ای</small><span class="queue-meta"><span class="qtag time">۱۲:۰۰ تا ۱۲:۳۰</span><span class="qtag">فناوری</span><span class="qtag review">● در صف بررسی</span></span></span><span class="queue-chevron">‹</span></button>
+          <button class="queue-item" onclick="openModal(2)"><span class="queue-num">۰۳</span><span class="queue-icon">●</span><span class="queue-copy"><strong>تداوم کسب‌وکار در شرایط ناپایدار</strong><small>راهکارهای تاب‌آوری بنگاه‌ها</small><span class="queue-meta"><span class="qtag time">۱۴:۰۰ تا ۱۴:۳۰</span><span class="qtag">بازرگانی</span><span class="qtag scheduled">● پیش‌نویس</span></span></span><span class="queue-chevron">‹</span></button>
+        </div>
+      </div>
+      <div class="queue-day">
+        <div class="queue-day-title"><div><strong>فردا · چهارشنبه</strong><small>۲۰ آبان ۱۴۰۴</small></div><span class="queue-count">۲ خبر</span></div>
+        <div class="queue-items">
+          <button class="queue-item" onclick="openModal(3)"><span class="queue-num">۰۱</span><span class="queue-icon">↗</span><span class="queue-copy"><strong>بانکداری باز و خدمات تعبیه‌شده</strong><small>فرصت‌های همکاری بانک و کسب‌وکار</small><span class="queue-meta"><span class="qtag time">۰۹:۳۰ تا ۱۰:۰۰</span><span class="qtag">بانکداری</span><span class="qtag ready">● آماده انتشار</span></span></span><span class="queue-chevron">‹</span></button>
+          <button class="queue-item" onclick="openModal(4)"><span class="queue-num">۰۲</span><span class="queue-icon">◈</span><span class="queue-copy"><strong>ابزارهای تعهدی در زنجیره ارزش</strong><small>مدیریت مالی تأمین‌کنندگان</small><span class="queue-meta"><span class="qtag time">۱۱:۰۰ تا ۱۱:۳۰</span><span class="qtag">تجارت</span><span class="qtag urgent">● معوق</span></span></span><span class="queue-chevron">‹</span></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats">
+    <article class="stat" style="--wash:#fff1d7;--accent:#d49a32"><div class="stat-top"><span class="stat-label">تعداد سایت‌های فعال</span><span class="stat-icon">◎</span></div><strong>۵</strong><small>↑ ۲ سایت <em>در ماه جاری</em></small></article>
+    <article class="stat" style="--wash:#dff8f7;--accent:#12aeb4"><div class="stat-top"><span class="stat-label">تعداد کاربران</span><span class="stat-icon">♙</span></div><strong>۱۲۸</strong><small>↑ ۸٪ <em>نسبت به ماه قبل</em></small></article>
+    <article class="stat" style="--wash:#e1f2ff;--accent:#168de0"><div class="stat-top"><span class="stat-label">کل اخبار منتشرشده</span><span class="stat-icon">▤</span></div><strong>۱٬۲۴۰</strong><small>↑ ۱۲٪ <em>نسبت به ماه قبل</em></small></article>
+    <article class="stat" style="--wash:#fff4df;--accent:#d49a32"><div class="stat-top"><span class="stat-label">کل بازدیدها</span><span class="stat-icon">◉</span></div><strong>۸۴٬۵۲۰</strong><small>↑ ۱۵٪ <em>نسبت به ماه قبل</em></small></article>
+  </section>
+
+  <section class="grid-main">
+    <article class="panel">
+      <div class="panel-head"><h3>نمودار بازدیدها</h3><select class="select-small"><option>۳۰ روز اخیر</option><option>۷ روز اخیر</option><option>۱۲ ماه اخیر</option></select></div>
+      <div class="chart-wrap"><svg viewBox="0 0 520 200" preserveAspectRatio="none" aria-label="نمودار بازدیدها">
+        <defs><linearGradient id="plutoArea" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#21b7c8" stop-opacity=".30"/><stop offset="1" stop-color="#21b7c8" stop-opacity="0"/></linearGradient></defs>
+        <g><path class="gridline" d="M42 20H510 M42 60H510 M42 100H510 M42 140H510 M42 180H510"/>
+        <text class="chart-label" x="33" y="23" text-anchor="end">۲۰۰</text><text class="chart-label" x="33" y="63" text-anchor="end">۱۵۰</text><text class="chart-label" x="33" y="103" text-anchor="end">۱۰۰</text><text class="chart-label" x="33" y="143" text-anchor="end">۵۰</text><text class="chart-label" x="33" y="183" text-anchor="end">۰</text></g>
+        <path class="chart-area" d="M42 153 C65 139 70 120 93 128 S128 154 150 135 S181 112 203 123 S238 139 260 110 S290 96 315 60 S346 102 370 89 S400 113 422 82 S455 95 478 65 S496 55 510 45 L510 180 L42 180Z"/>
+        <path class="chart-line" d="M42 153 C65 139 70 120 93 128 S128 154 150 135 S181 112 203 123 S238 139 260 110 S290 96 315 60 S346 102 370 89 S400 113 422 82 S455 95 478 65 S496 55 510 45"/>
+        <g><circle class="chart-dot" cx="42" cy="153" r="4"/><circle class="chart-dot" cx="150" cy="135" r="4"/><circle class="chart-dot" cx="260" cy="110" r="4"/><circle class="chart-dot" cx="370" cy="89" r="4"/><circle class="chart-dot" cx="510" cy="45" r="4"/></g>
+        <text class="chart-label" x="42" y="198">۱ آبان</text><text class="chart-label" x="260" y="198">۱۵ آبان</text><text class="chart-label" x="510" y="198" text-anchor="end">۱۹ آبان</text>
+      </svg></div>
+    </article>
+    <article class="panel">
+      <div class="panel-head"><h3>وضعیت سایت‌های استانی</h3><a class="link" href="#">مشاهده جزئیات ←</a></div>
+      <div class="map-placeholder"><div class="map-shape">✥</div><div class="map-note">نمای آماری وضعیت سایت‌های مناطق</div></div>
+      <div class="legend"><span><i class="dot" style="background:#19b9b4"></i>فعال ۳</span><span><i class="dot" style="background:#efb54d"></i>در حال راه‌اندازی ۱</span><span><i class="dot" style="background:#8ca4bd"></i>غیرفعال ۱</span></div>
+    </article>
+    <article class="panel performance-panel">
+      <div class="panel-head"><h3>عملکرد کلی سامانه</h3><span style="color:#168de0">◉</span></div>
+      <div class="performance">
+        <div class="donut" style="background:conic-gradient(#168de0 0 42%,#21bac5 42% 75%,#efc66f 75% 92%,#e6eff6 92%)"><strong>۹۲٪</strong></div>
+        <div class="legend-list"><div><i style="background:#168de0"></i>بازدیدکنندگان</div><div><i style="background:#21bac5"></i>تولید محتوا</div><div><i style="background:#efc66f"></i>تعامل کاربران</div></div>
+      </div>
+      <div style="text-align:center;font-size:10px;color:#8298b0">افزایش نسبت به ماه قبل <b style="color:#10a77d;font-size:14px">↑ ۱۸٪</b></div>
+    </article>
+  </section>
+
+  <section class="bottom-grid">
+    <article class="panel">
+      <div class="panel-head"><h3>آخرین فعالیت‌ها</h3><a class="link" href="#">مشاهده همه</a></div>
+      <div class="activity"><span class="bubble">▤</span><b>خبر جدید با عنوان «رشد تولید محتوا» تأیید شد</b><time>۳ دقیقه پیش</time></div>
+      <div class="activity"><span class="bubble">♙</span><b>نقش سردبیر برای کاربر علی محمدی تنظیم شد</b><time>۱۲ دقیقه پیش</time></div>
+      <div class="activity"><span class="bubble">◎</span><b>سایت اصفهان به‌روزرسانی شد</b><time>۴۰ دقیقه پیش</time></div>
+      <div class="activity"><span class="bubble">▧</span><b>فایل جدید در بخش رسانه بارگذاری شد</b><time>۱ ساعت پیش</time></div>
+    </article>
+    <article class="panel">
+      <div class="panel-head"><h3>جدیدترین اخبار</h3><a class="link" href="#">مشاهده همه</a></div>
+      <a class="news-card" href="#"><div class="news-thumb">▣</div><div><h4>رشد چشمگیر تولید محتوا در رسانه‌های استانی</h4><p>بر اساس گزارش‌های جدید، تولید محتوای خبری در استان‌ها با رشد قابل توجهی همراه بوده است.</p></div></a>
+      <a class="news-card" href="#"><div class="news-thumb">◈</div><div><h4>آغاز برنامه توسعه زیرساخت رسانه‌ای</h4><p>گزارش عملکرد و برنامه‌های پیش‌رو برای توسعه شبکه رسانه‌های منطقه‌ای.</p></div></a>
+    </article>
+    <article class="panel quick-panel">
+      <div class="panel-head"><h3>مدیریت سریع</h3><span style="color:#e3ad43">ϟ</span></div>
+      <div class="quick-grid">
+        <a class="quick" href="#"><b>◎</b><span>مدیریت سایت‌ها</span></a>
+        <a class="quick" href="#"><b>♙</b><span>مدیریت کاربران</span></a>
+        <a class="quick" href="#"><b>⚙</b><span>تنظیمات</span></a>
+        <a class="quick" href="#"><b>▥</b><span>گزارش‌گیری</span></a>
+        <a class="quick" href="#"><b>☏</b><span>پشتیبانی</span></a>
+        <a class="quick" href="#"><b>▤</b><span>ثبت خبر</span></a>
+      </div>
+    </article>
+  </section>
+</div>
+</main>
+</div>
+
+<div class="pluto-dash">
+<div class="modal-backdrop" id="modal" style="display:none" onclick="if(event.target===this)closeModal()">
+  <div class="news-modal">
+    <div class="modal-top"><span id="mDay">جزئیات خبر</span><button class="modal-close" onclick="closeModal()">×</button></div>
+    <h2 id="mTitle"></h2><p class="modal-summary" id="mSummary"></p>
+    <div class="modal-tags" id="mTags"></div>
+    <div class="modal-info">
+      <div class="info-cell"><small>زمان برنامه‌ریزی‌شده</small><b id="mTime"></b></div>
+      <div class="info-cell"><small>دسته‌بندی</small><b id="mCat"></b></div>
+      <div class="info-cell"><small>نویسنده / خبرنگار</small><b id="mAuthor"></b></div>
+      <div class="info-cell"><small>وضعیت تحریریه</small><b id="mStatus"></b></div>
+    </div>
+    <div class="modal-section"><h4>خلاصه و توضیحات خبر</h4><p id="mDesc"></p></div>
+    <div class="modal-section"><h4>یادداشت دبیر</h4><p id="mNote"></p></div>
+    <div class="modal-footer"><button class="modal-btn primary" onclick="closeModal()">مشاهده پرونده خبر</button><button class="modal-btn" onclick="closeModal()">بستن پنجره</button></div>
+  </div>
+</div>
+</div>
+
+<script>
+const news=[
+ {title:'رشد تولید محتوا در رسانه‌های استانی',summary:'گزارش عملکرد استان‌ها در ماه جاری',day:'امروز · سه‌شنبه ۱۹ آبان ۱۴۰۴',time:'۱۰:۳۰ تا ۱۱:۰۰',category:'اقتصاد',status:'آماده انتشار',status_key:'ready',author:'گروه تحریریه',description:'این خبر روند رشد تولید محتوا در رسانه‌های استانی را بررسی می‌کند و نسخه نهایی برای انتشار آماده است.',note:'عنوان و لید نهایی بررسی شده است.'},
+ {title:'آغاز برنامه توسعه زیرساخت رسانه‌ای',summary:'برنامه‌های پیش‌رو برای شبکه منطقه‌ای',day:'امروز · سه‌شنبه ۱۹ آبان ۱۴۰۴',time:'۱۲:۰۰ تا ۱۲:۳۰',category:'فناوری',status:'در صف بررسی',status_key:'review',author:'مریم احمدی',description:'گزارشی درباره برنامه‌های توسعه زیرساخت و شبکه منطقه‌ای.',note:'نیازمند تأیید دبیر سرویس.'},
+ {title:'تداوم کسب‌وکار در شرایط ناپایدار',summary:'راهکارهای تاب‌آوری بنگاه‌ها',day:'امروز · سه‌شنبه ۱۹ آبان ۱۴۰۴',time:'۱۴:۰۰ تا ۱۴:۳۰',category:'بازرگانی',status:'پیش‌نویس',status_key:'scheduled',author:'علی محمدی',description:'مقاله درباره تاب‌آوری کسب‌وکارها در شرایط متغیر اقتصادی.',note:'بازبینی نگارشی باقی مانده است.'},
+ {title:'بانکداری باز و خدمات تعبیه‌شده',summary:'فرصت‌های همکاری بانک و کسب‌وکار',day:'فردا · چهارشنبه ۲۰ آبان ۱۴۰۴',time:'۰۹:۳۰ تا ۱۰:۰۰',category:'بانکداری',status:'آماده انتشار',status_key:'ready',author:'سارا رضایی',description:'بررسی روند بانکداری باز و خدمات مالی تعبیه‌شده.',note:'برای انتشار فردا زمان‌بندی شده است.'},
+ {title:'ابزارهای تعهدی در زنجیره ارزش',summary:'مدیریت مالی تأمین‌کنندگان',day:'فردا · چهارشنبه ۲۰ آبان ۱۴۰۴',time:'۱۱:۰۰ تا ۱۱:۳۰',category:'تجارت',status:'معوق',status_key:'urgent',author:'واحد بازرگانی',description:'بررسی ابزارهای تعهدی در مدیریت مالی زنجیره ارزش.',note:'زمان انتشار نیازمند بازتنظیم است.'}
+];
+function openModal(i){const n=news[i]; if(!n)return;
+ document.getElementById('mDay').textContent=n.day+' · جزئیات خبر';
+ document.getElementById('mTitle').textContent=n.title;
+ document.getElementById('mSummary').textContent=n.summary;
+ document.getElementById('mTime').textContent=n.time;
+ document.getElementById('mCat').textContent=n.category;
+ document.getElementById('mAuthor').textContent=n.author;
+ document.getElementById('mStatus').textContent=n.status;
+ document.getElementById('mDesc').textContent=n.description;
+ document.getElementById('mNote').textContent=n.note;
+ document.getElementById('mTags').innerHTML='<span class="qtag time">'+n.time+'</span><span class="qtag">'+n.category+'</span><span class="qtag '+n.status_key+'">'+n.status+'</span>';
+ document.getElementById('modal').style.display='flex'; document.body.style.overflow='hidden';
+}
+function closeModal(){document.getElementById('modal').style.display='none'; document.body.style.overflow='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+</script>
+</body>
+</html>
