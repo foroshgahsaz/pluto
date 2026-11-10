@@ -1,6 +1,6 @@
-# 12 — Form Builder (Design)
+# 12 — Form Builder
 
-**Status:** Designed — Not Started
+**Status:** Implemented · Tested (STAGE 5)
 
 ## Purpose
 Per-site dynamic forms with structured field definitions, conditional visibility, multi-step support, secure submission storage, and authorized export.
@@ -8,25 +8,33 @@ Per-site dynamic forms with structured field definitions, conditional visibility
 ## Storage model
 - `forms` — definition metadata
 - `form_fields` — ordered fields with JSON config for options, validation, visibility, step
-- `form_submissions` — immutable-ish payload snapshots
+- `form_submissions` — payload snapshots
 - `form_submission_files` — uploaded files linked to media
-
-Field definitions are **data**, not generated PHP classes. Runtime builds Laravel validation arrays from `validation_rules_json` + field type defaults.
 
 ## Field types (MVP)
 `text`, `textarea`, `number`, `date`, `select`, `multiselect`, `file`, `image`
 
 ## Conditional visibility
-- Evaluated in admin preview with Alpine (UX only).
-- On submit: server recomputes visibility; hidden non-applicable fields ignored; required rules apply only when visible.
+- Admin configures JSON rules on fields
+- On submit, `FormVisibilityEvaluator` recomputes visibility server-side
+- Hidden fields are not validated as required and are stripped from stored payload
 
 ## Admin UX
-- Filament resource for forms
-- Alpine + SortableJS for field reorder / step management
-- Submission Relation Manager with export action (CSV) under permission
+- Filament `FormResource`
+- Fields relation manager with drag reorder (`sort_order`)
+- Submissions relation manager with view/delete + CSV export
+
+## Services
+- `SubmitFormService`
+- `BuildFormValidationRules`
+- `FormVisibilityEvaluator`
+- `ExportFormSubmissionsService`
 
 ## Security
-- Site scope on form + submissions + files
-- Export authorization required
-- File fields use same media security pipeline
-- Rate-limit public submit endpoints when public frontend arrives
+- Site scope on forms/fields/submissions/files
+- Export requires `form_submissions.export`
+- Upload fields use private media pipeline
+- Cross-site submission access denied (tested)
+
+## Tests
+`tests/Feature/FormBuilderTest.php`

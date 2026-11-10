@@ -6,20 +6,16 @@ Enterprise multi-site news management platform.
 
 ## Current status
 
-**Each stage has its own PR — merge in order 1 → 2 → 3 → 4.**
+**Each stage has its own PR — merge in order.**
 
-This branch = **STAGE 4 media** (on top of Stages 1–3).
+This branch = **STAGE 5 form builder** (on top of Stages 1–4).
 
-Also included from earlier stages on parent branches:
-- Multi-site tenancy, dual auth, editorial workflow
-- Filament Persian admin
+Stage 5 adds:
+- Dynamic form builder (fields, steps, conditional visibility)
+- Submission storage + authorized CSV export
+- Upload fields via private media pipeline
 
-Stage 4 adds:
-- Media library + folders
-- Secure upload / private download
-- Orphan purge command
-
-Tests on this branch: `php artisan test` → **33 passed**
+Tests on this branch: `php artisan test` → **40 passed**
 
 ## Docs
 

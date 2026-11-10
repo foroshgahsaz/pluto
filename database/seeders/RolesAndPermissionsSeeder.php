@@ -39,6 +39,8 @@ class RolesAndPermissionsSeeder extends Seeder
                 'articles.view', 'articles.create', 'articles.update', 'articles.delete',
                 'articles.publish', 'articles.approve', 'articles.schedule', 'articles.feature',
                 'media.view', 'media.upload', 'media.update', 'media.delete',
+                'forms.view', 'forms.create', 'forms.update',
+                'form_submissions.view', 'form_submissions.export',
                 'reports.view',
             ],
             'journalist' => [
