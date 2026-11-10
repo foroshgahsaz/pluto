@@ -1,5 +1,14 @@
 # 24 — Changelog
 
+## 2026-11-10 — STAGE 7 dashboard + notifications
+
+### Added
+- Laravel `notifications` table + Filament database notifications (bell)
+- `EditorialDashboardService` + widgets: article stats, 14-day publish chart, recent editorial activity
+- `SiteNotificationService` for editorial transitions, role assignment, failed-login threshold alerts
+- Hooks in `TransitionArticleStatus`, `AssignSiteRole`, `LoginAuditor`
+- `DashboardNotificationsTest`
+
 ## 2026-11-10 — STAGE 6 themes / settings / menus / pages
 
 ### Added

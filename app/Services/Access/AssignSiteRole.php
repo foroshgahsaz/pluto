@@ -2,8 +2,10 @@
 
 namespace App\Services\Access;
 
+use App\Models\Site;
 use App\Models\User;
 use App\Policies\UserPolicy;
+use App\Services\Notifications\SiteNotificationService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\PermissionRegistrar;
@@ -31,6 +33,11 @@ class AssignSiteRole
             app(PermissionRegistrar::class)->forgetCachedPermissions();
             $target->syncRoles([$roleName]);
         });
+
+        $site = Site::query()->find($siteId);
+        if ($site) {
+            app(SiteNotificationService::class)->notifyRoleAssigned($target->fresh(), $site, $roleName);
+        }
     }
 
     public function promoteSuperAdmin(User $actor, User $target): void

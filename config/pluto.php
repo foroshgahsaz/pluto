@@ -19,6 +19,11 @@ return [
         'central_site_slug' => env('SEED_CENTRAL_SITE_SLUG', 'central'),
     ],
 
+    'security' => [
+        'failed_login_threshold' => (int) env('FAILED_LOGIN_THRESHOLD', 5),
+        'failed_login_window_minutes' => (int) env('FAILED_LOGIN_WINDOW_MINUTES', 15),
+    ],
+
     'media' => [
         'max_image_kb' => (int) env('MEDIA_MAX_IMAGE_KB', 5120),
         'max_document_kb' => (int) env('MEDIA_MAX_DOCUMENT_KB', 20480),

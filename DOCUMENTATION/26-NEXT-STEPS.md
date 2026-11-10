@@ -26,8 +26,8 @@ Schema, admin builder UX, submissions, export, isolation tests
 ## STAGE 6 — Settings / themes / menus / homepage sections ✅
 Backend storage + Filament management + reorder UX (this PR)
 
-## STAGE 7 — Dashboard + notifications
-Widgets, filters, notification events
+## STAGE 7 — Dashboard + notifications ✅
+Widgets, filters, notification events (this PR)
 
 ## STAGE 8 — Security hardening, backups, full test pass, deployment docs, production readiness report
 

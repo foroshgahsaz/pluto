@@ -1,15 +1,18 @@
-# 14 — Dashboard and Reports (Design)
+# 14 — Dashboard and Reports
 
-**Status:** Designed — Not Started
+**Status:** Implemented — Stage 7
 
 ## Widgets (Filament)
-- Total / published / draft article counts
-- Per-site breakdown (only authorized sites)
-- Recent editorial activity
-- Simple charts (Filament chart widgets) for publish volume over date range
+- `ArticleStatsOverview` — total / published / draft / in_review / scheduled counts
+- `PublishVolumeChart` — publish volume over the last 14 days (line chart)
+- `RecentEditorialActivity` — recent Spatie activity log rows (`log_name=editorial`)
+
+## Service
+`App\Services\Dashboard\EditorialDashboardService`
+- Always scopes aggregates to the viewer’s `authorizedSiteIds()`
+- Date-window queries for publish volume applied in SQL, not only the UI
 
 ## Rules
-- All aggregates filter by authorized `site_id`s.
-- Date-range filters applied in queries, not only UI.
-- No caching of cross-user stats without tagging by user/site set (or short TTL with safe invalidation).
-- Super Admin may view global aggregates via authorized report service.
+- Widgets require `reports.view` on at least one authorized site (Super Admin always sees them)
+- No cross-user caching of stats
+- Super Admin sees global aggregates via the same service (all site IDs)

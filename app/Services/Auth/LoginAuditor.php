@@ -4,6 +4,7 @@ namespace App\Services\Auth;
 
 use App\Models\LoginEvent;
 use App\Models\User;
+use App\Services\Notifications\SiteNotificationService;
 use Illuminate\Http\Request;
 
 class LoginAuditor
@@ -19,7 +20,7 @@ class LoginAuditor
     ): void {
         $request ??= request();
 
-        LoginEvent::query()->create([
+        $row = LoginEvent::query()->create([
             'user_id' => $user?->id,
             'mobile' => $mobile ?? $user?->mobile,
             'email' => $email ?? $user?->email,
@@ -30,5 +31,12 @@ class LoginAuditor
             'meta' => $meta,
             'created_at' => now(),
         ]);
+
+        if ($event === 'login_failed') {
+            app(SiteNotificationService::class)->maybeNotifyFailedLoginThreshold(
+                $row->mobile,
+                $row->ip,
+            );
+        }
     }
 }

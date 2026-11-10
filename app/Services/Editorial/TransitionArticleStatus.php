@@ -6,6 +6,7 @@ use App\Enums\ArticleStatus;
 use App\Exceptions\InvalidArticleTransitionException;
 use App\Models\Article;
 use App\Models\User;
+use App\Services\Notifications\SiteNotificationService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -15,6 +16,7 @@ class TransitionArticleStatus
 {
     public function __construct(
         protected ArticleRevisionRecorder $revisions,
+        protected SiteNotificationService $notifications,
     ) {}
 
     public function submit(User $actor, Article $article): Article
@@ -149,7 +151,16 @@ class TransitionArticleStatus
                 ->withProperties(['site_id' => $locked->site_id, 'event' => 'scheduled_publish'])
                 ->log('article.published');
 
-            return $locked->fresh();
+            $published = $locked->fresh(['creator', 'site']);
+            $actor = $systemActor ?? new User(['name' => 'سیستم']);
+            $this->notifications->notifyArticleTransition(
+                $actor,
+                $published,
+                ArticleStatus::Scheduled,
+                ArticleStatus::Published,
+            );
+
+            return $published;
         });
     }
 
@@ -202,7 +213,10 @@ class TransitionArticleStatus
                 ])
                 ->log('article.status_changed');
 
-            return $locked->fresh();
+            $fresh = $locked->fresh(['creator', 'site']);
+            $this->notifications->notifyArticleTransition($actor, $fresh, $from, $to);
+
+            return $fresh;
         });
     }
 }
