@@ -29,7 +29,13 @@ Backend storage + Filament management + reorder UX (this PR)
 ## STAGE 7 — Dashboard + notifications ✅
 Widgets, filters, notification events (this PR)
 
-## STAGE 8 — Security hardening, backups, full test pass, deployment docs, production readiness report
+## STAGE 8 — Security hardening, backups, full test pass, deployment docs ✅
+Production readiness report in `30-PRODUCTION-READINESS.md` (this PR)
+
+## After Stage 8 (owner / ops)
+- Merge PR stack sequentially and run staging restore drill
+- Wire real SMS OTP provider + remote backup disk
+- Public frontend remains a separate future program of work
 
 ---
 

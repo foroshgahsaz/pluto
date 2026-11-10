@@ -4,12 +4,18 @@ namespace App\Providers;
 
 use App\Contracts\MalwareScanner;
 use App\Contracts\SmsGateway;
+use App\Listeners\RecordFailedBackup;
+use App\Listeners\RecordSuccessfulBackup;
 use App\Models\User;
 use App\Services\Media\NullMalwareScanner;
 use App\Services\Sms\LogSmsGateway;
 use App\Support\Tenancy\SiteContext;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use Spatie\Backup\Events\BackupHasFailed;
+use Spatie\Backup\Events\BackupWasSuccessful;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,5 +41,12 @@ class AppServiceProvider extends ServiceProvider
 
             return null;
         });
+
+        Event::listen(BackupWasSuccessful::class, RecordSuccessfulBackup::class);
+        Event::listen(BackupHasFailed::class, RecordFailedBackup::class);
+
+        if (config('pluto.security.force_https')) {
+            URL::forceScheme('https');
+        }
     }
 }

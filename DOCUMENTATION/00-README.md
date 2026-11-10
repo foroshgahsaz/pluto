@@ -3,8 +3,8 @@
 **Project:** Pluto (سامانه خبری پلوتون)  
 **Type:** Enterprise Multi-Site News Management System  
 **Stack (proposed):** Laravel 13 · Filament 5 · Livewire 4 · MySQL · Pest  
-**Current stage:** STAGE 7 — Dashboard + Notifications  
-**Status:** Implemented and tested on this branch; merge after Stage 6
+**Current stage:** STAGE 8 — Backup + Hardening  
+**Status:** Implemented and tested on this branch; merge after Stage 7
 
 ---
 
@@ -50,6 +50,7 @@ A qualified Laravel developer must be able to install, operate, secure, and exte
 | — | [27-STAGE1-INSPECTION-REPORT.md](27-STAGE1-INSPECTION-REPORT.md) | Stage 1 inspection findings |
 | — | [28-APPROVAL-REQUEST.md](28-APPROVAL-REQUEST.md) | Decisions requiring owner approval |
 | — | [29-OWNER-DECISIONS-LOG.md](29-OWNER-DECISIONS-LOG.md) | Confirmed owner decisions + plain explanations |
+| — | [30-PRODUCTION-READINESS.md](30-PRODUCTION-READINESS.md) | Stage 8 production readiness report |
 
 ### Supporting folders
 
@@ -75,6 +76,6 @@ Used in `25-PROJECT-STATUS.md`:
 
 ## Current gate
 
-**STAGE 7 dashboard + notifications implemented and tested on this branch.**  
-Next: STAGE 8 backups + hardening after owner merge of the PR stack.  
-See [25-PROJECT-STATUS.md](25-PROJECT-STATUS.md) and [26-NEXT-STEPS.md](26-NEXT-STEPS.md).
+**STAGE 8 backup + hardening implemented and tested on this branch.**  
+Backend admin roadmap complete pending owner merge of the PR stack and ops production actions.  
+See [30-PRODUCTION-READINESS.md](30-PRODUCTION-READINESS.md) and [25-PROJECT-STATUS.md](25-PROJECT-STATUS.md).

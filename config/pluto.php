@@ -22,6 +22,7 @@ return [
     'security' => [
         'failed_login_threshold' => (int) env('FAILED_LOGIN_THRESHOLD', 5),
         'failed_login_window_minutes' => (int) env('FAILED_LOGIN_WINDOW_MINUTES', 15),
+        'force_https' => (bool) env('FORCE_HTTPS', env('APP_ENV') === 'production'),
     ],
 
     'media' => [

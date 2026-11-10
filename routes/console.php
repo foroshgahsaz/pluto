@@ -12,3 +12,9 @@ Artisan::command('inspire', function () {
 Schedule::job(new PublishScheduledArticlesJob)->everyMinute()->withoutOverlapping();
 
 Schedule::command('media:purge-orphans')->weeklyOn(0, '03:30');
+
+Schedule::command('backup:run')->dailyAt('02:15')->withoutOverlapping();
+
+Schedule::command('backup:clean')->dailyAt('03:15')->withoutOverlapping();
+
+Schedule::command('backup:monitor')->dailyAt('04:15');
