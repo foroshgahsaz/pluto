@@ -6,14 +6,15 @@ Enterprise multi-site news management platform.
 
 ## Current status
 
-**STAGE 2 (core infrastructure) in progress on this branch.**
+**STAGE 3 editorial system implemented on this branch** (after Stage 1 docs + Stage 2 core).
 
 Implemented:
 - Multi-site (`sites`, `site_user`) with `SiteScope`
 - Users with dual login: **password** (mobile/email) + **OTP**
 - Per-site roles (Spatie teams)
-- Filament admin (Persian) for Sites / Users / Categories
-- Security feature tests
+- Filament admin (Persian): Sites / Users / Categories / Articles / Authors / Tags
+- Editorial workflow, revisions, scheduled publishing
+- Security + editorial feature tests (`php artisan test` → 27 passed)
 
 ## Docs
 

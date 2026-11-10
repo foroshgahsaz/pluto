@@ -1,5 +1,18 @@
 # 24 — Changelog
 
+## 2026-11-10 — STAGE 3 editorial system
+
+### Added
+- Articles workflow: draft → in_review → approved/rejected → scheduled → published → archived
+- Models/tables: articles, tags, authors, media (minimal), revisions, keywords, attachments
+- `TransitionArticleStatus`, revision recorder, scheduled publish job (every minute)
+- Filament FA resources: Articles (workflow actions), Authors, Tags; Categories parent support
+- `PublicArticleQuery` for future public pages (no UI)
+- Tests: EditorialWorkflowTest, EditorialIsolationTest
+
+### Test evidence
+`php artisan test` → 27 passed
+
 ## 2026-11-10 — STAGE 2 core infrastructure
 
 ### Added

@@ -48,7 +48,7 @@ class RolesAndPermissionsSeeder extends Seeder
             ],
             'copy_editor' => [
                 'categories.view',
-                'articles.view', 'articles.update',
+                'articles.view', 'articles.update', 'articles.approve',
                 'media.view', 'media.upload',
             ],
         ];
