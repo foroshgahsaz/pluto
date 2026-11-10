@@ -34,7 +34,7 @@ Please review the Stage 1 package and answer the decisions below.
 ### B4. Permission model
 Choose one:
 
-- [ ] **Option A (recommended):** Spatie teams enabled — roles can differ per site  
+- [x] **Option A (recommended):** Spatie teams enabled — roles can differ per site ✅ owner confirmed  
 - [ ] **Option B (simpler):** Global roles + `site_user` membership only (same role on all assigned sites)
 
 > Plain explanation: [29-OWNER-DECISIONS-LOG.md](29-OWNER-DECISIONS-LOG.md)
@@ -58,7 +58,7 @@ Choose one:
       Do **not** paste production OTP secrets/passwords in chat.
 
 ### B9. Storage
-- [ ] Local disks only for MVP ← **recommended; awaiting “باشه لوکال”**  
+- [x] Local disks only for MVP ✅ owner: all images/files on same server  
 - [ ] S3-compatible remote required from the start for media/backups
 
 > Plain explanation: local = files on same server; S3 = cloud object storage. See decisions log.
@@ -67,10 +67,11 @@ Choose one:
 - [ ] Confirm: **backend + Filament only** now; **no public frontend**  
 - [ ] Confirm: do not add features outside master scope
 
-### B11. Mobile + OTP login (new owner requirement)
-- [x] Required for all admin roles ✅  
-- [ ] Choose SMS provider: Kavenegar / Ghasedak / other / mock-only for now  
-- [ ] OTP-only **or** OTP + emergency password for Super Admin recovery
+### B11. Admin login methods (owner requirement)
+- [x] Mobile + OTP ✅  
+- [x] Username + password ✅ (identifier = mobile or email)  
+- [x] SMS provider for local/dev: `log`/mock until production gateway configured  
+- [ ] Production SMS provider (Kavenegar / Ghasedak / other) — configure later via `.env`
 
 ---
 
