@@ -1,5 +1,13 @@
 # 24 — Changelog
 
+## 2026-11-10 — STAGE 11 SEO & syndication
+
+### Added
+- Per-site `rss.xml` and `sitemap.xml`
+- Root `sitemap.xml` index + `robots.txt`
+- RSS alternate link in public layout
+- `PublicSeoSyndicationTest`
+
 ## 2026-11-10 — STAGE 10 public forms
 
 ### Added

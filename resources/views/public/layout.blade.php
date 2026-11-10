@@ -7,7 +7,9 @@
     @if (! empty($branding['meta_description']))
         <meta name="description" content="{{ $branding['meta_description'] }}">
     @endif
+    <link rel="alternate" type="application/rss+xml" title="{{ ($branding['title'] ?? $site->name).' RSS' }}" href="{{ route('public.rss', $site) }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&family=Lalezar&display=swap" rel="stylesheet">
     <style>
