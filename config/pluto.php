@@ -8,6 +8,10 @@ return [
         'max_attempts' => (int) env('OTP_MAX_ATTEMPTS', 5),
         'testing_code' => env('OTP_TESTING_CODE', '123456'),
         'driver' => env('OTP_SMS_DRIVER', 'log'),
+        'kavenegar_api_key' => env('KAVENEGAR_API_KEY'),
+        'kavenegar_sender' => env('KAVENEGAR_SENDER'),
+        'ghasedak_api_key' => env('GHASEDAK_API_KEY'),
+        'ghasedak_line' => env('GHASEDAK_LINE'),
     ],
 
     'seed' => [
@@ -47,5 +51,7 @@ return [
         ],
         'public_disk' => 'public',
         'private_disk' => 'local',
+        'malware_scanner' => env('MALWARE_SCANNER', 'null'),
+        'clamav_binary' => env('CLAMAV_BINARY', 'clamscan'),
     ],
 ];

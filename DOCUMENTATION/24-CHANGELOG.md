@@ -1,5 +1,14 @@
 # 24 — Changelog
 
+## 2026-11-10 — STAGE 12 master-prompt gap closure
+
+### Added
+- FA operator guides (website / editorial / maintenance)
+- Logout audit, Activity Log UI, login activity widget
+- `pluto:restore` dry-run/force extract; extra seeded themes
+- Filament password reset; Kavenegar/Ghasedak SMS + ClamAV scanner drivers
+- `MasterPromptGapsTest` (+ query budget smoke)
+
 ## 2026-11-10 — STAGE 11 SEO & syndication
 
 ### Added

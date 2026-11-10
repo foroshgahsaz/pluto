@@ -29,6 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->brandName('پلوتون')
             ->login(Login::class)
+            ->passwordReset()
             ->favicon(null)
             ->colors([
                 'primary' => Color::Teal,

@@ -34,7 +34,7 @@ class SiteSettingsManager
 
     public function set(Site $site, string $group, string $key, mixed $value): SiteSetting
     {
-        return SiteSetting::query()->updateOrCreate(
+        $row = SiteSetting::query()->updateOrCreate(
             [
                 'site_id' => $site->id,
                 'group' => $group,
@@ -44,6 +44,17 @@ class SiteSettingsManager
                 'value' => is_array($value) ? $value : ['value' => $value],
             ]
         );
+
+        activity('settings')
+            ->performedOn($site)
+            ->withProperties([
+                'site_id' => $site->id,
+                'group' => $group,
+                'key' => $key,
+            ])
+            ->log('settings.updated');
+
+        return $row;
     }
 
     /**

@@ -3,8 +3,8 @@
 **Project:** Pluto (سامانه خبری پلوتون)  
 **Type:** Enterprise Multi-Site News Management System  
 **Stack (proposed):** Laravel 13 · Filament 5 · Livewire 4 · MySQL · Pest  
-**Current stage:** STAGE 11 — SEO & Syndication  
-**Status:** Implemented and tested on this branch; merge after Stage 10
+**Current stage:** STAGE 12 — Master Prompt Gap Closure  
+**Status:** Implemented and tested; merge after Stage 11
 
 ---
 
@@ -54,6 +54,8 @@ A qualified Laravel developer must be able to install, operate, secure, and exte
 | — | [31-PUBLIC-FRONTEND.md](31-PUBLIC-FRONTEND.md) | Stage 9 public site routes and isolation |
 | — | [32-PUBLIC-FORMS.md](32-PUBLIC-FORMS.md) | Stage 10 public form render/submit |
 | — | [33-SEO-SYNDICATION.md](33-SEO-SYNDICATION.md) | Stage 11 RSS, sitemap, robots |
+| — | [34-MASTER-PROMPT-GAPS.md](34-MASTER-PROMPT-GAPS.md) | Stage 12 remaining prompt items |
+| — | [guides/](guides/) | End-user / ops guides (FA) |
 
 ### Supporting folders
 
@@ -79,5 +81,6 @@ Used in `25-PROJECT-STATUS.md`:
 
 ## Current gate
 
-**STAGE 11 SEO & syndication implemented and tested on this branch.**  
-See [33-SEO-SYNDICATION.md](33-SEO-SYNDICATION.md) and [25-PROJECT-STATUS.md](25-PROJECT-STATUS.md).
+**STAGE 12 closed remaining implementable master-prompt items.**  
+Owner/ops still needed for SMS keys, remote backup, restore drill, PR merges.  
+See [34-MASTER-PROMPT-GAPS.md](34-MASTER-PROMPT-GAPS.md).
