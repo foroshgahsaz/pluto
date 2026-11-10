@@ -1,24 +1,33 @@
 # 16 — Backup and Restore
 
-**Status:** Implemented — Stage 8
+**Status:** Implemented — Stage 8 + Stage 17 schedule/error UX
 
 ## Approach
-`spatie/laravel-backup` backs up MySQL/SQLite dump + `storage/app/public` and `storage/app/private`.
+`spatie/laravel-backup` via `php artisan pluto:backup {database|files|full}`:
+
+- **database** → `--only-db`
+- **files** → `--only-files` (`storage/app/public` + `storage/app/private`)
+- **full** → DB + files
 
 ## Destination
 - Default disk: `local` (root = `storage/app/private` — not publicly URL-accessible)
 - Optional remote: set `BACKUP_DISKS=local,s3` and configure AWS_* env vars
 - Optional archive password: `BACKUP_ARCHIVE_PASSWORD` (enables encryption)
+- Filename prefixes: `db-`, `files-`, `full-`
 
-## Schedule
-- `backup:run` daily 02:15
+## Schedule (2× daily each)
+Configurable via `.env`:
+
+- `BACKUP_DATABASE_TIMES=01:00,13:00` → `pluto:backup database`
+- `BACKUP_FILES_TIMES=01:30,13:30` → `pluto:backup files`
 - `backup:clean` daily 03:15
 - `backup:monitor` daily 04:15
 
 ## Admin
-- Filament page `ManageBackups` (Super Admin only): list `backup_records`, trigger run, download, restore guide modal
+- Filament `ManageBackups` (Super Admin): list/filter by type & status, manual DB / files / full run, download, restore guide, recent failure banner
+- Filament `SystemErrors` (Super Admin): failed backups, failed queue jobs, recent `laravel.log` ERROR+ lines
 - Download route `backups.download` — Super Admin + successful file only
-- Metadata table: `backup_records`
+- Metadata table: `backup_records` (+ `type`)
 - Spatie success/failure events → `BackupRecorder` + Filament DB notifications to Super Admins
 
 ## Restore (controlled CLI)

@@ -4,6 +4,7 @@ namespace App\Services\Backup;
 
 use App\Models\BackupRecord;
 use App\Models\User;
+use App\Support\Backup\BackupRunContext;
 use Exception;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Artisan;
@@ -16,14 +17,16 @@ class BackupRecorder
     public function recordSuccess(BackupWasSuccessful $event, ?User $triggeredBy = null): BackupRecord
     {
         $newest = BackupDestination::create($event->diskName, $event->backupName)->newestBackup();
+        $type = BackupRunContext::get();
 
         $record = BackupRecord::query()->create([
             'status' => 'success',
+            'type' => $type,
             'disk' => $event->diskName,
             'backup_name' => $event->backupName,
             'path' => $newest?->path(),
             'size_bytes' => $newest ? (int) $newest->sizeInBytes() : null,
-            'message' => 'پشتیبان‌گیری با موفقیت انجام شد.',
+            'message' => 'پشتیبان‌گیری '.BackupRunContext::label($type).' با موفقیت انجام شد.',
             'triggered_by' => $triggeredBy?->id,
             'finished_at' => now(),
         ]);
@@ -32,6 +35,7 @@ class BackupRecorder
             ->causedBy($triggeredBy)
             ->performedOn($record)
             ->withProperties([
+                'type' => $record->type,
                 'disk' => $record->disk,
                 'path' => $record->path,
                 'size_bytes' => $record->size_bytes,
@@ -39,7 +43,7 @@ class BackupRecorder
             ->log('backup.succeeded');
 
         $this->notifySuperAdmins(
-            'پشتیبان‌گیری موفق',
+            'پشتیبان‌گیری موفق ('.BackupRunContext::label($type).')',
             "دیسک {$record->disk}".($record->path ? " — {$record->path}" : ''),
             'success',
         );
@@ -49,8 +53,11 @@ class BackupRecorder
 
     public function recordFailure(BackupHasFailed $event, ?User $triggeredBy = null): BackupRecord
     {
+        $type = BackupRunContext::get();
+
         $record = BackupRecord::query()->create([
             'status' => 'failed',
+            'type' => $type,
             'disk' => $event->diskName,
             'backup_name' => $event->backupName,
             'path' => null,
@@ -64,13 +71,14 @@ class BackupRecorder
             ->causedBy($triggeredBy)
             ->performedOn($record)
             ->withProperties([
+                'type' => $record->type,
                 'disk' => $record->disk,
                 'error' => $record->message,
             ])
             ->log('backup.failed');
 
         $this->notifySuperAdmins(
-            'پشتیبان‌گیری ناموفق',
+            'پشتیبان‌گیری ناموفق ('.BackupRunContext::label($type).')',
             $record->message ?: 'خطای ناشناخته',
             'danger',
         );
@@ -79,24 +87,35 @@ class BackupRecorder
     }
 
     /**
-     * @return array{exit_code: int, output: string}
+     * @return array{exit_code: int, output: string, type: string}
      */
-    public function runNow(?User $actor = null): array
+    public function runNow(?User $actor = null, string $type = BackupRunContext::TYPE_FULL): array
     {
         if ($actor && ! $actor->isSuperAdmin()) {
             throw new Exception('فقط سوپر ادمین می‌تواند پشتیبان‌گیری را اجرا کند.');
         }
 
+        if (! in_array($type, BackupRunContext::types(), true)) {
+            throw new Exception('نوع پشتیبان‌گیری نامعتبر است.');
+        }
+
         activity('backup')
             ->causedBy($actor)
-            ->withProperties(['command' => 'backup:run'])
+            ->withProperties([
+                'command' => 'pluto:backup',
+                'type' => $type,
+            ])
             ->log('backup.triggered');
 
-        $exitCode = Artisan::call('backup:run');
+        $exitCode = Artisan::call('pluto:backup', [
+            'type' => $type,
+            '--triggered-by' => $actor?->id,
+        ]);
 
         return [
             'exit_code' => $exitCode,
             'output' => Artisan::output(),
+            'type' => $type,
         ];
     }
 

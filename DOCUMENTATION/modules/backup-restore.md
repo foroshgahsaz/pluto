@@ -1,19 +1,14 @@
-# Module: backup-restore
+# Backup / restore module
 
-**Status:** Implemented (Stage 8)  
-**Related overview docs:** `DOCUMENTATION/16-BACKUP-AND-RESTORE.md`
+## Commands
+- `php artisan pluto:backup database|files|full`
+- `php artisan backup:clean` / `backup:monitor`
+- `php artisan pluto:restore-guide`
+- `php artisan pluto:restore {archive} --dry-run|--force`
 
-## Related source files
-- `config/backup.php`, schedule in `routes/console.php`
-- `App\Services\Backup\BackupRecorder`
-- Listeners: `RecordSuccessfulBackup`, `RecordFailedBackup`
-- Model/table: `BackupRecord` / `backup_records`
-- Filament: `ManageBackups`
-- Download: `BackupDownloadController`
-- CLI: `pluto:restore-guide`
+## Records
+`backup_records`: `status`, `type` (`database|files|full`), disk/path/size, message, triggered_by, finished_at.
 
-## Required permissions
-Super Admin for manage/download/trigger (`backups.manage` seeded for future non-SA tooling).
-
-## Testing procedures
-`php artisan test --filter=BackupHardeningTest`
+## UI
+- پشتیبان‌گیری: manual actions + schedule summary + failure banner
+- نمایش خطاها: failed backups / failed jobs / app log errors
