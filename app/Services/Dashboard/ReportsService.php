@@ -81,7 +81,7 @@ class ReportsService
             ->where('is_active', true)
             ->where('is_blocked', false)
             ->when(
-                ! $user->isSuperAdmin(),
+                ! $user->isGlobalOperator(),
                 fn ($q) => $q->whereHas('sites', fn ($s) => $s->whereIn('sites.id', $siteIds ?: [-1]))
             )
             ->count();

@@ -47,7 +47,7 @@ class AdminDashboardService
             ->count();
 
         $usersQuery = User::query()->where('is_active', true)->whereNull('deleted_at');
-        if (! $user->isSuperAdmin()) {
+        if (! $user->isGlobalOperator()) {
             $usersQuery->whereHas('sites', fn ($q) => $q->whereIn('sites.id', $siteIds));
         }
         $users = (clone $usersQuery)->count();
@@ -333,7 +333,7 @@ class AdminDashboardService
             ->limit(40)
             ->get()
             ->filter(function (Activity $activity) use ($user, $siteIds): bool {
-                if ($user->isSuperAdmin()) {
+                if ($user->isGlobalOperator()) {
                     return true;
                 }
                 $sid = data_get($activity->properties, 'site_id');
@@ -397,7 +397,7 @@ class AdminDashboardService
 
         return collect($actions)
             ->filter(function (array $action) use ($user): bool {
-                if ($user->isSuperAdmin() || $action['permission'] === null) {
+                if ($user->isGlobalOperator() || $action['permission'] === null) {
                     return true;
                 }
                 foreach ($user->authorizedSiteIds() as $siteId) {

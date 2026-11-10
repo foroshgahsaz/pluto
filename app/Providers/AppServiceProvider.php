@@ -51,6 +51,17 @@ class AppServiceProvider extends ServiceProvider
                 return true;
             }
 
+            if ($user->isPlatformAdmin()) {
+                if (in_array($ability, User::developerOnlyPermissions(), true)) {
+                    return false;
+                }
+
+                // Allow Spatie-style permission strings (e.g. articles.publish); leave model policies alone.
+                if (str_contains($ability, '.')) {
+                    return true;
+                }
+            }
+
             return null;
         });
 

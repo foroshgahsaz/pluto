@@ -47,7 +47,7 @@ class ArticleStatsOverview extends StatsOverviewWidget
         if (! $user) {
             return false;
         }
-        if ($user->isSuperAdmin()) {
+        if ($user->isGlobalOperator()) {
             return true;
         }
         foreach ($user->authorizedSiteIds() as $siteId) {

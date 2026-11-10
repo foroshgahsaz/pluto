@@ -42,12 +42,18 @@ class UserForm
                     ->label('مسدود')
                     ->default(false),
                 Toggle::make('is_super_admin')
-                    ->label('سوپر ادمین')
+                    ->label('توسعه‌دهنده (سوپر ادمین فنی)')
+                    ->helperText('دسترسی فنی کامل شامل پشتیبان‌گیری؛ فقط برای تیم توسعه')
+                    ->visible(fn (): bool => auth()->user()?->isSuperAdmin() ?? false)
+                    ->disabled(fn (): bool => ! (auth()->user()?->isSuperAdmin() ?? false)),
+                Toggle::make('is_platform_admin')
+                    ->label('مدیر کل سامانه')
+                    ->helperText('بالاترین سطح محتوایی: مدیریت همه سایت‌ها، کاربران و نقش‌ها (بدون ابزارهای فنی دولوپر)')
                     ->visible(fn (): bool => auth()->user()?->isSuperAdmin() ?? false)
                     ->disabled(fn (): bool => ! (auth()->user()?->isSuperAdmin() ?? false)),
                 Repeater::make('site_roles')
                     ->label('دسترسی به زیرسایت‌ها و نقش')
-                    ->helperText('برای هر سایت یک نقش مشخص کنید (مثلاً regional_admin یا journalist). فرم‌ساز فقط با نقش دارای مجوز forms فعال می‌شود.')
+                    ->helperText('برای هر سایت یک نقش مشخص کنید (مثلاً regional_admin یا journalist). مدیر کل سامانه به همه سایت‌ها دسترسی دارد و نیازی به این لیست ندارد.')
                     ->schema([
                         Select::make('site_id')
                             ->label('سایت')
@@ -59,7 +65,7 @@ class UserForm
                         Select::make('role')
                             ->label('نقش در این سایت')
                             ->options([
-                                'regional_admin' => 'مدیر منطقه‌ای',
+                                'regional_admin' => 'مدیر سایت',
                                 'editor_in_chief' => 'سردبیر',
                                 'journalist' => 'خبرنگار',
                                 'copy_editor' => 'ویراستار',
@@ -72,8 +78,8 @@ class UserForm
                     ->default([])
                     ->addActionLabel('افزودن دسترسی سایت')
                     ->columnSpanFull()
-                    ->visible(fn (): bool => (bool) (auth()->user()?->can('users.assign_roles') || auth()->user()?->isSuperAdmin()))
-                    ->dehydrated(fn (): bool => (bool) (auth()->user()?->can('users.assign_roles') || auth()->user()?->isSuperAdmin())),
+                    ->visible(fn (): bool => (bool) (auth()->user()?->can('users.assign_roles') || auth()->user()?->isGlobalOperator()))
+                    ->dehydrated(fn (): bool => (bool) (auth()->user()?->can('users.assign_roles') || auth()->user()?->isGlobalOperator())),
             ]);
     }
 }

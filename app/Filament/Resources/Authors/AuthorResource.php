@@ -58,7 +58,7 @@ class AuthorResource extends Resource
         $query = parent::getEloquentQuery()->withoutGlobalScopes([SiteScope::class]);
         /** @var User|null $user */
         $user = auth()->user();
-        if ($user && ! $user->isSuperAdmin()) {
+        if ($user && ! $user->isGlobalOperator()) {
             $query->whereIn('site_id', $user->authorizedSiteIds());
         }
 

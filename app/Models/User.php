@@ -20,6 +20,18 @@ class User extends Authenticatable implements CanResetPasswordContract, Filament
     /** @use HasFactory<UserFactory> */
     use CanResetPassword, HasFactory, HasRoles, Notifiable, SoftDeletes;
 
+    /**
+     * Abilities reserved for the technical developer (is_super_admin).
+     *
+     * @return list<string>
+     */
+    public static function developerOnlyPermissions(): array
+    {
+        return [
+            'backups.manage',
+        ];
+    }
+
     protected $fillable = [
         'name',
         'mobile',
@@ -28,6 +40,7 @@ class User extends Authenticatable implements CanResetPasswordContract, Filament
         'email_verified_at',
         'password',
         'is_super_admin',
+        'is_platform_admin',
         'is_active',
         'is_blocked',
         'last_login_at',
@@ -46,6 +59,7 @@ class User extends Authenticatable implements CanResetPasswordContract, Filament
             'mobile_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_super_admin' => 'boolean',
+            'is_platform_admin' => 'boolean',
             'is_active' => 'boolean',
             'is_blocked' => 'boolean',
             'last_login_at' => 'datetime',
@@ -73,14 +87,41 @@ class User extends Authenticatable implements CanResetPasswordContract, Filament
         return $this->is_active && ! $this->is_blocked;
     }
 
+    /**
+     * Technical developer / system operator (highest privilege).
+     */
     public function isSuperAdmin(): bool
     {
         return (bool) $this->is_super_admin;
     }
 
+    /**
+     * Alias: technical developer account.
+     */
+    public function isDeveloper(): bool
+    {
+        return $this->isSuperAdmin();
+    }
+
+    /**
+     * Content platform chief — all sites, highest non-developer access.
+     */
+    public function isPlatformAdmin(): bool
+    {
+        return (bool) $this->is_platform_admin;
+    }
+
+    /**
+     * Can operate across every site (developer or platform chief).
+     */
+    public function isGlobalOperator(): bool
+    {
+        return $this->isSuperAdmin() || $this->isPlatformAdmin();
+    }
+
     public function belongsToSite(int $siteId): bool
     {
-        if ($this->isSuperAdmin()) {
+        if ($this->isGlobalOperator()) {
             return true;
         }
 
@@ -89,7 +130,7 @@ class User extends Authenticatable implements CanResetPasswordContract, Filament
 
     public function authorizedSiteIds(): array
     {
-        if ($this->isSuperAdmin()) {
+        if ($this->isGlobalOperator()) {
             return Site::query()->pluck('id')->all();
         }
 
@@ -105,6 +146,10 @@ class User extends Authenticatable implements CanResetPasswordContract, Filament
     {
         if ($this->isSuperAdmin()) {
             return true;
+        }
+
+        if ($this->isPlatformAdmin()) {
+            return ! in_array($permission, self::developerOnlyPermissions(), true);
         }
 
         if (! $this->belongsToSite($siteId)) {

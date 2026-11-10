@@ -31,6 +31,10 @@ class RolesAndPermissionsSeeder extends Seeder
             Permission::findOrCreate($permission, 'web');
         }
 
+        // Elevated flags (not Spatie roles):
+        // - users.is_super_admin  => technical developer (all abilities incl. backups)
+        // - users.is_platform_admin => content platform chief (all sites, all content abilities except backups)
+
         // Global role templates (team_id null). Assignments are site-scoped via teams.
         $rolePermissions = [
             'regional_admin' => $permissions,

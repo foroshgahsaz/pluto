@@ -35,7 +35,7 @@ class ActivityLogResource extends Resource
         if (! $user) {
             return false;
         }
-        if ($user->isSuperAdmin()) {
+        if ($user->isGlobalOperator()) {
             return true;
         }
         foreach ($user->authorizedSiteIds() as $siteId) {
@@ -92,7 +92,7 @@ class ActivityLogResource extends Resource
         $query = parent::getEloquentQuery();
         /** @var User|null $user */
         $user = auth()->user();
-        if ($user && ! $user->isSuperAdmin()) {
+        if ($user && ! $user->isGlobalOperator()) {
             $siteIds = array_map('intval', $user->authorizedSiteIds() ?: [-1]);
             $query->where(function ($q) use ($siteIds): void {
                 foreach ($siteIds as $siteId) {

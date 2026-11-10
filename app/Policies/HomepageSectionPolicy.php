@@ -9,7 +9,7 @@ class HomepageSectionPolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->isSuperAdmin() || $user->sites()->exists();
+        return $user->isGlobalOperator() || $user->sites()->exists();
     }
 
     public function view(User $user, HomepageSection $section): bool
@@ -19,7 +19,7 @@ class HomepageSectionPolicy
 
     public function create(User $user): bool
     {
-        if ($user->isSuperAdmin()) {
+        if ($user->isGlobalOperator()) {
             return true;
         }
 

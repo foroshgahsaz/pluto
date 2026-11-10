@@ -25,7 +25,7 @@ class RecentLoginActivity extends TableWidget
             return false;
         }
 
-        return $user->isSuperAdmin() || $user->can('activity_logs.view') || ArticleStatsOverview::canView();
+        return $user->isGlobalOperator() || $user->can('activity_logs.view') || ArticleStatsOverview::canView();
     }
 
     public function table(Table $table): Table
@@ -50,7 +50,7 @@ class RecentLoginActivity extends TableWidget
         $user = auth()->user();
         $query = LoginEvent::query()->latest('id');
 
-        if ($user && ! $user->isSuperAdmin()) {
+        if ($user && ! $user->isGlobalOperator()) {
             $query->where('user_id', $user->id);
         }
 

@@ -46,7 +46,7 @@ class ManageNotifications extends Page implements HasTable
         if (! $user) {
             return false;
         }
-        if ($user->isSuperAdmin()) {
+        if ($user->isGlobalOperator()) {
             return true;
         }
 
@@ -141,7 +141,7 @@ class ManageNotifications extends Page implements HasTable
         $user = auth()->user();
         $query = DatabaseNotification::query()->latest();
 
-        if ($user->isSuperAdmin()) {
+        if ($user->isGlobalOperator()) {
             return $query;
         }
 
@@ -157,6 +157,7 @@ class ManageNotifications extends Page implements HasTable
         $userIds = User::query()
             ->where(function ($q) use ($siteIds): void {
                 $q->where('is_super_admin', true)
+                    ->orWhere('is_platform_admin', true)
                     ->orWhereHas('sites', fn ($s) => $s->whereIn('sites.id', $siteIds));
             })
             ->pluck('id');
@@ -228,7 +229,7 @@ class ManageNotifications extends Page implements HasTable
     {
         /** @var User $user */
         $user = auth()->user();
-        if ($user->isSuperAdmin()) {
+        if ($user->isGlobalOperator()) {
             return Site::query()->orderBy('name')->get();
         }
 

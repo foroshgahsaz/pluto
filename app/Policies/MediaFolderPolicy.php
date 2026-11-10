@@ -9,7 +9,7 @@ class MediaFolderPolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->isSuperAdmin() || $user->sites()->exists();
+        return $user->isGlobalOperator() || $user->sites()->exists();
     }
 
     public function view(User $user, MediaFolder $folder): bool
