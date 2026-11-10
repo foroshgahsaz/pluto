@@ -49,6 +49,7 @@ A qualified Laravel developer must be able to install, operate, secure, and exte
 | 26 | [26-NEXT-STEPS.md](26-NEXT-STEPS.md) | Roadmap and approval gates |
 | — | [27-STAGE1-INSPECTION-REPORT.md](27-STAGE1-INSPECTION-REPORT.md) | Stage 1 inspection findings |
 | — | [28-APPROVAL-REQUEST.md](28-APPROVAL-REQUEST.md) | Decisions requiring owner approval |
+| — | [29-OWNER-DECISIONS-LOG.md](29-OWNER-DECISIONS-LOG.md) | Confirmed owner decisions + plain explanations |
 
 ### Supporting folders
 
@@ -74,6 +75,6 @@ Used in `25-PROJECT-STATUS.md`:
 
 ## Current gate
 
-**STAGE 1 complete (documentation).**  
+**STAGE 1 documentation complete; partial owner approval recorded.**  
 **No Laravel application code exists yet.**  
-**Do not start STAGE 2 until the owner approves [28-APPROVAL-REQUEST.md](28-APPROVAL-REQUEST.md).**
+**Do not start STAGE 2 until remaining blockers in [29-OWNER-DECISIONS-LOG.md](29-OWNER-DECISIONS-LOG.md) are answered.**

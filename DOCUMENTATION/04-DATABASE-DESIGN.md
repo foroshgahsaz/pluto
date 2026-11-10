@@ -57,15 +57,34 @@
 |--------|------|-------|
 | id | BIGINT PK | |
 | name | VARCHAR(255) | |
-| email | VARCHAR(255) UNIQUE | |
+| mobile | VARCHAR(20) UNIQUE | Primary login identity (Iranian `09…` normalized) |
+| mobile_verified_at | TIMESTAMP NULL | Set after successful OTP login/verify |
+| email | VARCHAR(255) NULL UNIQUE | Optional; not required for login |
 | email_verified_at | TIMESTAMP NULL | |
-| password | VARCHAR(255) | hashed |
+| password | VARCHAR(255) NULL | Optional; only if emergency password mode approved |
 | is_active | BOOLEAN DEFAULT true | Deactivation |
 | is_blocked | BOOLEAN DEFAULT false | Hard block |
 | last_login_at | TIMESTAMP NULL | |
 | last_login_ip | VARCHAR(45) NULL | |
 | remember_token | VARCHAR(100) NULL | |
 | timestamps / deleted_at | | Soft delete optional |
+
+### 2.2b `otp_challenges` (proposed)
+
+| Column | Type | Notes |
+|--------|------|-------|
+| id | BIGINT PK | |
+| mobile | VARCHAR(20) | Normalized mobile |
+| code_hash | VARCHAR(255) | Never store plaintext OTP |
+| expires_at | TIMESTAMP | Short TTL |
+| attempts | INT DEFAULT 0 | Verify attempt counter |
+| consumed_at | TIMESTAMP NULL | One-time use |
+| ip | VARCHAR(45) NULL | |
+| user_agent | VARCHAR(512) NULL | |
+| created_at | TIMESTAMP | |
+
+**Indexes:** `(mobile, created_at)`, `(expires_at)`.  
+Purge job deletes expired rows.
 
 ### 2.3 `site_user` (membership)
 

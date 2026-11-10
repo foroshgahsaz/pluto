@@ -7,11 +7,12 @@ Inspect repo, propose stack, design DB/ERD/security/modules/docs. **Wait for app
 1. Prepare PHP 8.4 + Composer + MySQL/Redis in environment
 2. `composer create-project laravel/laravel` (or equivalent) into repo root carefully
 3. Install Filament 5 + Spatie Permission (+ Activitylog/Backup as approved)
-4. Migrations: sites, users extras, site_user, permissions
-5. SiteContext, BelongsToSite, SiteScope
-6. Filament: SiteResource, UserResource, Role management
-7. Seed Super Admin + central site
-8. Security tests 1–10 (as applicable to core)
+4. Migrations: sites, users (`mobile`), otp_challenges, site_user, permissions
+5. Mobile + OTP Filament login (FA/RTL) + SMS gateway adapter (`log` driver for local)
+6. SiteContext, BelongsToSite, SiteScope
+7. Filament: SiteResource, UserResource, Role management
+8. Seed one Super Admin (mobile) + central site
+9. Security tests: isolation + OTP auth + deactivated user (as applicable to core)
 
 ## STAGE 3 — Editorial system
 Categories, tags, authors, articles, workflow actions, revisions, schedule job, Filament resources, tests

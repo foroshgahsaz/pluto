@@ -18,10 +18,13 @@
 ## Authentication
 
 - Laravel session auth for Filament.
-- Password hashing via `bcrypt`/`argon2id` (Laravel default).
-- Login rate limit (e.g. 5/min/email+IP).
-- `is_active` / `is_blocked` enforced on every panel request.
-- Password reset via signed Laravel routes (email config required).
+- **Primary login: mobile + OTP** for all admin roles (owner requirement).
+- OTP stored only as hash; short expiry; resend cooldown; verify attempt limits.
+- SMS sent through a gateway adapter; never log OTP codes or SMS API secrets.
+- Dev/test driver writes OTP to log/array — never use real SMS in automated tests.
+- Optional emergency password only if owner explicitly enables it for Super Admin recovery.
+- Login rate limit on request-OTP and verify-OTP endpoints (per mobile + IP).
+- `is_active` / `is_blocked` enforced before issuing OTP success session and on every panel request.
 - Logout regenerates/invalidates session.
 
 ## Authorization

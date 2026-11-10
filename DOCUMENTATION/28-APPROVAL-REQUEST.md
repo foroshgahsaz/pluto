@@ -1,7 +1,9 @@
 # 28 — Owner Approval Request (STAGE 1 → STAGE 2 Gate)
 
 Please review the Stage 1 package and answer the decisions below.  
-**I will not start Laravel scaffolding or module coding until you explicitly approve.**
+**I will not start Laravel scaffolding or module coding until remaining blockers below are answered.**
+
+> Partial owner reply received 2026-11-10. See [29-OWNER-DECISIONS-LOG.md](29-OWNER-DECISIONS-LOG.md).
 
 ---
 
@@ -21,11 +23,11 @@ Please review the Stage 1 package and answer the decisions below.
 - [ ] Or specify another English + Persian name
 
 ### B2. Stack versions
-- [ ] Approve **PHP 8.4 + Laravel 13 + Filament 5**  
+- [x] Approve **PHP 8.4 + Laravel 13 + Filament 5** ✅ owner confirmed  
 - [ ] Or request Laravel 12 (not recommended for new project)
 
 ### B3. Admin UI language / direction
-- [ ] Persian (FA) primary + RTL for Filament  
+- [x] Persian (FA) primary + RTL for Filament ✅ owner: پنل کاملاً فارسی  
 - [ ] English primary  
 - [ ] Bilingual later (MVP single language: specify which)
 
@@ -34,6 +36,8 @@ Choose one:
 
 - [ ] **Option A (recommended):** Spatie teams enabled — roles can differ per site  
 - [ ] **Option B (simpler):** Global roles + `site_user` membership only (same role on all assigned sites)
+
+> Plain explanation: [29-OWNER-DECISIONS-LOG.md](29-OWNER-DECISIONS-LOG.md)
 
 ### B5. Packages
 - [ ] Approve Spatie Permission + Activitylog + Backup  
@@ -49,16 +53,24 @@ Choose one:
 - [ ] Allow multiple centrals (not recommended)
 
 ### B8. Seeded Super Admin
-- [ ] Allow a seeder-created Super Admin with credentials documented for local/dev only  
-- [ ] You will provide the initial admin email to seed (do **not** paste production passwords in chat)
+- [x] Allow a seeder-created Super Admin ✅ owner wants one Super Admin  
+- [ ] Provide **mobile number** for seed (required for OTP login). Optional email OK.  
+      Do **not** paste production OTP secrets/passwords in chat.
 
 ### B9. Storage
-- [ ] Local disks only for MVP  
+- [ ] Local disks only for MVP ← **recommended; awaiting “باشه لوکال”**  
 - [ ] S3-compatible remote required from the start for media/backups
+
+> Plain explanation: local = files on same server; S3 = cloud object storage. See decisions log.
 
 ### B10. Scope confirmation
 - [ ] Confirm: **backend + Filament only** now; **no public frontend**  
 - [ ] Confirm: do not add features outside master scope
+
+### B11. Mobile + OTP login (new owner requirement)
+- [x] Required for all admin roles ✅  
+- [ ] Choose SMS provider: Kavenegar / Ghasedak / other / mock-only for now  
+- [ ] OTP-only **or** OTP + emergency password for Super Admin recovery
 
 ---
 

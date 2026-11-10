@@ -6,13 +6,15 @@ Last updated: 2026-11-10
 |----------------|--------|-------|
 | Repository bootstrap | Implemented | GitHub `pluto`, README only |
 | Stage 1 analysis | Implemented | See inspection report |
-| Stage 1 architecture docs | Implemented | Awaiting owner approval |
+| Stage 1 architecture docs | Implemented | Partial owner approval recorded |
+| Owner decisions log | In Progress | See `29-OWNER-DECISIONS-LOG.md` |
+| Mobile + OTP admin auth (design) | In Progress | Required; SMS provider TBD |
 | Environment (PHP/Composer) | Not Started | Missing in current agent image |
-| Laravel 13 scaffold | Not Started | Blocked on approval |
-| Filament 5 panel | Not Started | |
+| Laravel 13 scaffold | Not Started | Blocked on remaining approvals |
+| Filament 5 panel (FA/RTL) | Not Started | Language approved |
 | Multi-site models/migrations | Not Started | Designed |
 | SiteContext + SiteScope | Not Started | Designed |
-| Users / roles / permissions | Not Started | Designed |
+| Users / roles / permissions | Not Started | Designed; Option A/B TBD |
 | Tenant isolation tests | Not Started | Scenarios defined |
 | Editorial system | Not Started | Designed |
 | Media management | Not Started | Designed |
@@ -25,4 +27,5 @@ Last updated: 2026-11-10
 | Production deployment | Not Started | |
 
 ## Stage gate
-**Current gate:** Owner approval of [28-APPROVAL-REQUEST.md](28-APPROVAL-REQUEST.md) before STAGE 2 implementation.
+**Current gate:** Remaining answers in [29-OWNER-DECISIONS-LOG.md](29-OWNER-DECISIONS-LOG.md)  
+(storage, permission Option A/B, SMS provider, OTP mode, Super Admin mobile) before STAGE 2.

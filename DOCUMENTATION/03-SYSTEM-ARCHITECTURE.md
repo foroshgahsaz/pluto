@@ -14,7 +14,8 @@
 | Pest | **^3 or ^4** (compatible with Laravel 13) | Prefer Pest over raw PHPUnit |
 | Queue | Redis (prod) / database (local) | Scheduled publish, backups, notifications |
 | Cache | Redis (prod) / file (local) | Permission cache, stats |
-| Storage | Local + S3-compatible remote | Public media vs private attachments |
+| Storage | Local for MVP (S3 later optional) | Files on app server; remote disk can be enabled later via `.env` |
+| Admin auth | Mobile + OTP | All management roles; Filament session after verify |
 
 ### Proposed third-party packages (minimal)
 

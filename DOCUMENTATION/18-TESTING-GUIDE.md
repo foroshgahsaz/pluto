@@ -19,6 +19,14 @@ Each must include:
 - Positive test (authorized user succeeds)
 - Negative test (unauthorized fails with 403/404)
 
+## OTP auth scenarios (added by owner requirement)
+1. Valid mobile + valid OTP logs the user into Filament.
+2. Expired/invalid OTP is rejected.
+3. Rate limit blocks OTP spam for same mobile/IP.
+4. Inactive or blocked user cannot obtain a session even with correct OTP.
+5. OTP codes never appear in application logs in production driver paths.
+6. Users without membership/permission still cannot cross sites after login.
+
 ## Filament testing
 Use Livewire test helpers against resource pages/actions. Do not treat “button hidden” as proof of security; also call actions/endpoints directly.
 

@@ -13,12 +13,12 @@ Use this before declaring any stage production-ready. Mark only after evidence.
 - [ ] Scope bypasses limited, authorized, audited, tested
 
 ## AuthN / AuthZ
-- [ ] Login rate limited
-- [ ] Failed logins recorded
+- [ ] OTP request/verify rate limited
+- [ ] Failed OTP and login events recorded
+- [ ] OTP stored hashed; never logged in plaintext
 - [ ] Inactive/blocked users cannot access panel
 - [ ] CSRF enabled
 - [ ] Session fixation protections active
-- [ ] Password reset secure
 - [ ] Policies cover all resources
 - [ ] Regional admin cannot assign super_admin
 - [ ] Publish permission enforced
