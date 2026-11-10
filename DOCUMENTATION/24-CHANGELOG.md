@@ -1,5 +1,15 @@
 # 24 — Changelog
 
+## 2026-11-10 — STAGE 5 form builder
+
+### Added
+- Tables: forms, form_fields, form_submissions, form_submission_files
+- Field types: text/textarea/number/date/select/multiselect/file/image
+- Multi-step field `step`, reorderable fields, conditional visibility JSON
+- Server-side submit validation that respects visibility
+- Filament Form resource + fields/submissions relation managers + CSV export
+- FormBuilderTest (including Tehran cannot view Fars submissions)
+
 ## 2026-11-10 — STAGE 4 media management
 
 ### Added
