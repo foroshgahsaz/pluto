@@ -36,12 +36,15 @@ Production readiness report in `30-PRODUCTION-READINESS.md` (this PR)
 Subdirectory public sites (`/{slug}`) with homepage/news/category/page/search
 
 ## STAGE 10 — Public forms ✅
-Public form render/submit with visibility + uploads (this PR)
+Public form render/submit with visibility + uploads
 
-## After Stage 10 (owner / ops)
+## STAGE 11 — SEO & syndication ✅
+RSS feeds, sitemaps, robots.txt (this PR)
+
+## After Stage 11 (owner / ops)
 - Merge PR stack sequentially and run staging restore drill
 - Wire real SMS OTP provider + remote backup disk
-- Optional: richer theme packs, domain-per-site, public API
+- Optional: richer theme packs, domain-per-site, approved public API
 
 ---
 

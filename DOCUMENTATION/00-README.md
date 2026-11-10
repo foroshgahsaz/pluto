@@ -3,8 +3,8 @@
 **Project:** Pluto (سامانه خبری پلوتون)  
 **Type:** Enterprise Multi-Site News Management System  
 **Stack (proposed):** Laravel 13 · Filament 5 · Livewire 4 · MySQL · Pest  
-**Current stage:** STAGE 10 — Public Forms  
-**Status:** Implemented and tested on this branch; merge after Stage 9
+**Current stage:** STAGE 11 — SEO & Syndication  
+**Status:** Implemented and tested on this branch; merge after Stage 10
 
 ---
 
@@ -53,6 +53,7 @@ A qualified Laravel developer must be able to install, operate, secure, and exte
 | — | [30-PRODUCTION-READINESS.md](30-PRODUCTION-READINESS.md) | Stage 8 production readiness report |
 | — | [31-PUBLIC-FRONTEND.md](31-PUBLIC-FRONTEND.md) | Stage 9 public site routes and isolation |
 | — | [32-PUBLIC-FORMS.md](32-PUBLIC-FORMS.md) | Stage 10 public form render/submit |
+| — | [33-SEO-SYNDICATION.md](33-SEO-SYNDICATION.md) | Stage 11 RSS, sitemap, robots |
 
 ### Supporting folders
 
@@ -78,5 +79,5 @@ Used in `25-PROJECT-STATUS.md`:
 
 ## Current gate
 
-**STAGE 10 public forms implemented and tested on this branch.**  
-See [32-PUBLIC-FORMS.md](32-PUBLIC-FORMS.md) and [25-PROJECT-STATUS.md](25-PROJECT-STATUS.md).
+**STAGE 11 SEO & syndication implemented and tested on this branch.**  
+See [33-SEO-SYNDICATION.md](33-SEO-SYNDICATION.md) and [25-PROJECT-STATUS.md](25-PROJECT-STATUS.md).

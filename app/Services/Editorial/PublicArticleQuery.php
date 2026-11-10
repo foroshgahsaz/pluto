@@ -67,6 +67,23 @@ class PublicArticleQuery
         return $this->publishedBase()->latest('published_at')->paginate($perPage);
     }
 
+    public function forFeed(int $limit = 50): Collection
+    {
+        return $this->publishedBase()
+            ->with(['category', 'author'])
+            ->latest('published_at')
+            ->limit($limit)
+            ->get();
+    }
+
+    public function forSitemap(int $limit = 5000): Collection
+    {
+        return $this->publishedBase()
+            ->latest('published_at')
+            ->limit($limit)
+            ->get(['id', 'site_id', 'slug', 'published_at', 'updated_at']);
+    }
+
     protected function publishedBase(): Builder
     {
         $query = Article::query()->published();

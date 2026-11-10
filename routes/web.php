@@ -4,13 +4,17 @@ use App\Http\Controllers\BackupDownloadController;
 use App\Http\Controllers\PrivateMediaDownloadController;
 use App\Http\Controllers\PublicSite\ArticleController;
 use App\Http\Controllers\PublicSite\CategoryController;
+use App\Http\Controllers\PublicSite\FeedController;
 use App\Http\Controllers\PublicSite\FormController;
 use App\Http\Controllers\PublicSite\HomeController;
 use App\Http\Controllers\PublicSite\PageController;
+use App\Http\Controllers\PublicSite\SitemapController;
 use App\Http\Middleware\ResolvePublicSite;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'central'])->name('public.home.central');
+Route::get('/robots.txt', [SitemapController::class, 'robots'])->name('public.robots');
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('public.sitemap.index');
 
 Route::middleware(['web', 'auth'])
     ->get('/admin/media/{media}/download', PrivateMediaDownloadController::class)
@@ -34,4 +38,6 @@ Route::prefix('{site:slug}')
         Route::post('/forms/{slug}', [FormController::class, 'submit'])
             ->middleware('throttle:10,1')
             ->name('public.form.submit');
+        Route::get('/rss.xml', [FeedController::class, 'rss'])->name('public.rss');
+        Route::get('/sitemap.xml', [SitemapController::class, 'site'])->name('public.sitemap');
     });
