@@ -4,6 +4,7 @@ use App\Http\Controllers\BackupDownloadController;
 use App\Http\Controllers\PrivateMediaDownloadController;
 use App\Http\Controllers\PublicSite\ArticleController;
 use App\Http\Controllers\PublicSite\CategoryController;
+use App\Http\Controllers\PublicSite\FormController;
 use App\Http\Controllers\PublicSite\HomeController;
 use App\Http\Controllers\PublicSite\PageController;
 use App\Http\Middleware\ResolvePublicSite;
@@ -29,4 +30,8 @@ Route::prefix('{site:slug}')
         Route::get('/search', [ArticleController::class, 'search'])->name('public.search');
         Route::get('/category/{slug}', [CategoryController::class, 'show'])->name('public.category');
         Route::get('/page/{slug}', [PageController::class, 'show'])->name('public.page');
+        Route::get('/forms/{slug}', [FormController::class, 'show'])->name('public.form');
+        Route::post('/forms/{slug}', [FormController::class, 'submit'])
+            ->middleware('throttle:10,1')
+            ->name('public.form.submit');
     });

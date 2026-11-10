@@ -33,12 +33,15 @@ Widgets, filters, notification events (this PR)
 Production readiness report in `30-PRODUCTION-READINESS.md` (this PR)
 
 ## STAGE 9 — Public frontend ✅
-Subdirectory public sites (`/{slug}`) with homepage/news/category/page/search (this PR)
+Subdirectory public sites (`/{slug}`) with homepage/news/category/page/search
 
-## After Stage 9 (owner / ops)
+## STAGE 10 — Public forms ✅
+Public form render/submit with visibility + uploads (this PR)
+
+## After Stage 10 (owner / ops)
 - Merge PR stack sequentially and run staging restore drill
 - Wire real SMS OTP provider + remote backup disk
-- Optional: public form rendering, richer theme packs, domain-per-site
+- Optional: richer theme packs, domain-per-site, public API
 
 ---
 

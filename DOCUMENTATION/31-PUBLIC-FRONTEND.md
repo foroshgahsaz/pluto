@@ -12,6 +12,7 @@
 | `/{site}/category/{slug}` | Category archive |
 | `/{site}/page/{slug}` | Published static page |
 | `/{site}/search?q=` | Site-scoped search |
+| `/{site}/forms/{slug}` | Public forms (Stage 10) |
 
 Reserved first segments: `admin`, `livewire`, `storage`, `up`, `filament`.
 
