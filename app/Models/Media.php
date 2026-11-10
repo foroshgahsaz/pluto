@@ -7,6 +7,7 @@ use Database\Factories\MediaFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,6 +20,7 @@ class Media extends Model
 
     protected $fillable = [
         'site_id',
+        'folder_id',
         'uploaded_by',
         'disk',
         'path',
@@ -27,6 +29,8 @@ class Media extends Model
         'extension',
         'size',
         'visibility',
+        'category',
+        'alt_text',
         'checksum',
     ];
 
@@ -37,17 +41,42 @@ class Media extends Model
         ];
     }
 
+    public function folder(): BelongsTo
+    {
+        return $this->belongsTo(MediaFolder::class, 'folder_id');
+    }
+
     public function uploader(): BelongsTo
     {
         return $this->belongsTo(User::class, 'uploaded_by');
     }
 
-    public function url(): ?string
+    public function articleAttachments(): HasMany
     {
-        if ($this->visibility === 'private') {
+        return $this->hasMany(ArticleAttachment::class);
+    }
+
+    public function isPrivate(): bool
+    {
+        return $this->visibility === 'private' || $this->disk === config('pluto.media.private_disk', 'local');
+    }
+
+    public function isImage(): bool
+    {
+        return is_string($this->mime_type) && str_starts_with($this->mime_type, 'image/');
+    }
+
+    public function publicUrl(): ?string
+    {
+        if ($this->isPrivate()) {
             return null;
         }
 
         return Storage::disk($this->disk)->url($this->path);
+    }
+
+    public function absolutePath(): string
+    {
+        return Storage::disk($this->disk)->path($this->path);
     }
 }

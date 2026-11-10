@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Contracts\MalwareScanner;
 use App\Contracts\SmsGateway;
 use App\Models\User;
+use App\Services\Media\NullMalwareScanner;
 use App\Services\Sms\LogSmsGateway;
 use App\Support\Tenancy\SiteContext;
 use Illuminate\Support\Facades\Gate;
@@ -20,6 +22,8 @@ class AppServiceProvider extends ServiceProvider
                 default => new LogSmsGateway,
             };
         });
+
+        $this->app->bind(MalwareScanner::class, NullMalwareScanner::class);
     }
 
     public function boot(): void

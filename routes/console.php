@@ -10,3 +10,5 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::job(new PublishScheduledArticlesJob)->everyMinute()->withoutOverlapping();
+
+Schedule::command('media:purge-orphans')->weeklyOn(0, '03:30');
