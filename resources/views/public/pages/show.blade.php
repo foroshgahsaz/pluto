@@ -4,5 +4,5 @@
 
 @section('content')
     <h1 class="page-title">{{ $page->title }}</h1>
-    <div class="prose">{!! $page->body !!}</div>
+    <div class="prose">{!! app(\App\Support\Security\HtmlSanitizer::class)->clean($page->body) !!}</div>
 @endsection

@@ -7,7 +7,7 @@
 | Cross-site data access (IDOR) | Global scopes + policies + membership checks + tests |
 | Privilege escalation | Role assignment policies; cannot self-grant super_admin |
 | Brute-force login | Rate limiting; lockout/block flags; login_events |
-| XSS in admin content | Filament escaping; purify rich text on output later; store carefully |
+| XSS in admin content | HTMLPurifier allowlist on save + public render (`HtmlSanitizer`) |
 | SQLi | Eloquent/Query Builder only; no raw user SQL |
 | CSRF | Laravel + Filament defaults |
 | Malicious uploads | MIME/extension/size validation; private disk; no executable extensions |

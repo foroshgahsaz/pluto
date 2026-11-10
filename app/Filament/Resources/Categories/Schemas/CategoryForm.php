@@ -2,7 +2,8 @@
 
 namespace App\Filament\Resources\Categories\Schemas;
 
-use App\Models\Site;
+use App\Support\Tenancy\AuthorizedSiteOptions;
+
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -18,7 +19,7 @@ class CategoryForm
             ->components([
                 Select::make('site_id')
                     ->label('سایت')
-                    ->options(fn () => Site::query()->orderBy('name')->pluck('name', 'id'))
+                    ->options(fn () => AuthorizedSiteOptions::pluck())
                     ->required()
                     ->searchable()
                     ->live(),

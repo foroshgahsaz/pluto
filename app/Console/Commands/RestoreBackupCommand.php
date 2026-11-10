@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Support\Security\SafeZipExtractor;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use ZipArchive;
@@ -31,12 +32,22 @@ class RestoreBackupCommand extends Command
             return self::FAILURE;
         }
 
+        $extractor = app(SafeZipExtractor::class);
         $entries = [];
         for ($i = 0; $i < $zip->numFiles; $i++) {
             $name = $zip->getNameIndex($i);
-            if (is_string($name)) {
-                $entries[] = $name;
+            if (! is_string($name) || $name === '') {
+                continue;
             }
+            try {
+                $extractor->assertSafeEntryName($name);
+            } catch (\Throwable $e) {
+                $zip->close();
+                $this->error($e->getMessage());
+
+                return self::FAILURE;
+            }
+            $entries[] = $name;
         }
         $zip->close();
 
@@ -70,12 +81,15 @@ class RestoreBackupCommand extends Command
         }
 
         $temp = storage_path('app/backup-temp/restore-'.now()->format('YmdHis'));
-        File::ensureDirectoryExists($temp);
 
-        $zip = new ZipArchive;
-        $zip->open($archive);
-        $zip->extractTo($temp);
-        $zip->close();
+        try {
+            app(SafeZipExtractor::class)->extract($archive, $temp);
+        } catch (\Throwable $e) {
+            File::deleteDirectory($temp);
+            $this->error('Safe extract failed: '.$e->getMessage());
+
+            return self::FAILURE;
+        }
 
         $this->info("Extracted to {$temp}");
         $this->warn('Import the SQL dump manually for your DB driver, then copy storage files, migrate, cache, and run: php artisan up');

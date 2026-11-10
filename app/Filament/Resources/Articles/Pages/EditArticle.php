@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Articles\Pages;
 
 use App\Enums\ArticleStatus;
+use App\Filament\Concerns\GuardsAuthorizedSiteId;
 use App\Filament\Resources\Articles\ArticleResource;
 use App\Models\Article;
 use App\Services\Editorial\ArticleRevisionRecorder;
@@ -19,6 +20,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class EditArticle extends EditRecord
 {
+    use GuardsAuthorizedSiteId;
+
     protected static string $resource = ArticleResource::class;
 
     protected function mutateFormDataBeforeFill(array $data): array
@@ -32,6 +35,8 @@ class EditArticle extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
+        $data['site_id'] = $this->getRecord()->site_id;
+        $data = $this->guardSiteId($data, 'articles.update', sanitizeBody: true);
         $data['updated_by'] = auth()->id();
         unset($data['featured_image'], $data['keyword_list'], $data['status']);
 

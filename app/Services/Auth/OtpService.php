@@ -19,6 +19,8 @@ class OtpService
 
     public function request(string $mobile): void
     {
+        $this->assertProductionSmsDriver();
+
         $normalized = MobileNormalizer::normalize($mobile);
 
         if (! MobileNormalizer::isValidIranianMobile($normalized)) {
@@ -124,6 +126,23 @@ class OtpService
         $this->auditor->record('otp_verify_success', user: $user, method: 'otp', mobile: $normalized);
 
         return $user;
+    }
+
+    protected function assertProductionSmsDriver(): void
+    {
+        if (! app()->environment('production')) {
+            return;
+        }
+
+        if (! config('pluto.security.block_log_otp_in_production', true)) {
+            return;
+        }
+
+        if (config('pluto.otp.driver', 'log') === 'log') {
+            throw ValidationException::withMessages([
+                'mobile' => 'ارسال OTP در محیط production با درایور log مجاز نیست.',
+            ]);
+        }
     }
 
     protected function generateCode(): string

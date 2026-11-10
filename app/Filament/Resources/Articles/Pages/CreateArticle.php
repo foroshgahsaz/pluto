@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Articles\Pages;
 
 use App\Enums\ArticleStatus;
+use App\Filament\Concerns\GuardsAuthorizedSiteId;
 use App\Filament\Resources\Articles\ArticleResource;
 use App\Services\Editorial\ArticleRevisionRecorder;
 use App\Services\Editorial\StoreArticleFeaturedImage;
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class CreateArticle extends CreateRecord
 {
+    use GuardsAuthorizedSiteId;
+
     protected static string $resource = ArticleResource::class;
 
     /** @var list<string> */
@@ -19,6 +22,7 @@ class CreateArticle extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
+        $data = $this->guardSiteId($data, 'articles.create', sanitizeBody: true);
         $data['status'] = ArticleStatus::Draft->value;
         $data['created_by'] = auth()->id();
         $data['updated_by'] = auth()->id();

@@ -27,6 +27,8 @@ return [
         'failed_login_threshold' => (int) env('FAILED_LOGIN_THRESHOLD', 5),
         'failed_login_window_minutes' => (int) env('FAILED_LOGIN_WINDOW_MINUTES', 15),
         'force_https' => (bool) env('FORCE_HTTPS', env('APP_ENV') === 'production'),
+        'block_log_otp_in_production' => (bool) env('BLOCK_LOG_OTP_IN_PRODUCTION', true),
+        'session_secure_cookie' => env('SESSION_SECURE_COOKIE'),
     ],
 
     'media' => [
