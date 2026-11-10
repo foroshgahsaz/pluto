@@ -5,6 +5,7 @@ namespace App\Http\Controllers\PublicSite;
 use App\Enums\SiteType;
 use App\Http\Controllers\Controller;
 use App\Models\Site;
+use App\Services\Analytics\RecordPageView;
 use App\Services\PublicSite\PublicSiteViewData;
 use App\Support\Tenancy\SiteContext;
 use Illuminate\View\View;
@@ -14,6 +15,7 @@ class HomeController extends Controller
     public function __construct(
         protected PublicSiteViewData $viewData,
         protected SiteContext $siteContext,
+        protected RecordPageView $pageViews,
     ) {}
 
     public function central(): View
@@ -35,6 +37,7 @@ class HomeController extends Controller
 
     protected function render(Site $site): View
     {
+        $this->pageViews->forHomepage($site);
         $branding = $this->viewData->branding($site);
 
         return view('public.home', [

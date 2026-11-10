@@ -29,9 +29,9 @@ class ManageNotifications extends Page implements HasTable
 
     protected string $view = 'filament.pages.manage-notifications';
 
-    protected static ?string $navigationLabel = 'اعلان‌ها';
+    protected static ?string $navigationLabel = 'پیام‌ها و اعلان‌ها';
 
-    protected static ?string $title = 'مدیریت اعلان‌ها';
+    protected static ?string $title = 'پیام‌ها و اعلان‌ها';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBellAlert;
 

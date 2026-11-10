@@ -130,6 +130,10 @@ class ArticleForm
                             ->disk('public')
                             ->visibility('public')
                             ->dehydrated(false),
+                        Textarea::make('editor_note')
+                            ->label('یادداشت دبیر')
+                            ->rows(2)
+                            ->helperText('در صف خبر داشبورد نمایش داده می‌شود'),
                         Textarea::make('rejection_reason')
                             ->label('دلیل رد')
                             ->disabled()

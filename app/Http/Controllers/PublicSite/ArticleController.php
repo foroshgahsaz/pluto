@@ -4,6 +4,7 @@ namespace App\Http\Controllers\PublicSite;
 
 use App\Http\Controllers\Controller;
 use App\Models\Site;
+use App\Services\Analytics\RecordPageView;
 use App\Services\Editorial\PublicArticleQuery;
 use App\Services\PublicSite\PublicSiteViewData;
 use Illuminate\Http\Request;
@@ -14,6 +15,7 @@ class ArticleController extends Controller
     public function __construct(
         protected PublicArticleQuery $articles,
         protected PublicSiteViewData $viewData,
+        protected RecordPageView $pageViews,
     ) {}
 
     public function index(Site $site): View
@@ -30,6 +32,8 @@ class ArticleController extends Controller
     {
         $article = $this->articles->findPublishedBySlug($slug);
         abort_unless($article && (int) $article->site_id === (int) $site->id, 404);
+
+        $this->pageViews->forArticle($article);
 
         return view('public.articles.show', [
             'site' => $site,

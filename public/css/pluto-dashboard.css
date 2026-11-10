@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap');
+
+.fi-body, .fi-panel-admin {
+  --pluto-navy:#12345e; --pluto-blue:#168de0; --pluto-cyan:#22b8c7; --pluto-ice:#eaf5fc;
+  --pluto-gold:#e5bd70; --pluto-ink:#17365d; --pluto-muted:#7890ad; --pluto-line:#d8e9f7;
+  --pluto-white:rgba(255,255,255,.84); --pluto-shadow:0 12px 35px rgba(57,112,160,.10);
+}
+
+.fi-panel-admin .fi-sidebar {
+  background: linear-gradient(180deg,#12345e,#174b78 72%,#1a5680) !important;
+}
+.fi-panel-admin .fi-sidebar-header,
+.fi-panel-admin .fi-sidebar-nav,
+.fi-panel-admin .fi-sidebar-item-button {
+  color: #d9eafa;
+}
+.fi-panel-admin .fi-sidebar-item-button:hover,
+.fi-panel-admin .fi-sidebar-item-button.fi-active {
+  background: linear-gradient(90deg,#ffffff22,#ffffff0d) !important;
+  color: #fff !important;
+}
+.fi-panel-admin .fi-main, .fi-panel-admin .fi-page {
+  font-family: Vazirmatn, Tahoma, sans-serif;
+}
+
+.pluto-dash {
+  font-family: Vazirmatn, Tahoma, sans-serif;
+  color: var(--pluto-ink);
+  margin: -1rem;
+  padding: 0.5rem 0.25rem 1.5rem;
+}
+.pluto-dash * { box-sizing: border-box; }
+.pluto-dash .welcome {
+  border:1px solid #c4e5f8; border-radius:20px;
+  background:linear-gradient(100deg,#d7f1fcdd,#ffffffa8 62%,#e7f6ff);
+  padding:22px 25px; display:flex; align-items:center; justify-content:space-between;
+  overflow:hidden; position:relative; box-shadow:var(--pluto-shadow); margin-bottom:17px;
+}
+.pluto-dash .welcome:after{content:"✧";position:absolute;left:25%;top:-45px;font-size:180px;color:#67c6e41b}
+.pluto-dash .welcome h1{font-size:22px;margin:0 0 5px;font-weight:800}
+.pluto-dash .welcome p{margin:0;color:var(--pluto-muted);font-size:12px}
+.pluto-dash .welcome-date{font-size:11px;color:#5d88ac;background:#ffffffa6;padding:9px 13px;border-radius:12px;z-index:1}
+
+.pluto-dash .queue-panel{margin:0 0 16px;background:rgba(255,255,255,.86);border:1px solid #d5e7f7;border-radius:20px;padding:17px;box-shadow:var(--pluto-shadow)}
+.pluto-dash .queue-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px;gap:10px}
+.pluto-dash .queue-head h3{margin:0;font-size:14px}.pluto-dash .queue-head p{margin:4px 0 0;font-size:10px;color:var(--pluto-muted)}
+.pluto-dash .queue-actions{display:flex;gap:7px;align-items:center}
+.pluto-dash .queue-filter{border:1px solid var(--pluto-line);background:#fff;color:var(--pluto-muted);border-radius:20px;padding:7px 11px;font-size:10px;cursor:pointer}
+.pluto-dash .queue-days{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.pluto-dash .queue-day-title{display:flex;align-items:center;justify-content:space-between;padding:10px 13px;border:1px solid #f0d18d;border-radius:15px;background:linear-gradient(110deg,#fff6dc,#fbfcfd);margin-bottom:9px}
+.pluto-dash .queue-day-title strong{font-size:12px}.pluto-dash .queue-day-title small{display:block;color:#c18d34;font-size:9px;margin-top:3px}
+.pluto-dash .queue-count{font-size:10px;color:#b88732;background:#fff;border:1px solid #f0d18d;border-radius:20px;padding:4px 9px}
+.pluto-dash .queue-items{display:grid;gap:8px}
+.pluto-dash .queue-item{display:grid;grid-template-columns:28px 44px minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;text-align:right;border:1px solid #d8e7f5;background:#ffffffd9;border-radius:16px;padding:11px 12px;color:var(--pluto-ink);cursor:pointer;transition:.2s}
+.pluto-dash .queue-item:hover{border-color:#8fc9ef;transform:translateY(-2px);box-shadow:0 8px 20px #4889b51a;background:#fff}
+.pluto-dash .queue-num{font-size:10px;color:#8ca1b8;text-align:center;border-left:1px solid #e2edf6;padding-left:8px}
+.pluto-dash .queue-icon{width:42px;height:42px;border-radius:13px;background:#e7f0ff;border:1px solid #a9c8ff;color:#17365d;display:grid;place-items:center;font-size:19px}
+.pluto-dash .queue-copy{min-width:0}.pluto-dash .queue-copy strong{display:block;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px}
+.pluto-dash .queue-copy small{display:block;font-size:9px;color:#849ab4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pluto-dash .queue-meta{display:flex;gap:5px;align-items:center;flex-wrap:wrap;margin-top:7px}
+.pluto-dash .qtag{font-size:9px;border-radius:20px;padding:3px 8px;border:1px solid #c9e7f0;background:#e8f8fb;color:#1593a7;white-space:nowrap}
+.pluto-dash .qtag.time{background:#fff5e3;border-color:#f4d08a;color:#c58d2b}
+.pluto-dash .qtag.ready{background:#e8f7f2;border-color:#91d9c6;color:#169879}
+.pluto-dash .qtag.review{background:#fff5e3;border-color:#e8c887;color:#b9872f}
+.pluto-dash .qtag.urgent{background:#fff0f1;border-color:#f1aab2;color:#d64b5b}
+.pluto-dash .qtag.scheduled{background:#edf3ff;border-color:#b5caff;color:#4278d5}
+.pluto-dash .queue-chevron{color:#9bb0c5;font-size:16px}
+
+.pluto-dash .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:16px}
+.pluto-dash .stat{background:var(--pluto-white);border:1px solid var(--pluto-line);border-radius:18px;padding:16px 17px;box-shadow:var(--pluto-shadow);position:relative;overflow:hidden;min-height:115px}
+.pluto-dash .stat:after{content:"";position:absolute;width:110px;height:110px;border-radius:50%;background:var(--wash);left:-35px;bottom:-65px}
+.pluto-dash .stat-top{display:flex;justify-content:space-between;align-items:center}
+.pluto-dash .stat-label{font-size:11px;color:#708aa8}
+.pluto-dash .stat-icon{width:39px;height:39px;border-radius:13px;display:grid;place-items:center;background:var(--wash);color:var(--accent);font-size:20px}
+.pluto-dash .stat strong{display:block;font-size:24px;margin:8px 0 0;color:var(--pluto-ink)}
+.pluto-dash .stat small{font-size:10px;color:#10a77d}.pluto-dash .stat small em{font-style:normal;color:var(--pluto-muted);margin-right:4px}
+
+.pluto-dash .grid-main{display:grid;grid-template-columns:1.35fr 1fr .9fr;gap:14px;margin-bottom:15px}
+.pluto-dash .panel{background:var(--pluto-white);border:1px solid var(--pluto-line);border-radius:19px;padding:17px;box-shadow:var(--pluto-shadow);min-width:0}
+.pluto-dash .panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.pluto-dash .panel-head h3{font-size:13px;margin:0}
+.pluto-dash .panel-head a,.pluto-dash .link{font-size:10px;color:var(--pluto-blue);text-decoration:none}
+.pluto-dash .select-small{border:1px solid var(--pluto-line);background:#fff;border-radius:9px;padding:6px 9px;color:var(--pluto-muted);font-size:10px}
+.pluto-dash .chart-wrap{height:190px;position:relative}
+.pluto-dash .chart-wrap svg{width:100%;height:100%;overflow:visible}
+.pluto-dash .gridline{stroke:#e2edf7;stroke-width:1}
+.pluto-dash .chart-label{fill:#91a6bd;font-size:10px;font-family:Vazirmatn,Tahoma,sans-serif}
+.pluto-dash .chart-line{fill:none;stroke:#17a9c9;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.pluto-dash .chart-area{fill:url(#plutoArea)}
+.pluto-dash .chart-dot{fill:#fff;stroke:#13a8c7;stroke-width:3}
+
+.pluto-dash .map-placeholder{height:190px;display:grid;place-items:center;position:relative;background:radial-gradient(ellipse,#d8f2fc,#f7fbff 68%);border-radius:13px;overflow:hidden}
+.pluto-dash .map-shape{font-size:105px;color:#68bce3;filter:drop-shadow(0 8px 8px #4c9ec533)}
+.pluto-dash .map-note{position:absolute;bottom:10px;right:12px;font-size:10px;color:#6b89a8}
+.pluto-dash .legend{display:flex;gap:13px;justify-content:center;font-size:10px;color:#7890ad;margin-top:6px;flex-wrap:wrap}
+.pluto-dash .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-left:4px}
+
+.pluto-dash .performance{display:flex;align-items:center;justify-content:center;gap:15px;min-height:190px}
+.pluto-dash .donut{width:142px;height:142px;border-radius:50%;display:grid;place-items:center;position:relative}
+.pluto-dash .donut:before{content:"";position:absolute;inset:13px;border-radius:50%;background:#f8fcff}
+.pluto-dash .donut strong{z-index:1;font-size:26px}
+.pluto-dash .legend-list{font-size:10px;line-height:2.6;color:#7189a4}
+.pluto-dash .legend-list i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-left:5px}
+
+.pluto-dash .bottom-grid{display:grid;grid-template-columns:1fr 1.2fr .9fr;gap:14px}
+.pluto-dash .activity{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #eaf1f7;font-size:10px}
+.pluto-dash .activity:last-child{border:0}
+.pluto-dash .activity .bubble{width:29px;height:29px;border-radius:10px;background:#e5f5ff;color:#168de0;display:grid;place-items:center;font-size:14px;flex-shrink:0}
+.pluto-dash .activity time{margin-right:auto;color:#91a6bd;white-space:nowrap}
+.pluto-dash .news-card{display:grid;grid-template-columns:112px 1fr;gap:13px;align-items:center;padding:9px;border:1px solid #e2eef7;border-radius:14px;margin-bottom:9px;background:#ffffff90;text-decoration:none;color:inherit}
+.pluto-dash .news-thumb{height:83px;border-radius:10px;background:linear-gradient(135deg,#8ac9e9,#d5effb 50%,#e9c77f);display:grid;place-items:center;font-size:27px;color:#fff}
+.pluto-dash .news-card h4{margin:0 0 5px;font-size:11px}
+.pluto-dash .news-card p{margin:0;color:var(--pluto-muted);font-size:9px;line-height:1.9}
+.pluto-dash .quick-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.pluto-dash .quick{border:1px solid var(--pluto-line);border-radius:13px;background:#ffffffa8;padding:13px 8px;text-align:center;color:var(--pluto-ink);transition:.2s;text-decoration:none;display:block}
+.pluto-dash .quick:hover{transform:translateY(-3px);border-color:#8bcaf0;box-shadow:0 8px 20px #4b9bca18}
+.pluto-dash .quick b{display:block;font-size:21px;color:var(--pluto-blue);margin-bottom:5px}
+.pluto-dash .quick span{font-size:10px}
+
+.pluto-dash .modal-backdrop{position:fixed;inset:0;background:rgba(12,35,61,.42);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:18px;z-index:1000}
+.pluto-dash .news-modal{width:min(620px,100%);max-height:90vh;overflow:auto;background:linear-gradient(145deg,#fff,#f4faff);border:1px solid #cfe4f5;border-radius:22px;box-shadow:0 25px 80px #102e4b40;padding:22px}
+.pluto-dash .modal-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+.pluto-dash .modal-top span{font-size:10px;color:#7891aa}
+.pluto-dash .modal-close{width:34px;height:34px;border:1px solid var(--pluto-line);border-radius:11px;background:white;color:var(--pluto-ink);cursor:pointer;font-size:18px}
+.pluto-dash .news-modal h2{font-size:18px;line-height:1.9;margin:0 0 8px}
+.pluto-dash .modal-summary{font-size:12px;line-height:2.1;color:#7189a4;margin:0 0 16px}
+.pluto-dash .modal-tags{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:17px}
+.pluto-dash .modal-info{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:16px}
+.pluto-dash .info-cell{background:#fff;border:1px solid #e0edf7;border-radius:12px;padding:10px 12px}
+.pluto-dash .info-cell small{display:block;color:#8ca1b8;font-size:9px;margin-bottom:4px}
+.pluto-dash .info-cell b{font-size:11px}
+.pluto-dash .modal-section{border-top:1px solid #e2edf6;padding-top:13px;margin-top:13px}
+.pluto-dash .modal-section h4{font-size:11px;margin:0 0 7px}
+.pluto-dash .modal-section p{font-size:11px;color:#7189a4;line-height:2;margin:0}
+.pluto-dash .modal-footer{display:flex;justify-content:flex-start;gap:8px;margin-top:18px}
+.pluto-dash .modal-btn{border:1px solid #cfe2f2;background:#fff;color:var(--pluto-ink);border-radius:11px;padding:9px 15px;font-size:11px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.pluto-dash .modal-btn.primary{background:linear-gradient(110deg,#f5d37d,#eab34e);border-color:#edc56f;color:#624718}
+
+.pluto-dash .empty{font-size:11px;color:#91a6bd;padding:18px;text-align:center;border:1px dashed #d5e7f7;border-radius:12px}
+
+@media(max-width:1100px){
+  .pluto-dash .grid-main{grid-template-columns:1fr 1fr}
+  .pluto-dash .grid-main .performance-panel{grid-column:span 2}
+  .pluto-dash .bottom-grid{grid-template-columns:1fr 1fr}
+  .pluto-dash .bottom-grid .quick-panel{grid-column:span 2}
+  .pluto-dash .stats{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:900px){.pluto-dash .queue-days{grid-template-columns:1fr}}
+@media(max-width:760px){
+  .pluto-dash .welcome h1{font-size:17px}.pluto-dash .welcome-date{display:none}
+  .pluto-dash .stats{gap:8px}.pluto-dash .stat{padding:12px;min-height:100px}.pluto-dash .stat strong{font-size:19px}
+  .pluto-dash .grid-main,.pluto-dash .bottom-grid{grid-template-columns:1fr}
+  .pluto-dash .grid-main .performance-panel,.pluto-dash .bottom-grid .quick-panel{grid-column:auto}
+}
