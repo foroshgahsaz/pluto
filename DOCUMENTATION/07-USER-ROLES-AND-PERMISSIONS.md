@@ -10,7 +10,7 @@
 | `journalist` | Journalist | Assigned sites; create/edit own drafts; submit for review |
 | `copy_editor` | Copy Editor | Assigned sites; edit content; limited publish rights (configurable) |
 
-Custom roles are supported via Spatie + Filament Role resource (Super Admin / Regional Admin as permitted).
+Role templates are editable via Filament `RoleResource` (Stage 13). Permission changes on a template (`team_id` null) propagate to site-scoped role copies with the same name. Per-site role assignment is done on User create/edit (`site_roles` repeater → `SyncUserSiteRoles`).
 
 ## Authorization dimensions
 
