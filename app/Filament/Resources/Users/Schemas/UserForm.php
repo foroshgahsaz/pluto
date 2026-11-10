@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Users\Schemas;
 
+use App\Models\Site;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -33,12 +35,6 @@ class UserForm
                     ->rule(Password::defaults())
                     ->dehydrated(fn (?string $state): bool => filled($state))
                     ->required(fn (string $operation): bool => $operation === 'create'),
-                Select::make('sites')
-                    ->label('سایت‌های مجاز')
-                    ->multiple()
-                    ->relationship('sites', 'name')
-                    ->preload()
-                    ->searchable(),
                 Toggle::make('is_active')
                     ->label('فعال')
                     ->default(true),
@@ -49,6 +45,35 @@ class UserForm
                     ->label('سوپر ادمین')
                     ->visible(fn (): bool => auth()->user()?->isSuperAdmin() ?? false)
                     ->disabled(fn (): bool => ! (auth()->user()?->isSuperAdmin() ?? false)),
+                Repeater::make('site_roles')
+                    ->label('دسترسی به زیرسایت‌ها و نقش')
+                    ->helperText('برای هر سایت یک نقش مشخص کنید (مثلاً regional_admin یا journalist). فرم‌ساز فقط با نقش دارای مجوز forms فعال می‌شود.')
+                    ->schema([
+                        Select::make('site_id')
+                            ->label('سایت')
+                            ->options(fn () => Site::query()->orderBy('name')->pluck('name', 'id'))
+                            ->required()
+                            ->searchable()
+                            ->distinct()
+                            ->disableOptionsWhenSelectedInSiblingRepeaterItems(),
+                        Select::make('role')
+                            ->label('نقش در این سایت')
+                            ->options([
+                                'regional_admin' => 'مدیر منطقه‌ای',
+                                'editor_in_chief' => 'سردبیر',
+                                'journalist' => 'خبرنگار',
+                                'copy_editor' => 'ویراستار',
+                            ])
+                            ->required(),
+                        Toggle::make('is_primary')
+                            ->label('سایت اصلی')
+                            ->default(false),
+                    ])
+                    ->default([])
+                    ->addActionLabel('افزودن دسترسی سایت')
+                    ->columnSpanFull()
+                    ->visible(fn (): bool => (bool) (auth()->user()?->can('users.assign_roles') || auth()->user()?->isSuperAdmin()))
+                    ->dehydrated(fn (): bool => (bool) (auth()->user()?->can('users.assign_roles') || auth()->user()?->isSuperAdmin())),
             ]);
     }
 }

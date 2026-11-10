@@ -10,10 +10,12 @@
 - Filament: `databaseNotifications()` on admin panel
 
 ## Required permissions
-Recipients resolved by site permissions / Super Admin flags (`notifications.manage` reserved for future admin tools).
+Recipients resolved by site permissions / Super Admin flags.  
+`notifications.manage` gates `ManageNotifications` + site broadcast.
 
 ## Testing procedures
-`php artisan test --filter=DashboardNotificationsTest`
+`php artisan test --filter=DashboardNotificationsTest`  
+`php artisan test --filter=AccessReportsNotificationsTest`
 
 ## Security considerations
 Failed-login alerts are Super Admin only; editorial alerts stay within site permission boundaries.
