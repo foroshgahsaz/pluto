@@ -17,6 +17,7 @@ class BackupRecordFactory extends Factory
     {
         return [
             'status' => 'success',
+            'type' => 'full',
             'disk' => 'local',
             'backup_name' => 'Pluto',
             'path' => 'Pluto/'.now()->format('Y-m-d-H-i-s').'.zip',
@@ -35,6 +36,16 @@ class BackupRecordFactory extends Factory
             'size_bytes' => null,
             'message' => 'backup failed',
         ]);
+    }
+
+    public function database(): static
+    {
+        return $this->state(fn (): array => ['type' => 'database']);
+    }
+
+    public function files(): static
+    {
+        return $this->state(fn (): array => ['type' => 'files']);
     }
 
     public function triggeredBy(User $user): static

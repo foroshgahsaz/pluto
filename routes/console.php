@@ -13,7 +13,19 @@ Schedule::job(new PublishScheduledArticlesJob)->everyMinute()->withoutOverlappin
 
 Schedule::command('media:purge-orphans')->weeklyOn(0, '03:30');
 
-Schedule::command('backup:run')->dailyAt('02:15')->withoutOverlapping();
+foreach (config('pluto.backup.database_times', ['01:00', '13:00']) as $time) {
+    Schedule::command('pluto:backup database')
+        ->dailyAt($time)
+        ->withoutOverlapping()
+        ->name("pluto-backup-database-{$time}");
+}
+
+foreach (config('pluto.backup.files_times', ['01:30', '13:30']) as $time) {
+    Schedule::command('pluto:backup files')
+        ->dailyAt($time)
+        ->withoutOverlapping()
+        ->name("pluto-backup-files-{$time}");
+}
 
 Schedule::command('backup:clean')->dailyAt('03:15')->withoutOverlapping();
 

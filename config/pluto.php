@@ -31,6 +31,18 @@ return [
         'session_secure_cookie' => env('SESSION_SECURE_COOKIE'),
     ],
 
+    'backup' => [
+        'database_times' => array_values(array_filter(array_map(
+            'trim',
+            explode(',', (string) env('BACKUP_DATABASE_TIMES', '01:00,13:00'))
+        ))),
+        'files_times' => array_values(array_filter(array_map(
+            'trim',
+            explode(',', (string) env('BACKUP_FILES_TIMES', '01:30,13:30'))
+        ))),
+        'error_log_lines' => (int) env('BACKUP_ERROR_LOG_LINES', 80),
+    ],
+
     'media' => [
         'max_image_kb' => (int) env('MEDIA_MAX_IMAGE_KB', 5120),
         'max_document_kb' => (int) env('MEDIA_MAX_DOCUMENT_KB', 20480),

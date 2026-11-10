@@ -15,6 +15,7 @@ class BackupRecord extends Model
 
     protected $fillable = [
         'status',
+        'type',
         'disk',
         'backup_name',
         'path',
