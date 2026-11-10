@@ -26,8 +26,8 @@ return [
                  * The list of directories and files that will be included in the backup.
                  */
                 'include' => [
-                    base_path(),
-                    // storage_path(),  // Include if you use zero downtime deployments and don't follow symlinks
+                    storage_path('app/public'),
+                    storage_path('app/private'),
                 ],
 
                 /*
@@ -36,9 +36,9 @@ return [
                  * Directories used by the backup process will automatically be excluded.
                  */
                 'exclude' => [
-                    base_path('vendor'),
-                    base_path('node_modules'),
+                    storage_path('app/backup-temp'),
                     storage_path('framework'),
+                    storage_path('logs'),
                 ],
 
                 /*
@@ -163,9 +163,10 @@ return [
             /*
              * The disk names on which the backups will be stored.
              */
-            'disks' => [
-                'local',
-            ],
+            'disks' => array_values(array_filter(array_map(
+                'trim',
+                explode(',', (string) env('BACKUP_DISKS', 'local'))
+            ))),
 
             /*
              * Determines whether to allow backups to continue when some targets fail instead of failing completely.
@@ -192,13 +193,13 @@ return [
          *
          * When set to 'default', we'll use AES-256 if available on your system.
          */
-        'encryption' => 'default',
+        'encryption' => env('BACKUP_ARCHIVE_PASSWORD') ? env('BACKUP_ENCRYPTION', 'default') : 'none',
 
         /*
          * After creating the zip, verify it can be opened and contains files.
          * Recommended for critical backups but adds a small overhead.
          */
-        'verify_backup' => false,
+        'verify_backup' => (bool) env('BACKUP_VERIFY', true),
 
         /*
          * The number of attempts, in case the backup command encounters an exception
@@ -221,12 +222,13 @@ return [
      */
     'notifications' => [
         'notifications' => [
-            BackupHasFailedNotification::class => ['mail'],
-            UnhealthyBackupWasFoundNotification::class => ['mail'],
-            CleanupHasFailedNotification::class => ['mail'],
-            BackupWasSuccessfulNotification::class => ['mail'],
-            HealthyBackupWasFoundNotification::class => ['mail'],
-            CleanupWasSuccessfulNotification::class => ['mail'],
+            // Filament DB notifications are handled by App listeners; mail is opt-in.
+            BackupHasFailedNotification::class => array_filter([env('BACKUP_MAIL_TO') ? 'mail' : null]),
+            UnhealthyBackupWasFoundNotification::class => array_filter([env('BACKUP_MAIL_TO') ? 'mail' : null]),
+            CleanupHasFailedNotification::class => array_filter([env('BACKUP_MAIL_TO') ? 'mail' : null]),
+            BackupWasSuccessfulNotification::class => array_filter([env('BACKUP_MAIL_TO') ? 'mail' : null]),
+            HealthyBackupWasFoundNotification::class => array_filter([env('BACKUP_MAIL_TO') ? 'mail' : null]),
+            CleanupWasSuccessfulNotification::class => array_filter([env('BACKUP_MAIL_TO') ? 'mail' : null]),
         ],
 
         /*
@@ -236,7 +238,7 @@ return [
         'notifiable' => Notifiable::class,
 
         'mail' => [
-            'to' => 'your@example.com',
+            'to' => env('BACKUP_MAIL_TO', 'backups@example.com'),
 
             'from' => [
                 'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),

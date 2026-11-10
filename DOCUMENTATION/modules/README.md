@@ -12,7 +12,8 @@ Per-module deep docs will be added when each module is implemented.
 | Settings & Themes | [settings-themes.md](settings-themes.md) | Designed |
 | Dashboard | [dashboard.md](dashboard.md) | Implemented |
 | Notifications | [notifications.md](notifications.md) | Implemented |
-| Audit & Security Ops | [audit-security.md](audit-security.md) | Designed |
-| Backup & Restore | [backup-restore.md](backup-restore.md) | Designed |
+
+| Audit & Security Ops | [audit-security.md](audit-security.md) | Implemented |
+| Backup & Restore | [backup-restore.md](backup-restore.md) | Implemented |
 
 Each file follows the required template: purpose, responsibilities, source files, classes, models, tables, relations, flow, permissions, business logic, config, testing, errors, extension, security.

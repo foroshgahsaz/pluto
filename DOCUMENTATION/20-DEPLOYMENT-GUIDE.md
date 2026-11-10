@@ -1,31 +1,37 @@
-# 20 — Deployment Guide (Design Outline)
+# 20 — Deployment Guide
 
-**Status:** Design outline — finalize in STAGE 8 after implementation
+**Status:** Implemented guidance — Stage 8
 
 ## Principles
 - Zero secrets in git
 - `APP_ENV=production`, `APP_DEBUG=false`
-- HTTPS only
-- Separate queue workers
+- `FORCE_HTTPS=true` (or rely on production default)
+- `SESSION_SECURE_COOKIE=true` behind HTTPS
+- Separate queue workers (`QUEUE_CONNECTION=database|redis`)
 - Cron: `* * * * * php artisan schedule:run`
-- Remote backups enabled
-- Run migrations in release pipeline with backup beforehand
+- Remote backups recommended: `BACKUP_DISKS=local,s3`
+- Run migrations in release pipeline **after** a backup
 
 ## Suggested release steps
-1. Put app in maintenance mode (or use atomic release directory)
+1. Put app in maintenance mode (or atomic release directory)
 2. Pull/release code
 3. `composer install --no-dev --optimize-autoloader`
 4. Build frontend assets if needed
-5. Migrate
-6. Cache config/routes/views
-7. Restart PHP-FPM / Octane / queues
-8. Smoke test admin login + publish path
-9. Disable maintenance mode
+5. `php artisan backup:run` (pre-migrate safety, when DB reachable)
+6. `php artisan migrate --force`
+7. `php artisan config:cache && php artisan route:cache && php artisan view:cache`
+8. Restart PHP-FPM / Octane / queues
+9. Smoke test admin login + publish path + cross-site isolation
+10. Disable maintenance mode
 
 ## Post-deploy checks
-- Admin login
+- `GET /up` health endpoint
+- Admin login (password + OTP path)
 - Site listing
-- Create draft article on one site
-- Confirm second site cannot see it (as non-super user)
-- Queue processes scheduled jobs
-- Backup job dry-run
+- Create draft article on one site; confirm second site cannot see it
+- Queue processes scheduled publish job
+- Backup job: `php artisan backup:run` (or verify scheduled)
+- Security headers present (`X-Frame-Options`, `X-Content-Type-Options`)
+
+## Environment checklist
+See `.env.example` for `FORCE_HTTPS`, `BACKUP_*`, `FAILED_LOGIN_*`, OTP, and seed Super Admin vars.

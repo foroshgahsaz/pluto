@@ -1,5 +1,15 @@
 # 24 — Changelog
 
+## 2026-11-10 — STAGE 8 backup + hardening
+
+### Added
+- Spatie backup tuned for private disk + optional S3/encryption; daily schedule
+- `backup_records` metadata, Filament ManageBackups (SA), secure download route
+- Backup event listeners → DB notifications to Super Admins
+- `ForceHttps` + `SecurityHeaders` middleware; `pluto:restore-guide`
+- Production readiness report + deployment/security checklist updates
+- `BackupHardeningTest` (10 cases); full suite 63 passed; `composer audit` clean
+
 ## 2026-11-10 — STAGE 7 dashboard + notifications
 
 ### Added
