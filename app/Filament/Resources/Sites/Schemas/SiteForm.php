@@ -2,8 +2,9 @@
 
 namespace App\Filament\Resources\Sites\Schemas;
 
+use App\Support\Tenancy\AuthorizedSiteOptions;
+
 use App\Enums\SiteType;
-use App\Models\Site;
 use App\Models\Theme;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -33,7 +34,7 @@ class SiteForm
                     ->maxLength(100),
                 Select::make('parent_id')
                     ->label('سایت والد')
-                    ->options(fn () => Site::query()->orderBy('name')->pluck('name', 'id'))
+                    ->options(fn () => AuthorizedSiteOptions::pluck())
                     ->searchable()
                     ->nullable(),
                 TextInput::make('locale')

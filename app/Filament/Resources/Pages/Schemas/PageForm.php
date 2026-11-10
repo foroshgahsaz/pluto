@@ -2,8 +2,9 @@
 
 namespace App\Filament\Resources\Pages\Schemas;
 
+use App\Support\Tenancy\AuthorizedSiteOptions;
+
 use App\Enums\PageStatus;
-use App\Models\Site;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
@@ -18,7 +19,7 @@ class PageForm
         return $schema->components([
             Select::make('site_id')
                 ->label('سایت')
-                ->options(fn () => Site::query()->orderBy('name')->pluck('name', 'id'))
+                ->options(fn () => AuthorizedSiteOptions::pluck())
                 ->required()
                 ->searchable(),
             TextInput::make('title')

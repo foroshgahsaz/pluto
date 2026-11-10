@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\Articles\Schemas;
 
+use App\Support\Tenancy\AuthorizedSiteOptions;
+
 use App\Models\Author;
 use App\Models\Category;
-use App\Models\Site;
 use App\Models\Tag;
 use App\Models\User;
 use Filament\Forms\Components\DateTimePicker;
@@ -29,10 +30,12 @@ class ArticleForm
                     ->schema([
                         Select::make('site_id')
                             ->label('سایت')
-                            ->options(fn () => Site::query()->orderBy('name')->pluck('name', 'id'))
+                            ->options(fn () => AuthorizedSiteOptions::pluck())
                             ->required()
                             ->live()
-                            ->searchable(),
+                            ->searchable()
+                            ->disabledOn('edit')
+                            ->dehydrated(),
                         TextInput::make('title')
                             ->label('عنوان')
                             ->required()

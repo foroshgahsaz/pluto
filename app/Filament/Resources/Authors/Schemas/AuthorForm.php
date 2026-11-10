@@ -2,7 +2,8 @@
 
 namespace App\Filament\Resources\Authors\Schemas;
 
-use App\Models\Site;
+use App\Support\Tenancy\AuthorizedSiteOptions;
+
 use App\Models\User;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -17,7 +18,7 @@ class AuthorForm
         return $schema->components([
             Select::make('site_id')
                 ->label('سایت')
-                ->options(fn () => Site::query()->orderBy('name')->pluck('name', 'id'))
+                ->options(fn () => AuthorizedSiteOptions::pluck())
                 ->required()
                 ->searchable(),
             TextInput::make('display_name')

@@ -2,8 +2,9 @@
 
 namespace App\Filament\Resources\Media\Schemas;
 
+use App\Support\Tenancy\AuthorizedSiteOptions;
+
 use App\Models\MediaFolder;
-use App\Models\Site;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -17,7 +18,7 @@ class MediaForm
         return $schema->components([
             Select::make('site_id')
                 ->label('سایت')
-                ->options(fn () => Site::query()->orderBy('name')->pluck('name', 'id'))
+                ->options(fn () => AuthorizedSiteOptions::pluck())
                 ->required()
                 ->live()
                 ->searchable(),

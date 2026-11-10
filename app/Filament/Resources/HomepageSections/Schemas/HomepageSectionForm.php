@@ -2,8 +2,9 @@
 
 namespace App\Filament\Resources\HomepageSections\Schemas;
 
+use App\Support\Tenancy\AuthorizedSiteOptions;
+
 use App\Enums\HomepageSectionType;
-use App\Models\Site;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -17,7 +18,7 @@ class HomepageSectionForm
         return $schema->components([
             Select::make('site_id')
                 ->label('سایت')
-                ->options(fn () => Site::query()->orderBy('name')->pluck('name', 'id'))
+                ->options(fn () => AuthorizedSiteOptions::pluck())
                 ->required()
                 ->searchable(),
             TextInput::make('key')->label('کلید')->required()->helperText('شناسه یکتا در هر سایت، مثلاً latest'),

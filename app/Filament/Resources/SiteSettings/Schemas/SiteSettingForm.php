@@ -2,7 +2,8 @@
 
 namespace App\Filament\Resources\SiteSettings\Schemas;
 
-use App\Models\Site;
+use App\Support\Tenancy\AuthorizedSiteOptions;
+
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -15,7 +16,7 @@ class SiteSettingForm
         return $schema->components([
             Select::make('site_id')
                 ->label('سایت')
-                ->options(fn () => Site::query()->orderBy('name')->pluck('name', 'id'))
+                ->options(fn () => AuthorizedSiteOptions::pluck())
                 ->required()
                 ->searchable(),
             Select::make('group')

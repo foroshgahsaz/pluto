@@ -22,6 +22,6 @@
                 <img src="{{ $article->featuredMedia->publicUrl() }}" alt="{{ $article->featuredMedia->alt_text ?: $article->title }}" style="width:100%; border-radius:.4rem;">
             </p>
         @endif
-        <div class="prose">{!! $article->body !!}</div>
+        <div class="prose">{!! app(\App\Support\Security\HtmlSanitizer::class)->clean($article->body) !!}</div>
     </article>
 @endsection
