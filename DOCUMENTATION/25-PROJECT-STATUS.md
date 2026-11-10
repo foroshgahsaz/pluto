@@ -4,29 +4,24 @@ Last updated: 2026-11-10
 
 | Feature / Area | Status | Notes |
 |----------------|--------|-------|
-| Stage 1 analysis/docs | Verified | Owner approved |
-| Laravel 13 + Filament 5 FA | Implemented | |
-| Multi-site + tenancy | Implemented | |
-| Dual login OTP + password | Implemented | |
-| Users / per-site roles | Implemented | |
-| **Editorial system (STAGE 3)** | **Tested** | Workflow, revisions, schedule, Filament |
-| Categories / tags / authors | Implemented | |
-| Public article query helpers | Implemented | No public UI |
-| Media library (full) | In Progress | Minimal media table for article images; full Stage 4 later |
+| Stage 1 docs | Implemented | PR #1 |
+| Stage 2 core / dual auth | Implemented | PR #2 |
+| Stage 3 editorial | Implemented | PR #4 |
+| **Stage 4 media** | **Tested** | This branch |
 | Form builder | Not Started | STAGE 5 |
 | Themes / menus / settings | Not Started | STAGE 6 |
 | Dashboard / notifications | Not Started | STAGE 7 |
-| Backups admin UX | Not Started | Package present |
+| Backups admin UX | Not Started | |
 | Public frontend | Not Started | Out of scope |
 
-## Test evidence (2026-11-10)
+## PR merge order
+1. Stage 1 docs  
+2. Stage 2 core  
+3. Stage 3 editorial  
+4. Stage 4 media  
 
+## Test evidence (Stage 4 branch)
 ```text
 php artisan test
-OK — 27 tests passed (49 assertions)
+OK — 33 passed (60 assertions)
 ```
-
-Includes Stage 2 auth/isolation + Stage 3 editorial workflow/isolation/schedule tests.
-
-## Next stage
-STAGE 4 — Media management (folders, search, private downloads, hardening)

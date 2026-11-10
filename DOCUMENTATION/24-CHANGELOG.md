@@ -1,5 +1,19 @@
 # 24 — Changelog
 
+## 2026-11-10 — STAGE 4 media management
+
+### Added
+- `media_folders` + media `folder_id` / `category` / `alt_text`
+- Secure `MediaUploadService` (MIME/extension/size, UUID names, public/private disks)
+- Private download route with site authorization
+- Filament Media + MediaFolder resources (FA)
+- `media:purge-orphans` command + weekly schedule
+- `MalwareScanner` contract + null implementation
+- `MediaSecurityTest` (cross-site private download denied)
+
+### Process
+Stages now ship as **separate stacked PRs** for sequential merge/testing.
+
 ## 2026-11-10 — STAGE 3 editorial system
 
 ### Added

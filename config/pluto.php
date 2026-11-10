@@ -18,4 +18,28 @@ return [
         'central_site_name' => env('SEED_CENTRAL_SITE_NAME', 'سایت مرکزی'),
         'central_site_slug' => env('SEED_CENTRAL_SITE_SLUG', 'central'),
     ],
+
+    'media' => [
+        'max_image_kb' => (int) env('MEDIA_MAX_IMAGE_KB', 5120),
+        'max_document_kb' => (int) env('MEDIA_MAX_DOCUMENT_KB', 20480),
+        'allowed_image_mimes' => [
+            'image/jpeg',
+            'image/png',
+            'image/webp',
+            'image/gif',
+        ],
+        'allowed_document_mimes' => [
+            'application/pdf',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/vnd.ms-excel',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'text/plain',
+        ],
+        'blocked_extensions' => [
+            'php', 'phtml', 'phar', 'exe', 'sh', 'bat', 'cmd', 'com', 'js', 'html', 'htm', 'shtml', 'cgi', 'pl',
+        ],
+        'public_disk' => 'public',
+        'private_disk' => 'local',
+    ],
 ];

@@ -1,26 +1,36 @@
-# 11 — Media Management (Design)
+# 11 — Media Management
 
-**Status:** Designed — Not Started
+**Status:** Implemented · Tested (STAGE 4)
 
 ## Purpose
-Site-scoped media library for images, documents, and attachments with private/public visibility.
+Site-scoped media library for images/documents with folders, search/filters, private downloads, and secure uploads.
 
 ## Capabilities
-- Upload to folder tree
-- Categorize via folders
-- Search/filter by name, mime, date, uploader
-- Preview supported images/PDFs in Filament
-- Attach to articles/pages/form submissions
-- Soft-delete + cleanup job for orphaned files
-- Authorized private download endpoint
+- Upload images and documents with MIME + extension validation
+- Folder tree per site
+- Search/filter by name, category, visibility, folder, site
+- Image preview in Filament for public images
+- Private files stored on `local` disk; authorized download route
+- Soft delete + weekly orphan purge command
+- `MalwareScanner` integration point (`NullMalwareScanner` by default)
 
-## Security rules
-1. Validate real MIME (finfo) + extension allowlist.
-2. Max size from config (e.g. images 5MB, docs 20MB — finalize in STAGE 4).
-3. Random storage filename; keep original_name for display only.
-4. `private` disk outside public web root.
-5. Download route: auth + `media.download_private` + same `site_id`.
-6. Interface `MalwareScanner` with null implementation until AV approved.
+## Source files
+- Models: `Media`, `MediaFolder`
+- `App\Services\Media\MediaUploadService`
+- `App\Http\Controllers\PrivateMediaDownloadController`
+- Filament: `MediaResource`, `MediaFolderResource`
+- Command: `media:purge-orphans`
+- Route: `GET /admin/media/{media}/download` (`media.private.download`)
 
-## Filament
-MediaResource + Folder management (Alpine/Sortable only if drag-reorder folders is required; otherwise table actions suffice).
+## Permissions
+`media.view`, `media.upload`, `media.update`, `media.delete`, `media.download_private`
+
+## Security
+- Extension denylist + finfo MIME allowlist
+- Size limits (`config/pluto.php`)
+- UUID storage names
+- Private disk outside public web root
+- Cross-site download denied (tested)
+
+## Tests
+`tests/Feature/MediaSecurityTest.php`
