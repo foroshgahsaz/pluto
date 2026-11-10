@@ -1,5 +1,13 @@
 # 24 — Changelog
 
+## 2026-11-10 — STAGE 9 public frontend
+
+### Added
+- Public RTL site routes: `/`, `/{site}`, news/category/page/search
+- `ResolvePublicSite` middleware + `PublicSiteViewData`
+- Blade theme using site branding/colors, menus, homepage sections
+- `PublicFrontendTest` (isolation + published-only visibility)
+
 ## 2026-11-10 — STAGE 8 backup + hardening
 
 ### Added

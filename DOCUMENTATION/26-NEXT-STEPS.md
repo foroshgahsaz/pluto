@@ -32,15 +32,17 @@ Widgets, filters, notification events (this PR)
 ## STAGE 8 — Security hardening, backups, full test pass, deployment docs ✅
 Production readiness report in `30-PRODUCTION-READINESS.md` (this PR)
 
-## After Stage 8 (owner / ops)
+## STAGE 9 — Public frontend ✅
+Subdirectory public sites (`/{slug}`) with homepage/news/category/page/search (this PR)
+
+## After Stage 9 (owner / ops)
 - Merge PR stack sequentially and run staging restore drill
 - Wire real SMS OTP provider + remote backup disk
-- Public frontend remains a separate future program of work
+- Optional: public form rendering, richer theme packs, domain-per-site
 
 ---
 
 ## Working method
 - One stage at a time
 - Design → implement → test → document → owner review
-- No public frontend until backend approved
 - No silent scope expansion

@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- * Backend data access for future public website pages.
- * No public UI is rendered here.
+ * Published-article queries for the public website (site-scoped via SiteContext).
  */
 class PublicArticleQuery
 {
