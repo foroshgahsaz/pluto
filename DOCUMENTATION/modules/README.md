@@ -10,8 +10,8 @@ Per-module deep docs will be added when each module is implemented.
 | Media | [media.md](media.md) | Designed |
 | Forms | [forms.md](forms.md) | Designed |
 | Settings & Themes | [settings-themes.md](settings-themes.md) | Designed |
-| Dashboard | [dashboard.md](dashboard.md) | Designed |
-| Notifications | [notifications.md](notifications.md) | Designed |
+| Dashboard | [dashboard.md](dashboard.md) | Implemented |
+| Notifications | [notifications.md](notifications.md) | Implemented |
 | Audit & Security Ops | [audit-security.md](audit-security.md) | Designed |
 | Backup & Restore | [backup-restore.md](backup-restore.md) | Designed |
 

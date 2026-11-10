@@ -1,19 +1,28 @@
-# 15 — Notifications (Design)
+# 15 — Notifications
 
-**Status:** Designed — Not Started
+**Status:** Implemented — Stage 7
 
 ## Channels
-- Database notifications (Filament bell) for MVP
-- Mail optional later (config flag)
+- Database notifications (Filament bell) for MVP — `AdminPanelProvider::databaseNotifications()`
+- Mail optional later (config flag not enabled)
+
+## Service
+`App\Services\Notifications\SiteNotificationService`
 
 ## Events triggering notifications
-- Article submitted for review
-- Article approved / rejected / published
-- User assigned to site / role changed (to affected user)
-- Backup success/failure (Super Admin)
-- Security: repeated failed logins threshold (Super Admin)
+| Event | Recipients |
+|-------|------------|
+| Article → in_review | Users with `articles.approve` on that site (excluding actor) |
+| Article → approved / rejected / published | Article creator |
+| Site role assigned | Target user |
+| Failed logins ≥ threshold | Super Admins |
+
+## Security threshold
+Configured in `config/pluto.php`:
+- `security.failed_login_threshold` (default 5)
+- `security.failed_login_window_minutes` (default 15)
+Deduplicated via cache key per mobile/IP window.
 
 ## Rules
-- Notifications include `site_id` in data when relevant.
-- Recipients filtered by role + site membership.
-- Read/unread managed via Laravel notifications API + Filament UI.
+- Notification payload includes `site_id` / `article_id` when relevant
+- Read/unread via Laravel notifications + Filament database notifications UI
