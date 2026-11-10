@@ -1,9 +1,9 @@
 # 19 — Installation Guide
 
-**Status:** Placeholder until Laravel project is scaffolded in STAGE 2.
+**Status:** Application scaffolded (Stage 2+) — use steps below.
 
 ## Current repository state
-This repo does **not** yet contain a Laravel application. Only documentation (Stage 1) exists.
+Laravel 13 + Filament 5 application is present with Stage 2/3 features.
 
 ## Target prerequisites (proposed)
 - PHP 8.4+ with extensions: `mbstring`, `openssl`, `pdo_mysql`, `tokenizer`, `xml`, `ctype`, `json`, `bcmath`, `fileinfo`, `gd` or `imagick`, `zip`

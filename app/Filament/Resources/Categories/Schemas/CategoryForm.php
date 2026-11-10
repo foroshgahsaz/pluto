@@ -22,6 +22,19 @@ class CategoryForm
                     ->required()
                     ->searchable()
                     ->live(),
+                Select::make('parent_id')
+                    ->label('دسته والد')
+                    ->options(function (callable $get) {
+                        $siteId = $get('site_id');
+
+                        return \App\Models\Category::query()
+                            ->withoutGlobalScopes()
+                            ->when($siteId, fn ($q) => $q->where('site_id', $siteId))
+                            ->orderBy('name')
+                            ->pluck('name', 'id');
+                    })
+                    ->searchable()
+                    ->nullable(),
                 TextInput::make('name')
                     ->label('نام')
                     ->required()

@@ -1,56 +1,59 @@
-# 10 — News Editorial System (Design)
+# 10 — News Editorial System
 
-**Status:** Designed — Not Started (implementation)
+**Status:** Implemented · Tested (STAGE 3)
 
 ## Purpose
-Manage news articles per site with controlled workflow, revisions, taxonomy, and scheduling.
+Manage news articles per site with controlled workflow, revisions, taxonomy, authors, scheduling, and Filament admin UI.
 
 ## Workflow states
 
-| Status | Meaning | Who typically acts |
-|--------|---------|-------------------|
-| `draft` | Work in progress | Journalist / editors |
-| `in_review` | Submitted for review | Journalist → editors |
-| `rejected` | Returned with reason | Editor → Journalist |
-| `approved` | Ready to publish/schedule | Editor-in-Chief |
-| `scheduled` | Waiting for `scheduled_for` | System job publishes |
-| `published` | Live (public later) | Editors with publish |
-| `archived` | Removed from primary listings | Editors |
+| Status | Label | Typical actor |
+|--------|-------|---------------|
+| `draft` | پیش‌نویس | Journalist / editors |
+| `in_review` | در حال بررسی | Journalist → editors |
+| `rejected` | رد شده | Editor → Journalist |
+| `approved` | تأیید شده | Editor-in-Chief |
+| `scheduled` | زمان‌بندی شده | System job publishes |
+| `published` | منتشر شده | Editors with publish |
+| `archived` | بایگانی | Editors |
 
-### Transition rules (enforced in Action classes)
-
+### Allowed transitions
 ```text
 draft → in_review
 in_review → approved | rejected
 rejected → draft
-approved → published | scheduled
-scheduled → published | approved (cancel schedule)
-published → archived | draft (unpublish as controlled action)
+approved → published | scheduled | draft
+scheduled → published | approved
+published → archived | draft
+archived → draft
 ```
 
-Unauthorized transitions throw AuthorizationException / DomainException inside a DB transaction.
+Enforced by `App\Services\Editorial\TransitionArticleStatus` + `ArticlePolicy`.
 
 ## Scheduling reliability
+- Scheduler: `routes/console.php` runs `PublishScheduledArticlesJob` every minute
+- Job uses `lockForUpdate`, retries (3), logs failures
+- Requires `php artisan schedule:run` / queue worker in production
 
-1. On schedule: set `status=scheduled`, store `scheduled_for`.
-2. Scheduler runs every minute: dispatch `PublishScheduledArticlesJob`.
-3. Job selects due articles `FOR UPDATE` / chunkById, re-validates status, publishes, logs activity.
-4. Failed jobs retry with backoff; permanent failures alert Super Admin notification.
+## Source files
+- Models: `Article`, `Author`, `Tag`, `Media`, `ArticleRevision`, `ArticleKeyword`, `ArticleAttachment`
+- Services: `TransitionArticleStatus`, `ArticleRevisionRecorder`, `SyncArticleKeywords`, `StoreArticleFeaturedImage`, `PublicArticleQuery`
+- Job: `PublishScheduledArticlesJob`
+- Filament: `Articles`, `Authors`, `Tags`, `Categories`
+- Enum: `ArticleStatus`
 
-## Revisions
+## Database tables
+`articles`, `tags`, `authors`, `media`, `article_tag`, `article_keywords`, `article_revisions`, `article_attachments`, `categories`
 
-On significant update/publish, store `article_revisions.snapshot_json` (title, body, meta, status, relations IDs). Retention policy configurable (e.g. last N versions).
+## Permissions
+`articles.view|create|update|delete|publish|approve|schedule|feature`
 
-## Site isolation
+## Public backend queries (no UI)
+`PublicArticleQuery` provides latest/featured/selected/category/search/archive/findBySlug for future public site.
 
-All editorial tables include `site_id`. Taxonomy cannot be shared across sites in MVP (avoids accidental leakage). Authors may optionally link to a global `users` row but remain site-scoped profiles.
+## Tests
+- `tests/Feature/EditorialWorkflowTest.php`
+- `tests/Feature/EditorialIsolationTest.php`
 
-## Filament resources (planned)
-
-- ArticleResource (+ revisions relation, attachments)
-- CategoryResource (tree)
-- TagResource
-- AuthorResource
-
-## Out of scope now
-Public article HTML templates and visitor search UI.
+## Security
+Site membership + site-scoped Spatie permissions via `User::hasSitePermission()`. Cross-site transitions denied.

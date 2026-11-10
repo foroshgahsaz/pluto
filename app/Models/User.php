@@ -98,4 +98,24 @@ class User extends Authenticatable implements FilamentUser
     {
         setPermissionsTeamId($siteId);
     }
+
+    public function hasSitePermission(string $permission, int $siteId): bool
+    {
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+
+        if (! $this->belongsToSite($siteId)) {
+            return false;
+        }
+
+        $previous = getPermissionsTeamId();
+        setPermissionsTeamId($siteId);
+
+        try {
+            return $this->checkPermissionTo($permission);
+        } finally {
+            setPermissionsTeamId($previous);
+        }
+    }
 }
