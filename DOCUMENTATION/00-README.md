@@ -75,6 +75,5 @@ Used in `25-PROJECT-STATUS.md`:
 
 ## Current gate
 
-**STAGE 1 documentation complete; partial owner approval recorded.**  
-**No Laravel application code exists yet.**  
-**Do not start STAGE 2 until remaining blockers in [29-OWNER-DECISIONS-LOG.md](29-OWNER-DECISIONS-LOG.md) are answered.**
+**STAGE 1 approved. STAGE 2 core infrastructure implemented and tested on this branch.**  
+See [25-PROJECT-STATUS.md](25-PROJECT-STATUS.md) and [29-OWNER-DECISIONS-LOG.md](29-OWNER-DECISIONS-LOG.md).

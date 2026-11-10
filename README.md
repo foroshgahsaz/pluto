@@ -1,25 +1,48 @@
 # Pluto — سامانه خبری پلوتون
 
-Enterprise multi-site news management platform (Laravel + Filament).
+Enterprise multi-site news management platform.
+
+**Stack:** PHP 8.4 · Laravel 13 · Filament 5 · MySQL/SQLite · Spatie Permission/Activitylog/Backup
 
 ## Current status
 
-**STAGE 1 — Analysis & Architecture (documentation only).**
+**STAGE 2 (core infrastructure) in progress on this branch.**
 
-There is **no Laravel application code** in this repository yet. Technical design, database proposal, security plan, and roadmap live under [`DOCUMENTATION/`](DOCUMENTATION/00-README.md).
+Implemented:
+- Multi-site (`sites`, `site_user`) with `SiteScope`
+- Users with dual login: **password** (mobile/email) + **OTP**
+- Per-site roles (Spatie teams)
+- Filament admin (Persian) for Sites / Users / Categories
+- Security feature tests
 
-## Start here
+## Docs
 
-1. [DOCUMENTATION/00-README.md](DOCUMENTATION/00-README.md) — documentation index  
-2. [DOCUMENTATION/27-STAGE1-INSPECTION-REPORT.md](DOCUMENTATION/27-STAGE1-INSPECTION-REPORT.md) — inspection findings  
-3. [DOCUMENTATION/28-APPROVAL-REQUEST.md](DOCUMENTATION/28-APPROVAL-REQUEST.md) — **approve before STAGE 2**
+Start at [`DOCUMENTATION/00-README.md`](DOCUMENTATION/00-README.md).  
+Owner decisions: [`DOCUMENTATION/29-OWNER-DECISIONS-LOG.md`](DOCUMENTATION/29-OWNER-DECISIONS-LOG.md).
 
-## Stack (proposed)
+## Local setup (dev)
 
-PHP 8.4 · Laravel 13 · Filament 5 · Livewire 4 · MySQL 8 · Pest
+```bash
+composer install
+cp .env.example .env
+php artisan key:generate
+touch database/database.sqlite   # or configure MySQL
+php artisan migrate --seed
+php artisan serve
+```
 
-## Scope now
+Admin panel: `/admin`
 
-Backend architecture, Filament admin, security, tests, and documentation.
+Default seeded Super Admin (change immediately):
 
-**Not now:** public website frontend templates.
+- Mobile: `09120000000` (or `SEED_SUPER_ADMIN_MOBILE`)
+- Email: `admin@pluto.test`
+- Password: `ChangeMe!23456` (or `SEED_SUPER_ADMIN_PASSWORD`)
+
+OTP in local/test uses `OTP_SMS_DRIVER=log` and testing code `123456`.
+
+## Tests
+
+```bash
+php artisan test
+```

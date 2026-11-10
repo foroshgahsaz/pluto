@@ -1,26 +1,29 @@
 # ADR-005 — Mobile + OTP Admin Login
 
 ## Status
-Proposed (owner requested; implementation pending SMS/provider answers)
+Accepted (owner confirmed dual login)
 
 ## Context
-Owner requires every management user to access the Filament admin with mobile number and OTP, not only password forms.
+Owner requires every management user to access Filament with **mobile + OTP** and also with **username + password**. Roles may differ per site.
 
-## Decision (proposed)
-- Primary admin authentication: **mobile + OTP**
-- `users.mobile` unique and required for login-capable accounts
-- `users.email` optional (useful for notifications later)
-- Pluggable SMS gateway (`SmsGateway` interface) with `log`/`array` drivers for local/tests
+## Decision
+- Dual admin authentication:
+  1. Mobile + OTP
+  2. Username/password (username = mobile or email)
+- `users.mobile` unique; required for OTP-capable accounts
+- `users.email` optional/unique nullable
+- `users.password` required for password login path
+- Pluggable SMS gateway (`SmsGateway`) with `log`/`array` drivers for local/tests
 - Strict rate limits, OTP hashing at rest, short TTL, audit events
-- Filament custom Persian login flow
+- Filament custom Persian login supporting both methods
 
 ## Alternatives considered
-1. Password-only (rejected by owner)
-2. Password + optional OTP 2FA (does not match “login with mobile OTP” as primary)
+1. Password-only (rejected)
+2. OTP-only (rejected — owner wants both)
 3. Hard-coding one SMS vendor in domain logic (rejected — use adapter)
 
 ## Consequences
-- STAGE 2 auth work expands beyond default Filament login
-- Need SMS credentials in secrets for real environments
-- Super Admin seed must include a mobile number
-- Additional security tests for OTP abuse and blocked users
+- STAGE 2 includes custom Filament auth pages
+- Production SMS credentials configured later via `.env`
+- Super Admin seed includes mobile + password
+- Security tests cover both login paths + blocked users

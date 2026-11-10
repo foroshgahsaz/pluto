@@ -1,5 +1,22 @@
 # 24 — Changelog
 
+## 2026-11-10 — STAGE 2 core infrastructure
+
+### Added
+- Laravel 13.40 application scaffold with Filament 5.11 admin panel (Persian brand پلوتون)
+- Packages: spatie/laravel-permission (teams), activitylog, backup
+- Models/migrations: sites, site_user, users (mobile, flags), otp_challenges, login_events, categories
+- Tenancy: SiteContext, SiteScope, BelongsToSite
+- Dual admin login: password (mobile/email) + OTP (log SMS driver)
+- Filament resources: Sites, Users, Categories
+- Seeders: roles/permissions, central site, one Super Admin
+- Feature tests: tenant isolation, auth security, seeder bootstrap (18 passing)
+
+### Owner decisions applied
+- Local file storage for MVP
+- Dual auth OTP + username/password
+- Per-site roles (Option A)
+
 ## 2026-11-10 — Owner partial approval + OTP requirement
 
 ### Confirmed

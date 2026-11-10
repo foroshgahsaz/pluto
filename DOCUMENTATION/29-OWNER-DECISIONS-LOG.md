@@ -8,74 +8,31 @@ Last updated: 2026-11-10
 |----|----------|--------------|------------------|
 | B2 | Stack | تأیید | PHP 8.4 + Laravel 13 + Filament 5 |
 | B3 | Admin language | پنل کاملاً فارسی | Filament FA + RTL |
-| B8 | Super Admin | یک سوپر ادمین می‌خواهم | Single seeded Super Admin |
-| AUTH-OTP | Login method | ورود با موبایل + OTP برای همه سطوح مدیریتی | Phone + OTP login is **in scope** for admin auth |
+| B8 | Super Admin | یک سوپر ادمین | Single seeded Super Admin |
+| B9 | Storage | تصاویر و همه فایل‌ها روی همان سرور | **Local disks only for MVP** (no S3 required) |
+| B4 | Permission model | ممکنه یه نفر تو یه سایت ادمین باشه و در جای دیگه خبرنگار | **Option A — Spatie teams / per-site roles** |
+| AUTH | Login methods | هم OTP و هم یوزر و پسورد | **Dual auth:** mobile OTP **and** username/password |
 
-## Explained to owner / awaiting final pick
+## Auth details (approved)
 
-| ID | Topic | Recommendation | Status |
-|----|-------|----------------|--------|
-| B9 | Storage local vs S3 | **Local for MVP** | Awaiting “باشه لوکال” |
-| B4 | Permission Option A vs B | **Option A (نقش جدا per سایت)** | Awaiting pick (explained below) |
-| B1 | Product name Pluto | Keep Pluto / پلوتون | Soft-assumed unless changed |
-| B5 | Spatie packages | Approve trio | Soft-assumed with stack |
-| B7 | Single central site | Yes | Soft-assumed |
-| OTP-SMS | SMS provider | Need owner choice (Kavenegar / Ghasedak / other / mock) | **Required before coding OTP** |
-| OTP-MODE | OTP-only vs OTP+password backup | OTP primary + optional password backup for Super Admin recovery | Awaiting confirmation |
-| B8-ID | Super Admin identity | Need **mobile number** (and optional email) for seed — not password in chat | Required |
+1. Users may log in with **mobile + OTP**.
+2. Users may log in with **username + password**.
+   - Username identifier = **mobile** or **email** (whichever the account has).
+3. Same session/security rules apply after either method (`is_active`, `is_blocked`, panel access).
+4. SMS gateway is pluggable; default local/test driver = `log` until a production SMS provider is configured.
 
-## Storage explanation (plain language)
+## Still optional / deferred (not blocking STAGE 2)
 
-فایل‌های سیستم (عکس خبر، فایل پیوست، بکاپ) باید جایی ذخیره شوند:
+| Topic | Default used now | Later |
+|-------|------------------|-------|
+| SMS provider | `log` / mock driver | Set Kavenegar/Ghasedak/etc. via `.env` |
+| Super Admin seed identity | `.env` / seeder defaults for local | Owner can change mobile/email/password in `.env` |
+| S3 | Disabled | Can enable Flysystem disk later without schema rewrite |
 
-1. **لوکال (Local):** روی همان سروری که سایت نصب است، داخل پوشه `storage`.  
-   - ساده برای شروع  
-   - ارزان  
-   - برای MVP کافی است  
-   - اگر سرور خراب شود یا عوض شود، باید فایل‌ها را جداگانه بکاپ بگیرید
+## Storage explanation (resolved)
 
-2. **S3 (یا سرویس شبیه S3 مثل MinIO / Arvan Object / Liara / Amazon S3):** فایل‌ها روی فضای ابری جداگانه  
-   - امن‌تر برای بکاپ و مقیاس  
-   - نیاز به حساب، کلید دسترسی، و هزینه دارد  
-   - برای اول کار لازم نیست؛ بعداً بدون عوض کردن کل معماری قابل اضافه‌شدن است
+All media and attachments stay on the application server (`storage/` local disks). Public vs private disks remain separate locally. Remote object storage is out of MVP scope.
 
-**پیشنهاد من برای MVP:** لوکال. معماری طوری طراحی می‌شود که بعداً S3 را فقط با تنظیم `.env` فعال کنیم.
+## Permission Option A (resolved)
 
-## Permission Option A vs B (plain language)
-
-فرض: یک نفر هم روی سایت تهران کار می‌کند هم فارس.
-
-- **Option A:** همان نفر می‌تواند در تهران «خبرنگار» باشد و در فارس «ویراستار». نقش‌ها per سایت جدا هستند.  
-- **Option B:** نقش او سراسری است؛ اگر خبرنگار باشد، روی همه سایت‌های مجازش همان خبرنگار است.
-
-**پیشنهاد من:** Option A (منعطف‌تر برای سازمان چندمنطقه‌ای).
-
-## OTP / mobile login (new requirement)
-
-Owner requirement: users at **every management level** must sign in with **mobile + OTP**.
-
-### Proposed auth flow (pending approval)
-
-1. User enters Iranian mobile (`09xxxxxxxxx`).
-2. System rate-limits and sends OTP via SMS provider.
-3. User enters OTP; on success, Laravel session starts for Filament.
-4. Inactive/blocked users cannot complete login.
-5. All OTP send/verify/fail events go to `login_events` audit table.
-6. Super Admin is also OTP-based (same path). Keep an optional emergency password **only if owner wants**, otherwise OTP-only.
-
-### Architecture impact
-
-| Area | Change |
-|------|--------|
-| `users` table | Require unique `mobile`; email optional/nullable |
-| Filament login | Custom FA login pages (request OTP → verify OTP) |
-| Packages | Prefer Laravel notifications + SMS driver/gateway adapter; avoid abandoned OTP packages |
-| Security | OTP expiry (e.g. 2–5 min), attempt limits, resend cooldown, no OTP in logs |
-| Dev/test | `OTP_DRIVER=log` or `array` mock so tests work without real SMS |
-| Docs/tests | Auth security tests must cover OTP paths |
-
-### Blockers before implementing OTP
-
-1. Which SMS provider for production?  
-2. OTP-only, or OTP + backup password for Super Admin?  
-3. Super Admin mobile number for local seeder (dev only).
+A user can hold **different roles on different sites** (example: Regional Admin on Tehran, Journalist on Fars). Implemented via Spatie permission **teams** mapped to `site_id`, plus `site_user` membership.
