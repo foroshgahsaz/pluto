@@ -1,14 +1,15 @@
 # ADR-003 — Filament Admin First; Public Frontend Deferred
 
 ## Status
-Accepted for current program phase
+Superseded for Stage 9+ (owner continued after Stage 8)
 
 ## Context
-Master scope forbids public website templates until backend approval.
+Master scope deferred public templates until backend approval. Stages 2–8 stayed admin-only.
 
 ## Decision
-Implement Filament administration fully. Prepare only public-facing **data structures/services**. No Blade/Livewire public theme in Stages 2–8 unless owner expands scope.
+Stages 2–8: Filament administration + public **data structures/services** only.  
+Stage 9: owner continuation unlocked subdirectory public Blade frontend.
 
 ## Consequences
-- Faster secure backend delivery.
-- Homepage/menu/theme settings are configuration data only until frontend stage.
+- Backend delivered without blocking on public UX.
+- Stage 9 consumes settings/menus/homepage sections/PublicArticleQuery.

@@ -11,15 +11,14 @@ Last updated: 2026-11-10
 | Stage 5 form builder | Implemented | PR #6 |
 | Stage 6 themes / settings / menus / pages | Implemented | PR #7 |
 | Stage 7 dashboard / notifications | Implemented | PR #8 |
-| **Stage 8 backup / hardening** | **Tested** | This branch |
-| Public frontend | Not Started | Out of scope |
+| Stage 8 backup / hardening | Implemented | PR #9 |
+| **Stage 9 public frontend** | **Tested** | This branch |
 
 ## PR merge order
-1 → 2 → 4 → 5 → 6 → 7 → 8 → **Stage 8 (this PR)**
+1 → 2 → 4 → 5 → 6 → 7 → 8 → 9 → **Stage 9 (this PR)**
 
 ## Test evidence
 ```text
 php artisan test
-OK — 63 passed (141 assertions)
-composer audit — no advisories
+OK — 69 passed (165 assertions)
 ```

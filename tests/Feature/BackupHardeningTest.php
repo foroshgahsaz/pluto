@@ -111,8 +111,11 @@ class BackupHardeningTest extends TestCase
 
     public function test_security_headers_are_present(): void
     {
-        $response = $this->get('/');
+        \App\Models\Site::factory()->regional()->create(['slug' => 'tehran', 'is_active' => true]);
 
+        $response = $this->get('/tehran');
+
+        $response->assertOk();
         $response->assertHeader('X-Frame-Options', 'SAMEORIGIN');
         $response->assertHeader('X-Content-Type-Options', 'nosniff');
         $response->assertHeader('Referrer-Policy', 'strict-origin-when-cross-origin');

@@ -1,7 +1,7 @@
 # 30 — Production Readiness Report
 
 **Date:** 2026-11-10  
-**Scope:** Backend/admin Pluto through Stage 8 (no public frontend)
+**Scope:** Originally backend/admin through Stage 8; Stage 9 adds public frontend (see `31-PUBLIC-FRONTEND.md`)
 
 ## Verdict
 **Ready for staging / controlled production pilot** of the Filament admin backend, provided ops completes HTTPS, remote backups, real SMS OTP provider, and MySQL/Redis hardening.
@@ -37,6 +37,6 @@ Covered by feature tests (Tehran/Fars style): articles, forms, private media, pu
 7. Run `composer audit` in CI and accept/fix findings
 8. Staging restore drill using `php artisan pluto:restore-guide`
 
-## Explicitly out of scope
-- Public news website / theme rendering
-- Mobile apps / public API
+## Explicitly out of scope (still)
+- Domain-per-site vhosts / multi-theme packs beyond CSS tokens
+- Mobile apps / public JSON API
